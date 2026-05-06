@@ -7,7 +7,7 @@ export async function listPosts(query: ListPostsQuery) {
   const skip = (page - 1) * limit;
 
   const where = {
-    isPublished: true,
+    ...(query.includeUnpublished ? {} : { isPublished: true }),
     ...(query.category ? { category: query.category } : {}),
   };
 

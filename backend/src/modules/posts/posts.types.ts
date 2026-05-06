@@ -18,6 +18,7 @@ export const GetPostsQuerySchema = z.object({
   category: PostCategorySchema.optional(),
   page: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0).optional(),
   limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 50).optional(),
+  includeUnpublished: z.string().optional(),
 });
 
 export interface CreatePostDto {
@@ -40,4 +41,5 @@ export interface ListPostsQuery {
   category?: PostCategory;
   page?: number;
   limit?: number;
+  includeUnpublished?: boolean;
 }

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
 const loginSchema = z.object({
@@ -15,7 +15,10 @@ type LoginFields = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const redirectPath = searchParams.get('redirect') || '/';
 
   const {
     register: registerField,
@@ -29,7 +32,7 @@ export default function LoginPage() {
     try {
       setErrorMsg(null);
       await login(data.email, data.password);
-      navigate('/');
+      navigate(redirectPath);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.';
       setErrorMsg(message);

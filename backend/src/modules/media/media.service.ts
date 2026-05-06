@@ -21,6 +21,12 @@ export async function uploadMedia(
   if (!config || !config.isAllowed) throw new Error('UNSUPPORTED_MEDIA_TYPE');
   if (fileSize > config.maxSizeMb * 1024 * 1024) throw new Error('FILE_TOO_LARGE');
 
+  if (postId !== undefined) {
+    if (postId <= 0 || !Number.isInteger(postId)) throw new Error('VALIDATION_ERROR');
+    const post = await prisma.post.findUnique({ where: { id: postId } });
+    if (!post) throw new Error('POST_NOT_FOUND');
+  }
+
   const fileUrl = await uploadToR2(buffer, mimeType, originalName);
   const fileCategory = resolveCategory(mimeType);
 

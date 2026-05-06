@@ -52,6 +52,43 @@ describe('POST /api/media/upload', () => {
     expect(res.body.mimeType).toBe('image/jpeg');
   });
 
+  it('지원하지 않는 포맷은 415를 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/media/upload')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('file', Buffer.from('fake-exe-content'), 'fake.exe');
+
+    expect(res.status).toBe(415);
+  });
+
+  it('파일이 없으면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/media/upload')
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('NO_FILE');
+  });
+
+  it('잘못된 postId면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/media/upload')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .field('postId', 'invalid')
+      .attach('file', Buffer.from('fake-image-content'), 'test.jpg');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('존재하지 않는 postId면 404를 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/media/upload')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .field('postId', '99999')
+      .attach('file', Buffer.from('fake-image-content'), 'test.jpg');
+    expect(res.status).toBe(404);
+    expect(res.body.error).toBe('POST_NOT_FOUND');
+  });
+
   it('허용되지 않은 MIME 타입이면 415를 반환한다', async () => {
     const res = await request(app)
       .post('/api/media/upload')

@@ -10,11 +10,24 @@ router.post(
   '/upload',
   requireAuth,
   requireAdmin,
-  upload.single('file'),
+  (req: Request, res: Response, next) => {
+    upload.single('file')(req, res, (err) => {
+      if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json({ error: 'FILE_TOO_LARGE' });
+      } else if (err) {
+        return res.status(500).json({ error: 'INTERNAL_ERROR' });
+      }
+      next();
+    });
+  },
   async (req: Request, res: Response) => {
     if (!req.file) return res.status(400).json({ error: 'NO_FILE' });
     try {
-      const postId = req.body.postId ? parseInt(req.body.postId) : undefined;
+      let postId: number | undefined;
+      if (req.body.postId) {
+        postId = parseInt(req.body.postId);
+        if (isNaN(postId)) return res.status(400).json({ error: 'VALIDATION_ERROR' });
+      }
       const media = await mediaService.uploadMedia(
         req.file.buffer,
         req.file.mimetype,
@@ -26,6 +39,8 @@ router.post(
     } catch (err: any) {
       if (err.message === 'UNSUPPORTED_MEDIA_TYPE') return res.status(415).json({ error: 'UNSUPPORTED_MEDIA_TYPE' });
       if (err.message === 'FILE_TOO_LARGE') return res.status(413).json({ error: 'FILE_TOO_LARGE' });
+      if (err.message === 'VALIDATION_ERROR') return res.status(400).json({ error: 'VALIDATION_ERROR' });
+      if (err.message === 'POST_NOT_FOUND') return res.status(404).json({ error: 'POST_NOT_FOUND' });
       res.status(500).json({ error: 'INTERNAL_ERROR' });
     }
   },

@@ -1,11 +1,8 @@
-import './App.css'
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router';
 
 function App() {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif' }}>
-      <h1>Welcome to CrocHub</h1>
-    </div>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

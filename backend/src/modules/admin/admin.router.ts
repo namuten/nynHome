@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
+import { validateBody } from '../../lib/validation';
 import * as adminService from './admin.service';
+import { UpdateMediaTypeSchema } from './admin.types';
 
 const router = Router();
 
@@ -11,7 +13,7 @@ router.get('/media-types', async (_req, res: Response) => {
   res.json(types);
 });
 
-router.put('/media-types/:id', async (req: Request, res: Response) => {
+router.put('/media-types/:id', validateBody(UpdateMediaTypeSchema), async (req: Request, res: Response) => {
   try {
     const type = await adminService.updateMediaType(parseInt(req.params.id), req.body);
     res.json(type);

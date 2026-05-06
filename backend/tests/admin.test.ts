@@ -48,6 +48,30 @@ describe('PUT /api/admin/media-types/:id', () => {
     expect(res.status).toBe(200);
     expect(res.body.maxSizeMb).toBe(50);
   });
+
+  it('maxSizeMb가 0 이하면 400을 반환한다', async () => {
+    const res = await request(app).put(`/api/admin/media-types/${mediaTypeId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ maxSizeMb: 0 });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('maxSizeMb가 1000을 초과하면 400을 반환한다', async () => {
+    const res = await request(app).put(`/api/admin/media-types/${mediaTypeId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ maxSizeMb: 1001 });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('maxSizeMb가 정수가 아니면 400을 반환한다', async () => {
+    const res = await request(app).put(`/api/admin/media-types/${mediaTypeId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ maxSizeMb: 50.5 });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
 });
 
 describe('GET /api/admin/users', () => {

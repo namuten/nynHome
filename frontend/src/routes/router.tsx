@@ -20,6 +20,10 @@ import AdminPostEditPage from '../pages/admin/AdminPostEditPage';
 import AdminMediaPage from '../pages/admin/AdminMediaPage';
 import AdminUsersPage from '../pages/admin/AdminUsersPage';
 import AdminCommentsPage from '../pages/admin/AdminCommentsPage';
+import AdminLayoutPage from '../pages/admin/AdminLayoutPage';
+import AdminSchedulePage from '../pages/admin/AdminSchedulePage';
+import AdminSettingsPage from '../pages/admin/AdminSettingsPage';
+import AdminPushPage from '../pages/admin/AdminPushPage';
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +52,10 @@ export const router = createBrowserRouter([
               { path: 'media', element: <AdminMediaPage /> },
               { path: 'users', element: <AdminUsersPage /> },
               { path: 'comments', element: <AdminCommentsPage /> },
+              { path: 'layout', element: <AdminLayoutPage /> },
+              { path: 'schedule', element: <AdminSchedulePage /> },
+              { path: 'settings', element: <AdminSettingsPage /> },
+              { path: 'push', element: <AdminPushPage /> },
             ],
           },
         ],

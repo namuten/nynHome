@@ -8,6 +8,7 @@ import {
   Calendar,
   Settings,
   Sliders,
+  Send,
   LogOut,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -23,10 +24,11 @@ export default function AdminNav() {
     { to: '/admin/users', label: '사용자 관리', icon: Users },
   ];
 
-  const disabledItems = [
-    { label: '홈 레이아웃 편집', icon: Sliders },
-    { label: '캘린더 일정 관리', icon: Calendar },
-    { label: '어드민 환경 설정', icon: Settings },
+  const advancedMenuItems = [
+    { to: '/admin/layout', label: '홈 레이아웃 편집', icon: Sliders },
+    { to: '/admin/schedule', label: '캘린더 일정 관리', icon: Calendar },
+    { to: '/admin/settings', label: '어드민 환경 설정', icon: Settings },
+    { to: '/admin/push', label: '푸시 알림 발송', icon: Send },
   ];
 
   return (
@@ -81,24 +83,27 @@ export default function AdminNav() {
           );
         })}
 
-        {/* Disabled features for future scope */}
+        {/* Advanced management features */}
         <div className="text-[10px] font-black text-on-surface-variant/70 uppercase tracking-widest px-3 pt-6 mb-2 select-none">
-          추가 예정 (Plan 6)
+          고급 운영 기능
         </div>
-        {disabledItems.map((item, idx) => {
+        {advancedMenuItems.map((item) => {
           const Icon = item.icon;
           return (
-            <div
-              key={idx}
-              className="flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-medium text-on-surface-variant/40 cursor-not-allowed select-none"
-              title="다음 Plan에서 지원할 예정입니다."
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-300 ${
+                  isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]'
+                    : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                }`
+              }
             >
-              <Icon className="w-4.5 h-4.5 opacity-40" />
+              <Icon className="w-4.5 h-4.5" />
               <span>{item.label}</span>
-              <span className="ml-auto text-[9px] px-1.5 py-0.5 bg-surface-container rounded-md text-on-surface-variant/50 font-bold">
-                대기
-              </span>
-            </div>
+            </NavLink>
           );
         })}
       </nav>

@@ -284,6 +284,29 @@
 
 ## 8. Admin
 
+### GET /api/admin/dashboard
+- **Auth**: Admin
+- **Response (200)**:
+  ```json
+  {
+    "metrics": {
+      "postsTotal": 10,
+      "publishedPosts": 8,
+      "draftPosts": 2,
+      "mediaTotal": 15,
+      "usersTotal": 5,
+      "commentsTotal": 20,
+      "hiddenComments": 1,
+      "schedulesThisMonth": 3,
+      "pushSubscriptions": 4
+    },
+    "recentPosts": [],
+    "recentMedia": [],
+    "recentComments": [],
+    "recentUsers": []
+  }
+  ```
+
 ### GET /api/admin/media-types
 - **Auth**: Admin
 - **Response (200)**: MediaTypeConfig 배열

@@ -7,11 +7,12 @@ import { CreatePostSchema, UpdatePostSchema, GetPostsQuerySchema } from './posts
 const router = Router();
 
 router.get('/', validateQuery(GetPostsQuerySchema), async (req: Request, res: Response) => {
-  const { category, page, limit } = req.query as any;
+  const { category, page, limit, includeUnpublished } = req.query as any;
   const result = await postsService.listPosts({
     category: category as any,
     page: page ? parseInt(page) : undefined,
     limit: limit ? parseInt(limit) : undefined,
+    includeUnpublished: includeUnpublished === 'true',
   });
   res.json(result);
 });

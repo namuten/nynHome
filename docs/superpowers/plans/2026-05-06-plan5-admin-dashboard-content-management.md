@@ -589,7 +589,7 @@ git commit -m "feat(admin): add media library management"
 - Optional Create: `frontend/src/hooks/useAdminUsers.ts`
 - Modify: `frontend/src/lib/adminApi.ts`
 
-- [ ] **Step 1: 사용자 목록 화면 작성**
+- [x] **Step 1: 사용자 목록 화면 작성**
 
 `GET /api/admin/users?page=&limit=` 결과 표시:
 - id
@@ -599,15 +599,15 @@ git commit -m "feat(admin): add media library management"
 - createdAt
 - actions
 
-- [ ] **Step 2: pagination 구현**
+- [x] **Step 2: pagination 구현**
 
 `total`, `page`, `limit` 기준으로 이전/다음과 page indicator를 표시한다.
 
-- [ ] **Step 3: role badge 표시**
+- [x] **Step 3: role badge 표시**
 
 `admin`, `user`를 시각적으로 구분한다.
 
-- [ ] **Step 4: 사용자 삭제 플로우 구현**
+- [x] **Step 4: 사용자 삭제 플로우 구현**
 
 `DELETE /api/admin/users/:id` 호출 전 confirm dialog를 표시한다.
 
@@ -615,14 +615,14 @@ git commit -m "feat(admin): add media library management"
 - admin role 삭제 시 backend가 `CANNOT_DELETE_ADMIN`을 반환하면 그대로 안내한다.
 - 자기 자신 삭제 UI는 disabled 처리한다. 백엔드 보강 여부는 후속 Task 9에서 확인한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminUsersPage.tsx frontend/src/lib/adminApi.ts frontend/src/hooks

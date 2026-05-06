@@ -8,7 +8,7 @@ export async function createSchedule(dto: CreateScheduleDto) {
       description: dto.description,
       startAt: new Date(dto.startAt),
       endAt: new Date(dto.endAt),
-      color: dto.color,
+      color: dto.color ?? '#6844c7',
     },
   });
 }

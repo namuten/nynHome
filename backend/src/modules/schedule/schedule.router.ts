@@ -1,16 +1,18 @@
 import { Router, Request, Response } from 'express';
 import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
+import { validateBody, validateQuery } from '../../lib/validation';
 import * as scheduleService from './schedule.service';
+import { CreateScheduleSchema, UpdateScheduleSchema, GetScheduleQuerySchema } from './schedule.types';
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  const { month } = req.query as Record<string, string>;
+router.get('/', validateQuery(GetScheduleQuerySchema), async (req: Request, res: Response) => {
+  const { month } = req.query as any;
   const schedules = await scheduleService.listSchedules(month);
   res.json(schedules);
 });
 
-router.post('/', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+router.post('/', requireAuth, requireAdmin, validateBody(CreateScheduleSchema), async (req: Request, res: Response) => {
   try {
     const schedule = await scheduleService.createSchedule(req.body);
     res.status(201).json(schedule);
@@ -19,7 +21,7 @@ router.post('/', requireAuth, requireAdmin, async (req: Request, res: Response) 
   }
 });
 
-router.put('/:id', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+router.put('/:id', requireAuth, requireAdmin, validateBody(UpdateScheduleSchema), async (req: Request, res: Response) => {
   try {
     const schedule = await scheduleService.updateSchedule(parseInt(req.params.id), req.body);
     res.json(schedule);

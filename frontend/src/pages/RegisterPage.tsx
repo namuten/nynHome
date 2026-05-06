@@ -34,8 +34,9 @@ export default function RegisterPage() {
       // 2. Automatically log in after registration
       await login(data.email, data.password);
       navigate('/');
-    } catch (err: any) {
-      setErrorMsg(err.message || '회원가입에 실패했습니다. 다시 시도해주세요.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '회원가입에 실패했습니다. 다시 시도해주세요.';
+      setErrorMsg(message);
     }
   };
 

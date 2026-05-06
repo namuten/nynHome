@@ -8,7 +8,7 @@ export const authStorage = {
       const data = localStorage.getItem(AUTH_KEY);
       if (!data) return null;
       return JSON.parse(data);
-    } catch (e) {
+    } catch {
       localStorage.removeItem(AUTH_KEY);
       return null;
     }

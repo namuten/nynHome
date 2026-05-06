@@ -25,8 +25,9 @@ export default function CommentForm({
       setErrorMsg(null);
       await onSubmit(body);
       setBody('');
-    } catch (err: any) {
-      setErrorMsg(err.message || '댓글 등록에 실패했습니다. 다시 시도해주세요.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
+      setErrorMsg(message);
     }
   };
 

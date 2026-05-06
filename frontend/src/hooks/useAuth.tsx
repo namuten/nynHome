@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from 'react';
 import { api } from '../lib/api';
 import { authStorage } from '../lib/auth-storage';
@@ -19,23 +20,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<AuthResponse | null>(() => authStorage.get());
 
   const login = async (email: string, password: string): Promise<AuthResponse> => {
-    try {
-      const response = await api.post<AuthResponse>('/auth/login', { email, password });
-      const data = response.data;
-      authStorage.set(data);
-      setAuth(data);
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await api.post<AuthResponse>('/auth/login', { email, password });
+    const data = response.data;
+    authStorage.set(data);
+    setAuth(data);
+    return data;
   };
 
   const register = async (email: string, password: string, nickname: string): Promise<void> => {
-    try {
-      await api.post('/auth/register', { email, password, nickname });
-    } catch (error) {
-      throw error;
-    }
+    await api.post('/auth/register', { email, password, nickname });
   };
 
   const logout = () => {

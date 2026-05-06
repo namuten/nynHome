@@ -30,8 +30,9 @@ export default function LoginPage() {
       setErrorMsg(null);
       await login(data.email, data.password);
       navigate('/');
-    } catch (err: any) {
-      setErrorMsg(err.message || '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.';
+      setErrorMsg(message);
     }
   };
 

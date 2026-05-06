@@ -4,6 +4,7 @@ import { prisma } from '../src/lib/prisma';
 
 let adminToken: string;
 let userToken: string;
+let user2Token: string;
 let postId: number;
 
 beforeAll(async () => {
@@ -17,6 +18,9 @@ beforeAll(async () => {
 
   await request(app).post('/api/auth/register').send({ email: 'user@test.com', password: 'pw123', nickname: 'User' });
   userToken = (await request(app).post('/api/auth/login').send({ email: 'user@test.com', password: 'pw123' })).body.token;
+
+  await request(app).post('/api/auth/register').send({ email: 'user2@test.com', password: 'pw123', nickname: 'User2' });
+  user2Token = (await request(app).post('/api/auth/login').send({ email: 'user2@test.com', password: 'pw123' })).body.token;
 
   const post = await request(app).post('/api/posts')
     .set('Authorization', `Bearer ${adminToken}`)
@@ -41,6 +45,15 @@ describe('POST /api/posts/:id/comments', () => {
     const res = await request(app).post(`/api/posts/${postId}/comments`).send({ body: '댓글' });
     expect(res.status).toBe(401);
   });
+
+  it('빈 댓글 작성 시 400을 반환한다', async () => {
+    const res = await request(app)
+      .post(`/api/posts/${postId}/comments`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ body: '' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
 });
 
 describe('GET /api/posts/:id/comments', () => {
@@ -60,6 +73,15 @@ describe('PUT /api/comments/:id/reply', () => {
     expect(res.status).toBe(200);
     expect(res.body.reply).toBe('답변입니다');
   });
+
+  it('빈 관리자 답변 작성 시 400을 반환한다', async () => {
+    const c = await request(app).post(`/api/posts/${postId}/comments`)
+      .set('Authorization', `Bearer ${userToken}`).send({ body: '질문있어요' });
+    const res = await request(app).put(`/api/comments/${c.body.id}/reply`)
+      .set('Authorization', `Bearer ${adminToken}`).send({ reply: '' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
 });
 
 describe('DELETE /api/comments/:id', () => {
@@ -77,5 +99,13 @@ describe('DELETE /api/comments/:id', () => {
     const res = await request(app).delete(`/api/comments/${c.body.id}`)
       .set('Authorization', `Bearer ${adminToken}`);
     expect(res.status).toBe(204);
+  });
+
+  it('다른 일반 사용자는 남의 댓글 삭제 시 403을 반환한다', async () => {
+    const c = await request(app).post(`/api/posts/${postId}/comments`)
+      .set('Authorization', `Bearer ${userToken}`).send({ body: '내 댓글' });
+    const res = await request(app).delete(`/api/comments/${c.body.id}`)
+      .set('Authorization', `Bearer ${user2Token}`);
+    expect(res.status).toBe(403);
   });
 });

@@ -1,12 +1,14 @@
 import { Router, Request, Response } from 'express';
 import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
+import { validateBody } from '../../lib/validation';
 import * as commentsService from './comments.service';
+import { CreateCommentSchema, ReplyCommentSchema } from './comments.types';
 
 const router = Router();
 
 // 이 라우터는 app.use('/api', commentsRouter) 형식으로 붙여 여러 경로를 처리함.
 
-router.post('/posts/:postId/comments', requireAuth, async (req: Request, res: Response) => {
+router.post('/posts/:postId/comments', requireAuth, validateBody(CreateCommentSchema), async (req: Request, res: Response) => {
   try {
     const comment = await commentsService.createComment(
       parseInt(req.params.postId),
@@ -30,7 +32,7 @@ router.get('/posts/:postId/comments', async (req: Request, res: Response) => {
   res.json(result);
 });
 
-router.put('/comments/:id/reply', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+router.put('/comments/:id/reply', requireAuth, requireAdmin, validateBody(ReplyCommentSchema), async (req: Request, res: Response) => {
   try {
     const comment = await commentsService.replyComment(parseInt(req.params.id), req.body);
     res.json(comment);

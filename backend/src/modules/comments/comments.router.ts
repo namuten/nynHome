@@ -53,24 +53,4 @@ router.delete('/comments/:id', requireAuth, async (req: Request, res: Response) 
   }
 });
 
-router.get('/admin/comments', requireAuth, requireAdmin, async (req: Request, res: Response) => {
-  const { page, limit } = req.query as Record<string, string>;
-  const result = await commentsService.listAllComments(
-    page ? parseInt(page) : 1,
-    limit ? parseInt(limit) : 20,
-  );
-  res.json(result);
-});
-
-router.put('/comments/:id/toggle-hide', requireAuth, requireAdmin, async (req: Request, res: Response) => {
-  try {
-    const { isHidden } = req.body;
-    const comment = await commentsService.toggleCommentHide(parseInt(req.params.id), isHidden);
-    res.json(comment);
-  } catch (err: any) {
-    if (err.message === 'NOT_FOUND') return res.status(404).json({ error: 'NOT_FOUND' });
-    res.status(500).json({ error: 'INTERNAL_ERROR' });
-  }
-});
-
 export default router;

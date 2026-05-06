@@ -26,3 +26,75 @@ export interface AdminCommentItem extends CommentItem {
   userId: number;
   userEmail?: string;
 }
+
+// Plan 6 추가 타입들
+
+export interface AdminDashboardMetrics {
+  postsTotal: number;
+  publishedPosts: number;
+  draftPosts: number;
+  mediaTotal: number;
+  usersTotal: number;
+  commentsTotal: number;
+  hiddenComments: number;
+  schedulesThisMonth: number;
+  pushSubscriptions: number;
+}
+
+export interface AdminDashboardSummary {
+  metrics: AdminDashboardMetrics;
+  recentPosts: AdminPostListItem[];
+  recentMedia: AdminMediaItem[];
+  recentComments: AdminCommentListItem[];
+  recentUsers: AdminUserListItem[];
+}
+
+export interface AdminCommentListItem {
+  id: number;
+  postId: number;
+  postTitle?: string;
+  author?: {
+    id: number;
+    nickname: string;
+    email: string;
+  } | null;
+  body: string;
+  reply?: string | null;
+  isHidden: boolean;
+  createdAt: string;
+}
+
+export interface LayoutSection {
+  id?: number;
+  sectionKey: string;
+  postIds: number[];
+  order: number;
+  isVisible: boolean;
+}
+
+export interface ScheduleItem {
+  id: number;
+  title: string;
+  description?: string | null;
+  startAt: string;
+  endAt: string;
+  color?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface MediaTypeConfig {
+  id: number;
+  mimeType: string;
+  fileCategory: 'image' | 'video' | 'audio' | 'document' | 'other';
+  maxSizeMb: number;
+  isAllowed: boolean;
+  updatedAt?: string;
+}
+
+export interface PushSendRequest {
+  title: string;
+  body: string;
+  url?: string;
+}
+

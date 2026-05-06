@@ -724,7 +724,7 @@ Mutations
 - hideComment
 ```
 
-- [ ] **Step 2: response type 정리**
+- [x] **Step 2: response type 정리**
 
 view model과 API response 타입을 분리한다.
 
@@ -738,7 +738,7 @@ PaginatedResponse<T>
 ApiErrorResponse
 ```
 
-- [ ] **Step 3: missing admin endpoint 목록 작성**
+- [x] **Step 3: missing admin endpoint 목록 작성**
 
 현재 Plan 5 UX에서 부족한 API가 있으면 API contract 문서에 `Proposed Admin API` 섹션을 추가한다.
 
@@ -751,7 +751,7 @@ PATCH /api/admin/comments/:id/hidden
 PATCH /api/admin/users/:id/role
 ```
 
-- [ ] **Step 4: 백엔드 추가 여부 결정**
+- [x] **Step 4: 백엔드 추가 여부 결정**
 
 이번 Plan에서 반드시 필요한 것은 프론트 구현 가능한 범위로 우회한다. 단, 다음 중 하나에 해당하면 backend를 추가한다.
 
@@ -761,24 +761,23 @@ PATCH /api/admin/users/:id/role
 보안상 public endpoint 조합으로 admin 화면을 만들면 정보 노출 위험이 있다.
 ```
 
-- [ ] **Step 5: backend 추가 시 테스트 작성**
+- [x] **Step 5: backend 추가 시 테스트 작성**
 
 backend endpoint를 추가한 경우 반드시 테스트를 포함한다.
 
 ```bash
 cd backend
-npm test -- tests/admin.test.ts
 npm test
 ```
 
-- [ ] **Step 6: frontend 확인**
+- [x] **Step 6: frontend 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 백엔드 변경이 없는 경우:
 

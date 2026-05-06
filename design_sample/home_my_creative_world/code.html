@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Creative World</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&amp;family=Spline+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#9d7bff",
+                        "outline": "#7a7485",
+                        "on-secondary-fixed-variant": "#6f2f5f",
+                        "surface-variant": "#e3e1e9",
+                        "tertiary-fixed-dim": "#4de082",
+                        "inverse-primary": "#cebdff",
+                        "surface-dim": "#dbd9e1",
+                        "surface-bright": "#fbf8ff",
+                        "tertiary-container": "#00a856",
+                        "primary-fixed": "#e8ddff",
+                        "primary": "#6844c7",
+                        "surface": "#fbf8ff",
+                        "tertiary-fixed": "#6dfe9c",
+                        "surface-container-highest": "#e3e1e9",
+                        "on-background": "#1a1b21",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f4f2fa",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fcaae2",
+                        "on-primary-fixed": "#21005e",
+                        "surface-container": "#efedf5",
+                        "on-tertiary-container": "#003315",
+                        "on-tertiary-fixed": "#00210c",
+                        "surface-tint": "#6844c7",
+                        "on-secondary-fixed": "#3a0031",
+                        "on-primary-container": "#320085",
+                        "secondary": "#8a4778",
+                        "primary-fixed-dim": "#cebdff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005227",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#5028ae",
+                        "on-secondary-container": "#7b3969",
+                        "tertiary": "#006d36",
+                        "inverse-on-surface": "#f1f0f8",
+                        "inverse-surface": "#2f3036",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e7ef",
+                        "on-surface-variant": "#494553",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffade4",
+                        "background": "#fbf8ff",
+                        "secondary-fixed": "#ffd7ef",
+                        "outline-variant": "#cbc3d5",
+                        "on-surface": "#1a1b21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-desktop": "40px",
+                        "container-max": "1120px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Spline Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-bold": ["Plus Jakarta Sans"],
+                        "headline-md": ["Spline Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Utilities for Glassmorphism & Patterns */
+        .glass-card {
+            background: rgba(251, 248, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .organic-blob {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+        /* Hide scrollbar for clean bento look */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- Desktop Side Navigation -->
+<nav class="bg-surface-container-low dark:bg-surface-container-highest h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low/50 backdrop-blur-md shadow-lg shadow-xl shadow-primary/5 z-40 border-r border-white/20">
+<div class="flex flex-col h-full py-8 gap-4 px-4">
+<!-- Header -->
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">face_4</span>
+</div>
+<div>
+<h1 class="font-display-lg text-headline-md text-primary tracking-tight">CrocHub</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Creative Studio</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2 flex-1">
+<!-- Active Item: Home -->
+<a class="bg-primary-container text-on-primary-container font-label-bold rounded-xl flex items-center gap-unit p-3 mx-2 hover:translate-x-1 transition-transform duration-300 active:scale-95 shadow-[0_4px_12px_rgba(104,68,199,0.2)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-bold text-label-bold">Home</span>
+</a>
+<!-- Inactive Items -->
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl flex items-center gap-unit p-3 mx-2 transition-all hover:translate-x-1 duration-300 active:scale-95" href="#">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-bold text-label-bold">Gallery</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl flex items-center gap-unit p-3 mx-2 transition-all hover:translate-x-1 duration-300 active:scale-95" href="#">
+<span class="material-symbols-outlined">music_note</span>
+<span class="font-label-bold text-label-bold">Music</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl flex items-center gap-unit p-3 mx-2 transition-all hover:translate-x-1 duration-300 active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Admin</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-xl flex items-center gap-unit p-3 mx-2 transition-all hover:translate-x-1 duration-300 active:scale-95" href="#">
+<span class="material-symbols-outlined">cloud_upload</span>
+<span class="font-label-bold text-label-bold">Upload</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="mt-auto mx-2 bg-primary text-on-primary rounded-xl py-3 px-4 font-label-bold text-label-bold shadow-[0_8px_20px_rgba(104,68,199,0.3)] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(104,68,199,0.4)] transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                New Project
+            </button>
+</div>
+</nav>
+<!-- Mobile Bottom Navigation -->
+<nav class="bg-surface/90 dark:bg-surface-container-highest/90 backdrop-blur-lg fixed bottom-0 left-0 w-full z-50 md:hidden rounded-t-[2rem] shadow-[0_-4px_20px_rgba(104,68,199,0.1)] border-t border-white/40">
+<div class="flex justify-around items-center h-20 px-4 pb-safe max-w-md mx-auto">
+<!-- Active Item: Feed (maps to Home intent) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-2 transition-all active:scale-90 duration-150 shadow-[0_4px_12px_rgba(104,68,199,0.15)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-bold text-[11px] mt-1">Feed</span>
+</a>
+<!-- Inactive Items -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-2 hover:text-primary transition-colors active:scale-90 duration-150 px-3" href="#">
+<span class="material-symbols-outlined">library_music</span>
+<span class="font-label-bold text-[11px] mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-2 hover:text-primary transition-colors active:scale-90 duration-150 px-3" href="#">
+<span class="material-symbols-outlined">edit_square</span>
+<span class="font-label-bold text-[11px] mt-1">Studio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-2 hover:text-primary transition-colors active:scale-90 duration-150 px-3" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-bold text-[11px] mt-1">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop pb-28 md:pb-margin-desktop w-full max-w-container-max mx-auto relative overflow-hidden">
+<!-- Decorative Ambient Background Blobs -->
+<div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container/20 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-80 h-80 bg-secondary-container/20 rounded-full blur-[60px] -z-10 pointer-events-none"></div>
+<!-- Mobile Header (Visible only on mobile to anchor the brand) -->
+<header class="md:hidden flex items-center justify-between mb-8">
+<h1 class="font-display-lg text-[28px] font-bold text-primary tracking-tight">CrocHub</h1>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">face_4</span>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="glass-card rounded-xl p-8 md:p-12 mb-gutter flex flex-col md:flex-row items-center gap-8 shadow-[0_8px_32px_rgba(104,68,199,0.08)] relative overflow-hidden border border-white/60">
+<!-- Organic shape mask for the image -->
+<div class="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-white rounded-[30%_70%_70%_30%/30%_30%_70%_70%] p-4 shadow-[0_12px_24px_rgba(104,68,199,0.1)] flex items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-105">
+<img alt="Purple Crocodile Logo" class="w-full h-full object-contain drop-shadow-md" data-alt="A cute, minimalist stylized purple crocodile logo character, designed as flat vector art using simple geometric shapes. The crocodile is a vibrant, playful purple, sitting against a pristine white background. The aesthetic is perfect for a teenage girl's personal creative brand, radiating a friendly, modern, and imaginative mood with soft curves and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChJ7rnNZW8yNJ2rTlHcdSzugjI8Mq0Z8FT6pai5iqHoef0_pQlRV8OUJhYUdeuRxmEh0c3dg8OG-WoRUJe6c7gcIPmLcwtIuq_hH04Dks0E0a-aHL6KV5VEbdE2ILtCISpoWwQKbp8svIEf2VwqGkLqWEzRm4QpsilxtfCsZHN-hA3sfR14qbiVeQgUwZi7TOL7qDBqLuS3NmkrlIDmHkL1vdgJy9NmpG0Djzg3CzQTMr5fiCUKu5SEAeiHcroJBcHphPPg88KlTk"/>
+</div>
+<div class="flex-1 text-center md:text-left z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container/40 text-on-secondary-container rounded-full font-label-bold text-[12px] mb-4 border border-secondary-container/50">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+                    Digital Sketchbook
+                </div>
+<h2 class="font-display-lg text-[40px] md:text-display-lg text-primary mb-4 leading-tight">
+                    Welcome to <br class="hidden md:block"/><span class="text-secondary">My Creative World!</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-6">
+                    Hi! I'm exploring digital art, making messy crafts, and putting together my favorite playlists. Take a look around! ✨
+                </p>
+<button class="bg-primary hover:bg-primary/90 text-on-primary font-label-bold px-6 py-3 rounded-full shadow-[0_8px_20px_rgba(104,68,199,0.25)] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(104,68,199,0.4)] transition-all active:scale-95">
+                    View Portfolio
+                </button>
+</div>
+<!-- Decorative dots -->
+<div class="absolute top-4 right-4 grid grid-cols-3 gap-2 opacity-20">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</section>
+<!-- Main Content Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Section: Latest Drawings & Crafts -->
+<div class="md:col-span-2 flex flex-col gap-6">
+<div class="flex items-center justify-between px-2">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">palette</span>
+                        Latest Projects
+                    </h3>
+<a class="font-label-bold text-primary hover:text-secondary transition-colors text-sm flex items-center" href="#">
+                        See all <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Project Card 1 -->
+<article class="glass-card rounded-xl p-4 flex flex-col gap-3 group hover:-translate-y-2 transition-all duration-300 shadow-[0_4px_16px_rgba(104,68,199,0.05)] hover:shadow-[0_12px_32px_rgba(104,68,199,0.15)] cursor-pointer">
+<div class="w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-variant relative">
+<img alt="Abstract digital painting" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A vibrant, abstract digital painting featuring swirling pastel colors, predominantly soft purples, bright pinks, and mint greens. The art piece has a fluid, dreamlike quality with glossy textures that catch a soft, diffused studio light. The overall mood is imaginative and uplifting, perfectly fitting a modern, glassmorphic portfolio design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2UyGKqpLWCLldcxzTb7AAqv3u8_AfOc3M1YoWfhlx3fJPMJmuo0Yh5gtQNYqlVvwmokSZqsPilsrsOIrCvhJfXk0IlnnV91LAV_dHlQGbJv--G1iO28o_1F942EUFF2TS0XZAD16IjdlvtjjSN1h_PnOQzKoXVnJxnCEWrFmhHr5HsrrQTI1DA94bVX0c0f2_sbS2RNExoWi1eh8bnAG_fxtOxd9aYIVs7rcUzCVuwaoKMgYHfdzvwHU5fiTjArdBhOqu4t3l1lg"/>
+<div class="absolute top-3 left-3 bg-white/80 backdrop-blur-md px-2 py-1 rounded-md font-label-bold text-[10px] text-primary shadow-sm">Digital Art</div>
+</div>
+<div class="px-1">
+<h4 class="font-label-bold text-[16px] text-on-surface mb-1">Midnight Sketches</h4>
+<p class="font-body-md text-sm text-on-surface-variant line-clamp-2">Experimenting with new brush packs on Procreate. Loving these soft pastel vibes!</p>
+</div>
+</article>
+<!-- Project Card 2 -->
+<article class="glass-card rounded-xl p-4 flex flex-col gap-3 group hover:-translate-y-2 transition-all duration-300 shadow-[0_4px_16px_rgba(104,68,199,0.05)] hover:shadow-[0_12px_32px_rgba(104,68,199,0.15)] cursor-pointer">
+<div class="w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-variant relative">
+<img alt="Handmade clay crafts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A collection of quirky, handmade polymer clay trinkets and small bowls arranged on a clean white desk. The crafts are painted in playful colors like lavender and baby pink. The scene is lit by bright, natural daylight casting soft, welcoming shadows, emphasizing a tactile, DIY, and cozy aesthetic typical of a creative teen's workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtycELTy2h6CBjGtypZNFL_FLYl-SeOCOlYc7PtZZjuBnIZXCnPue_joaG6-nyw6ZUw8L7MV26X-SSL1gIPjx2Omn5jfSKQg1SWq3Dqir4h8BlCi3eV_3fTi0udtoO27Zw0R4RZqihwJ-hKW7lTY7R924O6j1ci7ISjyGh5Sw_BtjFAozYm6lzmvdOC3-XEfNc6vwXFgE78bKHEVRzCrO6iRrBVxT-Hl5HARXAz9THYXBUt_fvlOqzYSSZytD55hIYBoxODDcfJtw"/>
+<div class="absolute top-3 left-3 bg-white/80 backdrop-blur-md px-2 py-1 rounded-md font-label-bold text-[10px] text-secondary shadow-sm">Crafts</div>
+</div>
+<div class="px-1">
+<h4 class="font-label-bold text-[16px] text-on-surface mb-1">Clay Trinket Trays</h4>
+<p class="font-body-md text-sm text-on-surface-variant line-clamp-2">Made these little frog and mushroom dishes over the weekend.</p>
+</div>
+</article>
+</div>
+</div>
+<!-- Section: Now Listening & Quick Stats -->
+<div class="flex flex-col gap-6">
+<!-- Music Widget -->
+<div class="glass-card rounded-xl p-6 shadow-[0_8px_24px_rgba(104,68,199,0.1)] border-t-4 border-t-secondary relative overflow-hidden">
+<!-- Background blob for music vibe -->
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-secondary/10 rounded-full blur-xl pointer-events-none"></div>
+<h3 class="font-label-bold text-sm text-outline uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary animate-pulse">headphones</span>
+                        Now Listening
+                    </h3>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-lg bg-surface-variant overflow-hidden shrink-0 shadow-md">
+<img alt="Album cover" class="w-full h-full object-cover" data-alt="A stylized, close-up photograph of a vintage vinyl record player spinning a brightly colored pink and purple splatter vinyl. The lighting is moody and atmospheric, with neon purple accents reflecting off the glossy record surface. This imagery evokes a cool, lo-fi music vibe, fitting seamlessly into a colorful, youthful portfolio UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTTKi8mJflUQYNwmcqfibBu6Tgnf70HVyzAPMCfXmIf9Gs86-lxlOOyHdv_wRFG0b3AI2_NssQwsySXUfzqZO-XPBxXMTsUMe81BFcAuJriEvYCokhfi7QmbPaYxWaRE6htSCRxrOq4A06o48tumLWIeONfUKF-ZXJdhGWpC7FOUw9KBQSD1zVfnqHAUbKTO_SIzkhK9UJ2pII-bcrS4mKHmNdkWwiaACL-NYwUu9tNSNnzSsvIuUeHsXd0Y9j1TQINkuN9IqAXec"/>
+</div>
+<div>
+<h4 class="font-label-bold text-on-surface text-[15px] leading-tight mb-1">Lofi Chill Beats</h4>
+<p class="font-body-md text-xs text-on-surface-variant">Studio Vibes</p>
+</div>
+</div>
+<!-- Fake Audio Waveform -->
+<div class="flex items-end gap-[3px] h-8 mb-4 opacity-70">
+<div class="w-1.5 bg-primary/40 rounded-full h-[40%]"></div>
+<div class="w-1.5 bg-primary/60 rounded-full h-[70%]"></div>
+<div class="w-1.5 bg-secondary rounded-full h-[100%]"></div>
+<div class="w-1.5 bg-primary rounded-full h-[60%]"></div>
+<div class="w-1.5 bg-primary/80 rounded-full h-[80%]"></div>
+<div class="w-1.5 bg-primary/50 rounded-full h-[30%]"></div>
+<div class="w-1.5 bg-secondary/70 rounded-full h-[50%]"></div>
+<div class="w-1.5 bg-primary/30 rounded-full h-[20%]"></div>
+<div class="w-1.5 bg-primary/60 rounded-full h-[60%]"></div>
+<div class="w-1.5 bg-primary/40 rounded-full h-[40%]"></div>
+</div>
+<!-- Controls -->
+<div class="flex justify-between items-center text-primary">
+<button class="hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">skip_previous</span></button>
+<button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="hover:text-secondary transition-colors"><span class="material-symbols-outlined text-[20px]">skip_next</span></button>
+</div>
+</div>
+<!-- Scrapbook Note / Status -->
+<div class="bg-surface-bright rounded-xl p-6 border-2 border-dashed border-outline-variant/50 relative transform rotate-1 hover:rotate-0 transition-transform duration-300 shadow-sm">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-yellow-200/50 backdrop-blur-sm -rotate-2 border border-yellow-300/30 shadow-sm"></div>
+<p class="font-display-lg text-[20px] text-on-surface-variant leading-snug text-center pt-2">
+                        "Currently obsessed with drawing frogs and drinking matcha lattes. 🍵🐸"
+                    </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

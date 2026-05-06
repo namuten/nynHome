@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
 export const r2 = new S3Client({
   region: 'auto',
@@ -19,7 +19,7 @@ export async function uploadToR2(
   originalName: string,
 ): Promise<string> {
   const ext = originalName.split('.').pop() ?? 'bin';
-  const key = `${uuidv4()}.${ext}`;
+  const key = `${crypto.randomUUID()}.${ext}`;
 
   await r2.send(
     new PutObjectCommand({

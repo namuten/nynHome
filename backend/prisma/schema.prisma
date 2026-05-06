@@ -128,7 +128,7 @@ model ContentLayout {
 model PushSubscription {
   id        Int      @id @default(autoincrement())
   userId    Int?
-  endpoint  String   @db.Text
+  endpoint  String   @unique @db.VarChar(512)
   p256dh    String
   auth      String
   createdAt DateTime @default(now())

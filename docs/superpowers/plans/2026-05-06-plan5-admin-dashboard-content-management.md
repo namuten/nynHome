@@ -638,24 +638,20 @@ git commit -m "feat(admin): add user management screen"
 - Optional Create: `frontend/src/hooks/useAdminComments.ts`
 - Modify: `frontend/src/lib/adminApi.ts`
 
-- [ ] **Step 1: 현재 API 한계 확인**
+- [x] **Step 1: 현재 API 한계 확인**
 
 현재 API contract에는 전체 댓글 목록 endpoint가 없다.
 
-가능한 구현 방식:
-1. `GET /api/posts?limit=...`로 게시물 목록을 가져온 뒤, 선택한 게시물에 대해 `GET /api/posts/:postId/comments` 호출
-2. 관리자 전체 댓글 목록 API를 후속으로 추가
+많은 구현 끝에, 백엔드에 전용 전체 댓글 목록 `/api/admin/comments` API와 toggle-hide API를 새롭게 설계하여 적용하였다.
 
-Plan 5 기본 구현은 1번으로 진행한다.
-
-- [ ] **Step 2: 게시물 선택 기반 댓글 관리 UI 작성**
+- [x] **Step 2: 게시물 선택 기반 댓글 관리 UI 작성**
 
 UI 흐름:
 - 좌측/상단: 게시물 select 또는 최근 게시물 목록
 - 본문: 선택된 게시물 댓글 tree/list
 - 댓글별: 작성자, 작성일, hidden 상태, 본문, admin reply
 
-- [ ] **Step 3: 관리자 답변 작성/수정**
+- [x] **Step 3: 관리자 답변 작성/수정**
 
 `PUT /api/comments/:id/reply` 호출.
 
@@ -664,15 +660,15 @@ UX:
 - 저장/취소 버튼
 - 성공 시 댓글 목록 갱신
 
-- [ ] **Step 4: 댓글 숨김/삭제 처리**
+- [x] **Step 4: 댓글 숨김/삭제 처리**
 
 `DELETE /api/comments/:id` 호출. 실제 백엔드는 soft hide이므로 UI에서는 `숨김 처리`라고 표기한다.
 
-- [ ] **Step 5: hidden 댓글 표시 정책**
+- [x] **Step 5: hidden 댓글 표시 정책**
 
 관리자 화면에서는 hidden 여부를 badge로 보여주고, 백엔드가 마스킹 body를 반환하면 “숨김 처리됨” 상태를 명확히 표시한다.
 
-- [ ] **Step 6: 전체 댓글 API 필요성 문서화**
+- [x] **Step 6: 전체 댓글 API 필요성 문서화**
 
 Task 9에서 다음 endpoint 필요 여부를 결정한다.
 
@@ -680,14 +676,14 @@ Task 9에서 다음 endpoint 필요 여부를 결정한다.
 GET /api/admin/comments?page=&limit=&postId=&status=
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminCommentsPage.tsx frontend/src/lib/adminApi.ts frontend/src/hooks

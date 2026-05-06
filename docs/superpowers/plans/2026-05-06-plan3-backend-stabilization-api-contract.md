@@ -81,7 +81,7 @@ docs/
 - Optional Create: `backend/tsconfig.seed.json`
 - Modify: `backend/package.json`
 
-- [ ] **Step 1: 현재 실패 재현**
+- [x] **Step 1: 현재 실패 재현**
 
 ```bash
 cd backend
@@ -94,7 +94,7 @@ Expected before fix:
 error TS6059: File '.../backend/prisma/seed.ts' is not under 'rootDir' '.../backend/src'
 ```
 
-- [ ] **Step 2: backend/tsconfig.json에서 앱 빌드 범위 확정**
+- [x] **Step 2: backend/tsconfig.json에서 앱 빌드 범위 확정**
 
 앱 빌드는 `src`만 대상으로 한다.
 
@@ -117,7 +117,7 @@ error TS6059: File '.../backend/prisma/seed.ts' is not under 'rootDir' '.../back
 }
 ```
 
-- [ ] **Step 3: seed 실행 방식 확인**
+- [x] **Step 3: seed 실행 방식 확인**
 
 현재 seed는 `ts-node prisma/seed.ts`로 실행되므로 앱 `tsc` build에 포함할 필요가 없다.
 
@@ -128,7 +128,7 @@ npm run db:seed
 
 Expected: DB가 떠 있고 env가 맞으면 seed 성공. DB가 없으면 DB 연결 실패만 발생해야 하며 TypeScript compile 범위 에러는 없어야 한다.
 
-- [ ] **Step 4: 빌드 성공 확인**
+- [x] **Step 4: 빌드 성공 확인**
 
 ```bash
 cd backend
@@ -137,7 +137,7 @@ npm run build
 
 Expected: PASS, `backend/dist` 생성
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/tsconfig.json backend/package.json
@@ -152,7 +152,7 @@ git commit -m "fix(build): stabilize backend TypeScript build scope"
 - Modify: `backend/tests/setup.ts`
 - Optional Modify: `backend/package.json`
 
-- [ ] **Step 1: .env.test가 항상 우선되도록 수정**
+- [x] **Step 1: .env.test가 항상 우선되도록 수정**
 
 `backend/tests/setup.ts`에서 기존 shell 환경변수보다 `.env.test`가 우선되도록 한다.
 
@@ -162,7 +162,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.test', override: true });
 ```
 
-- [ ] **Step 2: 테스트 DB 주소 명시**
+- [x] **Step 2: 테스트 DB 주소 명시**
 
 `backend/.env.test` 기준:
 
@@ -176,7 +176,7 @@ JWT_SECRET=test-jwt-secret-do-not-use-in-production
 - Docker `api` 컨테이너 안에서 테스트할 경우 DB host는 `db`가 맞다.
 - 둘 중 하나를 공식 개발 방식으로 정해야 한다.
 
-- [ ] **Step 3: 공식 테스트 실행 방식을 선택**
+- [x] **Step 3: 공식 테스트 실행 방식을 선택**
 
 권장: host에서 테스트 실행
 
@@ -193,7 +193,7 @@ npm test
 docker compose exec api sh -lc "DATABASE_URL=mysql://crochub:secret@db:3306/crochub_test npm test"
 ```
 
-- [ ] **Step 4: package script 추가 검토**
+- [x] **Step 4: package script 추가 검토**
 
 필요하면 `backend/package.json`에 명확한 테스트 스크립트를 추가한다.
 
@@ -208,7 +208,7 @@ docker compose exec api sh -lc "DATABASE_URL=mysql://crochub:secret@db:3306/croc
 
 환경변수는 `.env.test`에서 override하므로 script에 직접 박지 않는 것을 우선한다.
 
-- [ ] **Step 5: 전체 테스트 통과 확인**
+- [x] **Step 5: 전체 테스트 통과 확인**
 
 ```bash
 cd backend
@@ -217,7 +217,7 @@ npm test
 
 Expected: 모든 test suites PASS
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/tests/setup.ts backend/package.json
@@ -233,7 +233,7 @@ git commit -m "fix(test): make test env deterministic"
 - Modify: `backend/tests/schedule.test.ts`
 - Create: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: Schedule 경로를 복수형으로 확정**
+- [x] **Step 1: Schedule 경로를 복수형으로 확정**
 
 설계 스펙과 Plan 2 기준에 맞춰 schedule API는 `/api/schedules`로 확정한다.
 
@@ -249,11 +249,11 @@ app.use('/api/schedule', scheduleRouter);
 app.use('/api/schedules', scheduleRouter);
 ```
 
-- [ ] **Step 2: schedule 테스트 경로 수정**
+- [x] **Step 2: schedule 테스트 경로 수정**
 
 `backend/tests/schedule.test.ts`의 모든 `/api/schedule`을 `/api/schedules`로 변경한다.
 
-- [ ] **Step 3: 공개/관리자 권한 정책 확정**
+- [x] **Step 3: 공개/관리자 권한 정책 확정**
 
 Plan 2 문서에는 `GET /api/schedules`가 admin 전용으로 적혀 있었지만 실제 구현은 공개 조회다.
 
@@ -270,7 +270,7 @@ DELETE /api/schedules/:id      admin
 - 공개 홈페이지/PWA에서 일정 캘린더를 보여줄 수 있다.
 - 생성/수정/삭제만 관리자 전용으로 제한한다.
 
-- [ ] **Step 4: API contract 문서 작성**
+- [x] **Step 4: API contract 문서 작성**
 
 `docs/superpowers/api/2026-05-06-backend-api-contract.md`를 생성하고 실제 구현 기준 API를 정리한다.
 
@@ -288,7 +288,7 @@ DELETE /api/schedules/:id      admin
 - 주요 response shape
 - error code 목록
 
-- [ ] **Step 5: 테스트 확인**
+- [x] **Step 5: 테스트 확인**
 
 ```bash
 cd backend
@@ -296,7 +296,7 @@ npm test -- tests/schedule.test.ts
 npm test
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/app.ts backend/tests/schedule.test.ts docs/superpowers/api/
@@ -311,14 +311,14 @@ git commit -m "fix(api): align schedule routes with API contract"
 - Modify: `backend/package.json`
 - Create: `backend/src/lib/validation.ts`
 
-- [ ] **Step 1: zod 설치**
+- [x] **Step 1: zod 설치**
 
 ```bash
 cd backend
 npm install zod
 ```
 
-- [ ] **Step 2: validate helper 작성**
+- [x] **Step 2: validate helper 작성**
 
 `backend/src/lib/validation.ts`
 
@@ -355,7 +355,7 @@ export function validateQuery(schema: ZodSchema) {
 }
 ```
 
-- [ ] **Step 3: validation error 응답 표준 확정**
+- [x] **Step 3: validation error 응답 표준 확정**
 
 모든 validation 실패는 다음 형식을 사용한다.
 
@@ -366,14 +366,14 @@ export function validateQuery(schema: ZodSchema) {
 }
 ```
 
-- [ ] **Step 4: 단위 확인**
+- [x] **Step 4: 단위 확인**
 
 ```bash
 cd backend
 npm run build
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/src/lib/validation.ts
@@ -389,7 +389,7 @@ git commit -m "feat(validation): add zod request validation helpers"
 - Modify: `backend/src/modules/posts/posts.router.ts`
 - Modify: `backend/tests/posts.test.ts`
 
-- [ ] **Step 1: posts schema 정의**
+- [x] **Step 1: posts schema 정의**
 
 `posts.router.ts` 또는 `posts.types.ts`에 zod schema를 둔다. 프로젝트가 커지기 전까지는 module 내부 파일에 두는 것을 우선한다.
 
@@ -402,19 +402,19 @@ git commit -m "feat(validation): add zod request validation helpers"
 - `page`: optional positive integer string
 - `limit`: optional positive integer string, 최대 50
 
-- [ ] **Step 2: POST /api/posts 검증 적용**
+- [x] **Step 2: POST /api/posts 검증 적용**
 
 잘못된 category, 빈 title/body는 400을 반환한다.
 
-- [ ] **Step 3: PUT /api/posts/:id 검증 적용**
+- [x] **Step 3: PUT /api/posts/:id 검증 적용**
 
 부분 수정은 허용하되, 들어온 필드는 같은 규칙으로 검증한다.
 
-- [ ] **Step 4: GET /api/posts query 검증 적용**
+- [x] **Step 4: GET /api/posts query 검증 적용**
 
 잘못된 category/page/limit은 400을 반환한다.
 
-- [ ] **Step 5: 테스트 추가**
+- [x] **Step 5: 테스트 추가**
 
 `backend/tests/posts.test.ts`에 추가:
 
@@ -425,14 +425,14 @@ GET /api/posts?category=invalid -> 400 VALIDATION_ERROR
 GET /api/posts?page=-1 -> 400 VALIDATION_ERROR
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
 npm test -- tests/posts.test.ts
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/modules/posts/ backend/tests/posts.test.ts
@@ -448,7 +448,7 @@ git commit -m "feat(posts): validate post request payloads"
 - Modify: `backend/src/modules/comments/comments.router.ts`
 - Modify: `backend/tests/comments.test.ts`
 
-- [ ] **Step 1: 댓글 body 검증**
+- [x] **Step 1: 댓글 body 검증**
 
 규칙:
 - comment `body`: string, 1~2000자
@@ -456,15 +456,15 @@ git commit -m "feat(posts): validate post request payloads"
 - `page`: optional positive integer
 - `limit`: optional positive integer, 최대 100
 
-- [ ] **Step 2: POST /api/posts/:postId/comments 검증 적용**
+- [x] **Step 2: POST /api/posts/:postId/comments 검증 적용**
 
 빈 댓글은 400.
 
-- [ ] **Step 3: PUT /api/comments/:id/reply 검증 적용**
+- [x] **Step 3: PUT /api/comments/:id/reply 검증 적용**
 
 빈 답변은 400.
 
-- [ ] **Step 4: 권한 테스트 보강**
+- [x] **Step 4: 권한 테스트 보강**
 
 추가 테스트:
 
@@ -474,14 +474,14 @@ git commit -m "feat(posts): validate post request payloads"
 빈 관리자 답변 작성 시 400
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
 npm test -- tests/comments.test.ts
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/modules/comments/ backend/tests/comments.test.ts
@@ -497,14 +497,14 @@ git commit -m "feat(comments): validate comment payloads and permissions"
 - Modify: `backend/src/modules/media/media.service.ts`
 - Modify: `backend/tests/media.test.ts`
 
-- [ ] **Step 1: postId 검증**
+- [x] **Step 1: postId 검증**
 
 `postId`가 넘어오면:
 - positive integer여야 한다.
 - 존재하는 post인지 확인한다.
 - 없으면 404 `POST_NOT_FOUND`를 반환한다.
 
-- [ ] **Step 2: multer file size error 처리**
+- [x] **Step 2: multer file size error 처리**
 
 현재 service에서 MIME config 기반 size를 검사하지만, multer 자체 limit 초과 에러도 413으로 표준화한다.
 
@@ -514,7 +514,7 @@ git commit -m "feat(comments): validate comment payloads and permissions"
 { "error": "FILE_TOO_LARGE" }
 ```
 
-- [ ] **Step 3: 파일 없음 테스트 추가**
+- [x] **Step 3: 파일 없음 테스트 추가**
 
 ```text
 POST /api/media/upload without file -> 400 NO_FILE
@@ -522,14 +522,14 @@ POST /api/media/upload with invalid postId -> 400 VALIDATION_ERROR
 POST /api/media/upload with non-existing postId -> 404 POST_NOT_FOUND
 ```
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 cd backend
 npm test -- tests/media.test.ts
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/modules/media/ backend/tests/media.test.ts
@@ -546,7 +546,7 @@ git commit -m "feat(media): harden media upload validation"
 - Modify: `backend/src/modules/schedule/schedule.service.ts`
 - Modify: `backend/tests/schedule.test.ts`
 
-- [ ] **Step 1: schedule schema 정의**
+- [x] **Step 1: schedule schema 정의**
 
 규칙:
 - `title`: string, 1~120자
@@ -557,15 +557,15 @@ git commit -m "feat(media): harden media upload validation"
 - `endAt`은 `startAt`보다 늦어야 한다.
 - `month` query는 `YYYY-MM` 형식이어야 한다.
 
-- [ ] **Step 2: create/update 검증 적용**
+- [x] **Step 2: create/update 검증 적용**
 
 잘못된 날짜나 역전된 날짜 범위는 400.
 
-- [ ] **Step 3: service 기본값 정리**
+- [x] **Step 3: service 기본값 정리**
 
 `color`가 없으면 `#6844c7`을 사용한다.
 
-- [ ] **Step 4: 테스트 추가**
+- [x] **Step 4: 테스트 추가**
 
 ```text
 POST /api/schedules with endAt before startAt -> 400
@@ -574,14 +574,14 @@ GET /api/schedules?month=bad -> 400
 GET /api/schedules?month=2026-05 -> 200
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
 npm test -- tests/schedule.test.ts
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/modules/schedule/ backend/tests/schedule.test.ts
@@ -598,7 +598,7 @@ git commit -m "feat(schedule): validate schedule dates and filters"
 - Modify: `backend/src/modules/layout/layout.service.ts`
 - Modify: `backend/tests/layout.test.ts`
 
-- [ ] **Step 1: layout schema 정의**
+- [x] **Step 1: layout schema 정의**
 
 규칙:
 - request body는 array
@@ -609,14 +609,14 @@ git commit -m "feat(schedule): validate schedule dates and filters"
 - 중복 `sectionKey`는 허용하지 않는다.
 - 존재하지 않는 post id가 있으면 400 `INVALID_POST_IDS`를 반환한다.
 
-- [ ] **Step 2: updateLayout 트랜잭션 개선**
+- [x] **Step 2: updateLayout 트랜잭션 개선**
 
 현재 `deleteMany()` 후 `$transaction(create...)` 구조는 중간 실패 시 레이아웃이 비는 위험이 있다.
 
 권장:
 - `$transaction(async tx => { deleteMany; createMany/create... })` 형태로 묶는다.
 
-- [ ] **Step 3: 테스트 추가**
+- [x] **Step 3: 테스트 추가**
 
 ```text
 PUT /api/layout with non-array body -> 400
@@ -624,14 +624,14 @@ PUT /api/layout with duplicated sectionKey -> 400
 PUT /api/layout with invalid postIds -> 400
 ```
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 cd backend
 npm test -- tests/layout.test.ts
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/modules/layout/ backend/tests/layout.test.ts
@@ -649,14 +649,14 @@ git commit -m "feat(layout): validate homepage layout updates"
 - Modify: `backend/tests/push.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: push subscribe schema 정의**
+- [x] **Step 1: push subscribe schema 정의**
 
 규칙:
 - `endpoint`: valid url
 - `keys.p256dh`: string, 1자 이상
 - `keys.auth`: string, 1자 이상
 
-- [ ] **Step 2: push send schema 정의**
+- [x] **Step 2: push send schema 정의**
 
 규칙:
 - `title`: string, 1~120자
@@ -666,7 +666,7 @@ git commit -m "feat(layout): validate homepage layout updates"
 권장:
 - `url`은 내부 경로만 허용한다. 예: `/post/1`
 
-- [ ] **Step 3: 비로그인 구독 정책 결정**
+- [x] **Step 3: 비로그인 구독 정책 결정**
 
 설계 스펙에는 비로그인 구독도 허용 가능하다고 되어 있지만 Plan 2 구현은 `requireAuth`다.
 
@@ -681,7 +681,7 @@ POST /api/push/send          admin
 - 초기 버전에서는 로그인 사용자에게만 푸시를 보내 권한/삭제/개인화 관리가 쉽다.
 - 추후 guest subscription은 별도 Plan에서 확장한다.
 
-- [ ] **Step 4: 테스트 추가**
+- [x] **Step 4: 테스트 추가**
 
 ```text
 POST /api/push/subscribe with invalid endpoint -> 400
@@ -689,14 +689,14 @@ POST /api/push/send with empty title -> 400
 POST /api/push/send with external url if disallowed -> 400
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
 npm test -- tests/push.test.ts
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/modules/push/ backend/tests/push.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -713,20 +713,20 @@ git commit -m "feat(push): validate push subscription and payloads"
 - Modify: `backend/src/modules/admin/admin.service.ts`
 - Modify: `backend/tests/admin.test.ts`
 
-- [ ] **Step 1: media type update schema 정의**
+- [x] **Step 1: admin media-types update schema 정의**
 
 규칙:
 - `isAllowed`: optional boolean
 - `maxSizeMb`: optional integer, 1~1000
 - 적어도 하나의 필드는 있어야 한다.
 
-- [ ] **Step 2: users pagination 검증**
+- [x] **Step 2: users pagination 검증**
 
 규칙:
 - `page`: optional positive integer
 - `limit`: optional positive integer, 최대 100
 
-- [ ] **Step 3: delete user 정책 확인**
+- [x] **Step 3: delete user 정책 확인**
 
 현재 admin 삭제 방지는 유지한다.
 
@@ -734,7 +734,7 @@ git commit -m "feat(push): validate push subscription and payloads"
 - 자기 자신 삭제 방지도 명시한다.
 - 마지막 admin 삭제 방지는 미래 확장으로 문서화한다.
 
-- [ ] **Step 4: 테스트 추가**
+- [x] **Step 4: 테스트 추가**
 
 ```text
 PUT /api/admin/media-types/:id with maxSizeMb=0 -> 400
@@ -743,14 +743,14 @@ GET /api/admin/users?page=-1 -> 400
 DELETE /api/admin/users/:id for admin user -> 403 CANNOT_DELETE_ADMIN
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
 npm test -- tests/admin.test.ts
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/modules/admin/ backend/tests/admin.test.ts
@@ -768,7 +768,7 @@ git commit -m "feat(admin): validate admin settings and user queries"
 - Modify: tests as needed
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: 공통 error code 목록 확정**
+- [x] **Step 1: express error handler middleware 추가**
 
 기본 목록:
 
@@ -789,7 +789,7 @@ CANNOT_DELETE_ADMIN
 INTERNAL_ERROR
 ```
 
-- [ ] **Step 2: 응답 형식 확정**
+- [x] **Step 2: 주요 에러 코드 규격화**
 
 ```json
 {
@@ -801,20 +801,20 @@ INTERNAL_ERROR
 
 초기 구현에서는 `message`는 생략 가능하다. 프론트는 `error` code를 기준으로 분기한다.
 
-- [ ] **Step 3: 라우터별 500 catch 최소화**
+- [x] **Step 3: 라우터별 500 catch 최소화**
 
 가능하면 라우터의 중복 `try/catch`를 줄이고 공통 에러 처리로 넘긴다.
 
 단, 이번 Plan에서는 큰 리팩토링보다 응답 일관성을 우선한다.
 
-- [ ] **Step 4: 테스트 전체 확인**
+- [x] **Step 4: 테스트 전체 확인**
 
 ```bash
 cd backend
 npm test
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src backend/tests docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -829,9 +829,21 @@ git commit -m "fix(api): standardize backend error responses"
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 - Optional Modify: `README.md`
 
-- [ ] **Step 1: 실제 구현 기준 endpoint 표 작성**
+- [x] **Step 1: 로컬 전체 빌드 및 테스트 통과 보강**
 
-필수 형식:
+```bash
+cd backend
+npm test
+```
+
+- [x] **Step 2: Docker 환경 기동 및 Health Check**
+
+```bash
+docker compose up --build -d
+docker compose ps
+```
+
+- [x] **Step 3: 실제 구현 기준 endpoint 표 작성**
 
 ````markdown
 ## Posts
@@ -853,7 +865,7 @@ git commit -m "fix(api): standardize backend error responses"
   ```
 ````
 
-- [ ] **Step 2: 프론트엔드에서 필요한 타입 이름 추가**
+- [x] **Step 4: 프론트엔드에서 필요한 타입 이름 추가**
 
 예:
 
@@ -871,13 +883,13 @@ AdminMediaType
 AdminUser
 ```
 
-- [ ] **Step 3: 인증 헤더 규칙 작성**
+- [x] **Step 5: 인증 헤더 규칙 작성**
 
 ```text
 Authorization: Bearer <token>
 ```
 
-- [ ] **Step 4: Plan 4에서 사용할 API base URL 작성**
+- [x] **Step 6: Plan 4에서 사용할 API base URL 작성**
 
 개발 환경:
 
@@ -891,7 +903,7 @@ Docker/nginx 환경:
 VITE_API_BASE_URL=/api
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add docs/superpowers/api/2026-05-06-backend-api-contract.md README.md

@@ -15,7 +15,7 @@ export const adminApi = {
   },
 
   getAdminPost: async (id: number) => {
-    const response = await api.get<PostDetail & { isPublished: boolean }>(`/posts/${id}`);
+    const response = await api.get<PostDetail & { isPublished: boolean; thumbnailUrl?: string | null }>(`/posts/${id}`);
     return response.data;
   },
 

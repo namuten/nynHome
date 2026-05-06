@@ -29,7 +29,7 @@ beforeAll(async () => {
   // 허용 MIME 타입 시드
   await prisma.mediaTypeConfig.upsert({
     where: { mimeType: 'image/jpeg' },
-    update: {},
+    update: { isAllowed: true, maxSizeMb: 20 },
     create: { mimeType: 'image/jpeg', fileCategory: 'image', maxSizeMb: 20, isAllowed: true },
   });
 });

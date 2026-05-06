@@ -27,7 +27,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/media', mediaRouter);
 app.use('/api', commentsRouter);
-app.use('/api/schedule', scheduleRouter);
+app.use('/api/schedules', scheduleRouter);
 app.use('/api/layout', layoutRouter);
 app.use('/api/push', pushRouter);
 app.use('/api/admin', adminRouter);

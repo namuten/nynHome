@@ -15,10 +15,10 @@ beforeAll(async () => {
 
 afterAll(async () => { await prisma.$disconnect(); });
 
-describe('POST /api/schedule', () => {
+describe('POST /api/schedules', () => {
   it('admin이 일정을 생성한다', async () => {
     const res = await request(app)
-      .post('/api/schedule')
+      .post('/api/schedules')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ title: '방송', startAt: '2026-05-10T20:00:00Z', endAt: '2026-05-10T22:00:00Z' });
     expect(res.status).toBe(201);
@@ -26,25 +26,25 @@ describe('POST /api/schedule', () => {
   });
 
   it('비로그인은 401을 받는다', async () => {
-    const res = await request(app).post('/api/schedule').send({ title: '테스트', startAt: '2026-05-10T20:00:00Z', endAt: '2026-05-10T22:00:00Z' });
+    const res = await request(app).post('/api/schedules').send({ title: '테스트', startAt: '2026-05-10T20:00:00Z', endAt: '2026-05-10T22:00:00Z' });
     expect(res.status).toBe(401);
   });
 });
 
-describe('GET /api/schedule', () => {
+describe('GET /api/schedules', () => {
   it('모든 사용자가 일정 목록을 조회할 수 있다', async () => {
-    const res = await request(app).get('/api/schedule');
+    const res = await request(app).get('/api/schedules');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
 
-describe('PUT /api/schedule/:id', () => {
+describe('PUT /api/schedules/:id', () => {
   it('admin이 일정을 수정한다', async () => {
-    const create = await request(app).post('/api/schedule')
+    const create = await request(app).post('/api/schedules')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ title: '원본', startAt: '2026-05-10T20:00:00Z', endAt: '2026-05-10T22:00:00Z' });
-    const res = await request(app).put(`/api/schedule/${create.body.id}`)
+    const res = await request(app).put(`/api/schedules/${create.body.id}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ title: '수정됨' });
     expect(res.status).toBe(200);
@@ -52,12 +52,12 @@ describe('PUT /api/schedule/:id', () => {
   });
 });
 
-describe('DELETE /api/schedule/:id', () => {
+describe('DELETE /api/schedules/:id', () => {
   it('admin이 일정을 삭제한다', async () => {
-    const create = await request(app).post('/api/schedule')
+    const create = await request(app).post('/api/schedules')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ title: '지울일정', startAt: '2026-05-10T20:00:00Z', endAt: '2026-05-10T22:00:00Z' });
-    const res = await request(app).delete(`/api/schedule/${create.body.id}`)
+    const res = await request(app).delete(`/api/schedules/${create.body.id}`)
       .set('Authorization', `Bearer ${adminToken}`);
     expect(res.status).toBe(204);
   });

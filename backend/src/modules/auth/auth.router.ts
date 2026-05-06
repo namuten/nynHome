@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import * as authService from './auth.service';
+import { requireAuth } from '../../middleware/auth.middleware';
 
 const router = Router();
 
@@ -30,6 +31,15 @@ router.post('/login', async (req: Request, res: Response) => {
 router.post('/logout', (_req, res) => {
   // JWT는 stateless — 클라이언트가 토큰을 삭제하면 됨
   res.json({ message: 'LOGGED_OUT' });
+});
+
+router.get('/me', requireAuth, async (req: Request, res: Response) => {
+  try {
+    const user = await authService.getMe(req.user!.userId);
+    res.json(user);
+  } catch {
+    res.status(404).json({ error: 'USER_NOT_FOUND' });
+  }
 });
 
 export default router;

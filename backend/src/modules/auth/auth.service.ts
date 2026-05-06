@@ -29,3 +29,12 @@ export async function login(dto: LoginDto) {
     user: { id: user.id, email: user.email, nickname: user.nickname, role: user.role },
   };
 }
+
+export async function getMe(userId: number) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, email: true, nickname: true, avatarUrl: true, role: true, createdAt: true },
+  });
+  if (!user) throw new Error('USER_NOT_FOUND');
+  return user;
+}

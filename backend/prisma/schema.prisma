@@ -1,0 +1,139 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  nickname     String
+  avatarUrl    String?
+  role         Role     @default(user)
+  createdAt    DateTime @default(now())
+
+  comments      Comment[]
+  pushSubs      PushSubscription[]
+
+  @@map("users")
+}
+
+enum Role {
+  admin
+  user
+}
+
+model Post {
+  id           Int      @id @default(autoincrement())
+  title        String
+  body         String   @db.Text
+  category     Category
+  thumbnailUrl String?
+  isPublished  Boolean  @default(false)
+  viewCount    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  media    Media[]
+  comments Comment[]
+
+  @@map("posts")
+}
+
+enum Category {
+  creative
+  blog
+  study
+}
+
+model Media {
+  id           Int          @id @default(autoincrement())
+  postId       Int?
+  fileUrl      String
+  mimeType     String
+  fileCategory FileCategory
+  fileName     String
+  fileSize     BigInt
+  duration     Int?
+  width        Int?
+  height       Int?
+  createdAt    DateTime     @default(now())
+
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  @@map("media")
+}
+
+enum FileCategory {
+  image
+  video
+  audio
+  document
+  other
+}
+
+model MediaTypeConfig {
+  id           Int     @id @default(autoincrement())
+  mimeType     String  @unique
+  fileCategory String
+  maxSizeMb    Int
+  isAllowed    Boolean @default(true)
+
+  @@map("media_type_config")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  body      String   @db.Text
+  reply     String?  @db.Text
+  isHidden  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Schedule {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?  @db.Text
+  startAt     DateTime
+  endAt       DateTime
+  color       String   @default("#6844c7")
+  createdAt   DateTime @default(now())
+
+  @@map("schedules")
+}
+
+model ContentLayout {
+  id         Int      @id @default(autoincrement())
+  sectionKey String
+  postIds    Json
+  order      Int
+  isVisible  Boolean  @default(true)
+  updatedAt  DateTime @updatedAt
+
+  @@map("content_layout")
+}
+
+model PushSubscription {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  endpoint  String   @unique @db.VarChar(512)
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("push_subscriptions")
+}

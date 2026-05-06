@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #fbf8ff;
+  --color-surface: #fbf8ff;
+  --color-surface-container: #efedf5;
+  --color-primary: #6844c7;
+  --color-primary-container: #9d7bff;
+  --color-secondary: #8a4778;
+  --color-secondary-container: #fcaae2;
+  --color-tertiary: #006d36;
+  --color-on-surface: #1a1b21;
+  --color-on-surface-variant: #494553;
+
+  --font-display: "Spline Sans", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+}
+
+@layer utilities {
+  .glass-surface {
+    background: rgba(251, 248, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(104, 68, 199, 0.1);
+  }
+
+  .croc-scale-bg {
+    background-image: radial-gradient(rgba(104, 68, 199, 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+}
+
+/* Base custom resets and scrollbar styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for premium desktop feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-container);
+}

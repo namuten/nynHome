@@ -527,7 +527,7 @@ git commit -m "feat(admin): manage posts from dashboard"
 - Optional Create: `frontend/src/hooks/useAdminMedia.ts`
 - Modify: `frontend/src/lib/adminApi.ts`
 
-- [ ] **Step 1: 미디어 목록 화면 작성**
+- [x] **Step 1: 미디어 목록 화면 작성**
 
 `GET /api/media` 결과를 grid/list toggle 중 최소 grid로 표시한다.
 
@@ -540,7 +540,7 @@ git commit -m "feat(admin): manage posts from dashboard"
 - createdAt
 - linked postId 여부
 
-- [ ] **Step 2: 업로드 UI 작성**
+- [x] **Step 2: 업로드 UI 작성**
 
 `multipart/form-data`로 `POST /api/media/upload` 호출.
 
@@ -550,15 +550,15 @@ git commit -m "feat(admin): manage posts from dashboard"
 - 성공 시 목록 갱신
 - 실패 error code 표시
 
-- [ ] **Step 3: post 연결 옵션**
+- [x] **Step 3: post 연결 옵션**
 
 선택적으로 `postId`를 입력하거나 최근 게시물 select에서 선택할 수 있게 한다. API가 `postId` 유효성 검사를 하므로 `POST_NOT_FOUND`를 명확히 표시한다.
 
-- [ ] **Step 4: 삭제 플로우 구현**
+- [x] **Step 4: 삭제 플로우 구현**
 
 `DELETE /api/media/:id` 호출 전 confirm dialog를 표시한다.
 
-- [ ] **Step 5: 파일 타입/크기 에러 처리**
+- [x] **Step 5: 파일 타입/크기 에러 처리**
 
 ```text
 UNSUPPORTED_MEDIA_TYPE → 허용되지 않는 파일 형식입니다.
@@ -566,14 +566,14 @@ FILE_TOO_LARGE → 파일 크기가 너무 큽니다.
 NO_FILE → 파일을 선택해 주세요.
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminMediaPage.tsx frontend/src/components/admin/MediaPicker.tsx frontend/src/lib/adminApi.ts frontend/src/hooks

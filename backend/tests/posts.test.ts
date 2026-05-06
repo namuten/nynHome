@@ -47,6 +47,17 @@ describe('GET /api/posts', () => {
     expect(res.status).toBe(200);
     res.body.data.forEach((p: any) => expect(p.category).toBe('blog'));
   });
+  it('잘못된 카테고리로 요청하면 400을 반환한다', async () => {
+    const res = await request(app).get('/api/posts?category=invalid');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('잘못된 페이지로 요청하면 400을 반환한다', async () => {
+    const res = await request(app).get('/api/posts?page=-1');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
 });
 
 describe('POST /api/posts', () => {
@@ -72,6 +83,20 @@ describe('POST /api/posts', () => {
     const res = await request(app).post('/api/posts')
       .send({ title: '글', body: '내용', category: 'blog' });
     expect(res.status).toBe(401);
+  });
+
+  it('빈 제목으로 요청하면 400을 반환한다', async () => {
+    const res = await request(app).post('/api/posts').set('Authorization', `Bearer ${adminToken}`)
+      .send({ title: '', body: '내용', category: 'creative' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('잘못된 카테고리로 요청하면 400을 반환한다', async () => {
+    const res = await request(app).post('/api/posts').set('Authorization', `Bearer ${adminToken}`)
+      .send({ title: '제목', body: '내용', category: 'invalid' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
   });
 });
 

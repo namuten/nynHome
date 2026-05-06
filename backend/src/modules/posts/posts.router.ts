@@ -1,11 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
+import { validateBody, validateQuery } from '../../lib/validation';
 import * as postsService from './posts.service';
+import { CreatePostSchema, UpdatePostSchema, GetPostsQuerySchema } from './posts.types';
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  const { category, page, limit } = req.query as Record<string, string>;
+router.get('/', validateQuery(GetPostsQuerySchema), async (req: Request, res: Response) => {
+  const { category, page, limit } = req.query as any;
   const result = await postsService.listPosts({
     category: category as any,
     page: page ? parseInt(page) : undefined,
@@ -24,12 +26,16 @@ router.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', requireAuth, requireAdmin, async (req: Request, res: Response) => {
-  const post = await postsService.createPost(req.body);
-  res.status(201).json(post);
+router.post('/', requireAuth, requireAdmin, validateBody(CreatePostSchema), async (req: Request, res: Response) => {
+  try {
+    const post = await postsService.createPost(req.body);
+    res.status(201).json(post);
+  } catch (err: any) {
+    res.status(500).json({ error: 'INTERNAL_ERROR' });
+  }
 });
 
-router.put('/:id', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+router.put('/:id', requireAuth, requireAdmin, validateBody(UpdatePostSchema), async (req: Request, res: Response) => {
   try {
     const post = await postsService.updatePost(parseInt(req.params.id), req.body);
     res.json(post);

@@ -57,3 +57,34 @@ export async function deleteComment(commentId: number, userId: number, role: str
     data: { isHidden: true },
   });
 }
+
+export async function listAllComments(page = 1, limit = 50) {
+  const skip = (page - 1) * limit;
+
+  const [data, total] = await Promise.all([
+    prisma.comment.findMany({
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { nickname: true, avatarUrl: true } },
+        post: { select: { id: true, title: true } },
+      },
+    }),
+    prisma.comment.count(),
+  ]);
+
+  return { data, total, page, limit };
+}
+
+export async function toggleCommentHide(commentId: number, isHidden: boolean) {
+  const comment = await prisma.comment.findUnique({ where: { id: commentId } });
+  if (!comment) throw new Error('NOT_FOUND');
+
+  return prisma.comment.update({
+    where: { id: commentId },
+    data: { isHidden },
+  });
+}
+
+

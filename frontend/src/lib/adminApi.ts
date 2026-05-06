@@ -85,6 +85,13 @@ export const adminApi = {
   },
 
   // Comments
+  getAdminComments: async (params?: { page?: number; limit?: number }) => {
+    const response = await api.get<PaginatedResponse<any>>('/admin/comments', {
+      params,
+    });
+    return response.data;
+  },
+
   replyToComment: async (id: number, reply: string) => {
     const response = await api.put(`/comments/${id}/reply`, { reply });
     return response.data;
@@ -92,5 +99,10 @@ export const adminApi = {
 
   hideComment: async (id: number) => {
     await api.delete(`/comments/${id}`);
+  },
+
+  toggleCommentHide: async (id: number, isHidden: boolean) => {
+    const response = await api.put(`/comments/${id}/toggle-hide`, { isHidden });
+    return response.data;
   },
 };

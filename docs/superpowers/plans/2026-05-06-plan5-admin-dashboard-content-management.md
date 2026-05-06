@@ -376,7 +376,7 @@ git commit -m "feat(admin): build admin layout and navigation"
 - Modify: `frontend/src/lib/adminApi.ts`
 - Optional Create: `frontend/src/hooks/useAdminDashboard.ts`
 
-- [ ] **Step 1: dashboard data strategy 결정**
+- [x] **Step 1: dashboard data strategy 결정**
 
 현재 dedicated dashboard API가 없으므로 기존 API를 조합한다.
 
@@ -388,7 +388,7 @@ GET /api/admin/users?limit=5
 
 댓글은 전체 목록 API가 없으므로 Task 8 또는 Task 9에서 별도 처리한다.
 
-- [ ] **Step 2: stat card 구성**
+- [x] **Step 2: stat card 구성**
 
 최소 표시:
 - 게시물 수 또는 현재 page total
@@ -397,11 +397,11 @@ GET /api/admin/users?limit=5
 - 사용자 수
 - 관리가 필요한 댓글 placeholder
 
-- [ ] **Step 3: recent activity 섹션**
+- [x] **Step 3: recent activity 섹션**
 
 최근 게시물, 최근 업로드 미디어, 최근 가입 사용자를 카드/테이블로 표시한다.
 
-- [ ] **Step 4: quick action 추가**
+- [x] **Step 4: quick action 추가**
 
 ```text
 새 게시물 작성
@@ -410,18 +410,18 @@ GET /api/admin/users?limit=5
 사용자 관리
 ```
 
-- [ ] **Step 5: loading/error/empty 상태 처리**
+- [x] **Step 5: loading/error/empty 상태 처리**
 
 각 데이터 영역은 개별 loading/error/empty state를 가진다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminDashboardPage.tsx frontend/src/lib/adminApi.ts frontend/src/hooks

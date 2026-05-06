@@ -5,6 +5,7 @@ import authRouter from './modules/auth/auth.router';
 import postsRouter from './modules/posts/posts.router';
 import mediaRouter from './modules/media/media.router';
 import commentsRouter from './modules/comments/comments.router';
+import scheduleRouter from './modules/schedule/schedule.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -23,6 +24,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/media', mediaRouter);
 app.use('/api', commentsRouter);
+app.use('/api/schedule', scheduleRouter);
 
 app.use(errorMiddleware);
 

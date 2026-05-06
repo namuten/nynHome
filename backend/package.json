@@ -6,6 +6,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "jest --runInBand --forceExit",
+    "test:local": "jest --runInBand --forceExit",
     "db:migrate": "prisma migrate dev",
     "db:seed": "ts-node prisma/seed.ts"
   },

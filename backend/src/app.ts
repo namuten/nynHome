@@ -3,6 +3,11 @@ import cors from 'cors';
 import { errorMiddleware } from './middleware/error.middleware';
 import authRouter from './modules/auth/auth.router';
 import postsRouter from './modules/posts/posts.router';
+import mediaRouter from './modules/media/media.router';
+
+(BigInt.prototype as any).toJSON = function () {
+  return Number(this);
+};
 
 const app = express();
 
@@ -15,6 +20,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/media', mediaRouter);
 
 app.use(errorMiddleware);
 

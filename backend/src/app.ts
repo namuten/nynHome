@@ -6,6 +6,7 @@ import postsRouter from './modules/posts/posts.router';
 import mediaRouter from './modules/media/media.router';
 import commentsRouter from './modules/comments/comments.router';
 import scheduleRouter from './modules/schedule/schedule.router';
+import layoutRouter from './modules/layout/layout.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -25,6 +26,7 @@ app.use('/api/posts', postsRouter);
 app.use('/api/media', mediaRouter);
 app.use('/api', commentsRouter);
 app.use('/api/schedule', scheduleRouter);
+app.use('/api/layout', layoutRouter);
 
 app.use(errorMiddleware);
 

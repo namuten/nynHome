@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Image, BookOpen, GraduationCap, User, ShieldAlert, LogIn } from 'lucide-react';
+import { Home, Image, BookOpen, GraduationCap, User as UserIcon, ShieldAlert, LogIn, LogOut } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function SiteHeader() {
   const location = useLocation();
+  const { isAuthenticated, user, isAdmin, logout } = useAuth();
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
@@ -10,7 +12,7 @@ export default function SiteHeader() {
     { label: 'Gallery', path: '/gallery', icon: Image },
     { label: 'Blog', path: '/blog', icon: BookOpen },
     { label: 'Study', path: '/study', icon: GraduationCap },
-    { label: 'Profile', path: '/profile', icon: User },
+    { label: 'Profile', path: '/profile', icon: UserIcon },
   ];
 
   return (
@@ -44,24 +46,50 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        {/* Auth / Right menu placeholder */}
+        {/* Auth / Right menu */}
         <div className="flex items-center space-x-2">
-          <Link
-            to="/admin"
-            className={`p-2 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-primary transition duration-200 ${
-              isActive('/admin') ? 'text-primary' : ''
-            }`}
-            title="Admin"
-          >
-            <ShieldAlert className="w-5 h-5" />
-          </Link>
-          <Link
-            to="/login"
-            className="flex items-center space-x-2 px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-body font-bold transition duration-300"
-          >
-            <LogIn className="w-4 h-4" />
-            <span className="hidden sm:inline">로그인</span>
-          </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`p-2 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-primary transition duration-200 ${
+                isActive('/admin') ? 'text-primary' : ''
+              }`}
+              title="Admin Panel"
+            >
+              <ShieldAlert className="w-5 h-5" />
+            </Link>
+          )}
+
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-3">
+              <span className="hidden sm:inline-block text-sm font-body font-bold text-on-surface">
+                {user?.nickname}님
+              </span>
+              <button
+                onClick={logout}
+                className="flex items-center space-x-2 px-4 py-2 bg-surface-container text-on-surface-variant hover:bg-red-50 hover:text-red-600 rounded-xl text-sm font-body font-bold transition duration-200"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">로그아웃</span>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-1">
+              <Link
+                to="/login"
+                className="flex items-center space-x-2 px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-body font-bold transition duration-300"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>로그인</span>
+              </Link>
+              <Link
+                to="/register"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-on-surface-variant hover:bg-surface-container rounded-xl text-sm font-body font-bold transition duration-200"
+              >
+                <span>회원가입</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

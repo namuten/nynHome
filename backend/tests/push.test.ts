@@ -42,6 +42,15 @@ describe('POST /api/push/subscribe', () => {
     const res = await request(app).post('/api/push/subscribe').send(subDto);
     expect(res.status).toBe(401);
   });
+
+  it('올바르지 않은 endpoint URL 형식이면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/push/subscribe')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ endpoint: 'invalid-url', keys: { p256dh: 'key123', auth: 'auth123' } });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
 });
 
 describe('POST /api/push/send', () => {
@@ -63,5 +72,23 @@ describe('POST /api/push/send', () => {
       .set('Authorization', `Bearer ${userToken}`)
       .send({ title: '글', body: '내용' });
     expect(res.status).toBe(403);
+  });
+
+  it('제목이 빈 문자열이면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/push/send')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ title: '', body: '내용' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+
+  it('url이 /로 시작하지 않으면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/push/send')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ title: '글', body: '내용', url: 'https://external.com' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
   });
 });

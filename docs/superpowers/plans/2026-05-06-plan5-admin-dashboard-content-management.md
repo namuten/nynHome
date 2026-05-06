@@ -317,14 +317,14 @@ git commit -m "feat(admin): protect admin routes by role"
 - Create: `frontend/src/components/admin/AdminStatusBadge.tsx`
 - Modify/Create: `frontend/src/pages/admin/*.tsx`
 
-- [ ] **Step 1: Admin shell 작성**
+- [x] **Step 1: Admin shell 작성**
 
 구성:
 - desktop: left sidebar + topbar + content panel
 - mobile/tablet: top nav 또는 collapsible drawer
 - page title, description, primary action slot 지원
 
-- [ ] **Step 2: 관리자 navigation 항목 추가**
+- [x] **Step 2: 관리자 navigation 항목 추가**
 
 ```text
 Dashboard → /admin
@@ -342,25 +342,25 @@ Schedule → disabled or /admin/schedule 준비중
 Settings → disabled or /admin/settings 준비중
 ```
 
-- [ ] **Step 3: 공통 UI 컴포넌트 작성**
+- [x] **Step 3: 공통 UI 컴포넌트 작성**
 
 관리자 페이지에서 반복되는 table, empty state, confirm dialog, status badge를 공통화한다.
 
-- [ ] **Step 4: 디자인 시스템 적용**
+- [x] **Step 4: 디자인 시스템 적용**
 
 - glass card 배경
 - lavender/pink/green accent
 - 충분한 contrast
 - focus ring 및 keyboard navigation
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/components/admin frontend/src/pages/admin

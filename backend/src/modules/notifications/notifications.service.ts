@@ -148,7 +148,7 @@ export class NotificationsService {
     onNewGuestbook?: boolean;
     onReportFlagged?: boolean;
     emailDigestFreq?: string;
-    emailAddress?: string;
+    emailAddress?: string | null;
   }) {
     // Upsert preference
     return prisma.notificationPreference.upsert({

@@ -4,6 +4,7 @@ import Footer from './Footer';
 import MobileNav from './MobileNav';
 import PageContainer from './PageContainer';
 import PwaInstallBanner from '../common/PwaInstallBanner';
+import UpdatePrompt from '../common/UpdatePrompt';
 import { AnalyticsProvider } from '../analytics/AnalyticsProvider';
 
 export default function AppShell() {
@@ -11,6 +12,7 @@ export default function AppShell() {
     <AnalyticsProvider>
       <div className="min-h-screen flex flex-col bg-background pb-16 md:pb-0">
         <PwaInstallBanner />
+        <UpdatePrompt />
         <SiteHeader />
         <PageContainer>
           <Outlet />

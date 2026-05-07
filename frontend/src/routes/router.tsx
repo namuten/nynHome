@@ -15,6 +15,7 @@ import PrivacySafetyPage from '../pages/PrivacySafetyPage';
 import SearchPage from '../pages/SearchPage';
 import TagsCloudPage from '../pages/TagsCloudPage';
 import TagDetailPage from '../pages/TagDetailPage';
+import OfflinePage from '../pages/OfflinePage';
 
 // Portfolio imports
 import PortfolioPage from '../pages/portfolio/PortfolioPage';
@@ -75,6 +76,7 @@ export const router = createBrowserRouter([
       { path: 'search', element: <SearchPage /> },
       { path: 'tags', element: <TagsCloudPage /> },
       { path: 'tags/:slug', element: <TagDetailPage /> },
+      { path: 'offline', element: <OfflinePage /> },
       {
         element: <AdminRouteGuard />,
         children: [

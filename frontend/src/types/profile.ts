@@ -8,10 +8,10 @@ export interface ProfileSettings {
   id: number;
   locale: LocaleCode;
   displayName: string;
-  tagline: string;
-  bio: string;
-  avatarUrl: string;
-  coverImageUrl: string;
+  tagline: string | null;
+  bio: string | null;
+  avatarUrl: string | null;
+  coverImageUrl: string | null;
   school: string | null;
   location: string | null;
   emailPublic: string | null;

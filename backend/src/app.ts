@@ -12,6 +12,7 @@ import adminRouter from './modules/admin/admin.router';
 import profileRouter from './modules/profile/profile.router';
 import portfolioRouter from './modules/portfolio/portfolio.router';
 import showcaseRouter from './modules/showcase/showcase.router';
+import seoRouter from './modules/seo/seo.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -37,6 +38,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);
 app.use('/api', showcaseRouter);
+app.use('/api', seoRouter);
 
 app.use(errorMiddleware);
 

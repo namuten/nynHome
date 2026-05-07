@@ -570,3 +570,41 @@
   ```
 - **Response (200)**: `{ "success": true }`
 
+## 12. SEO & Open Graph Settings
+
+### GET /api/seo
+- **Auth**: Public
+- **Query Parameters**:
+  - `routeKey` (string, required) - 예: "home", "portfolio", "blog"
+  - `locale` (string, optional) - "ko" | "en" (기본값: "ko")
+- **Response (200)**:
+  ```json
+  {
+    "id": 1,
+    "routeKey": "home",
+    "locale": "ko",
+    "title": "나만의 멋진 개발 홈피",
+    "description": "크록허브 포트폴리오 메인 홈",
+    "ogImageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
+    "keywords": ["블로그", "WebGL", "React"],
+    "createdAt": "2026-05-07T00:00:00.000Z",
+    "updatedAt": "2026-05-07T00:00:00.000Z"
+  }
+  ```
+
+### PUT /api/admin/seo/:routeKey
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "title": "나만의 멋진 개발 홈피",
+    "description": "크록허브 포트폴리오 메인 홈",
+    "ogImageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
+    "keywords": ["블로그", "WebGL", "React"],
+    "locale": "ko"
+  }
+  ```
+- **Response (200)**: 생성 또는 수정된 SeoSettings 객체
+- **Response (400)**: 유효하지 않은 검증 스펙인 경우 (`VALIDATION_ERROR`)
+
+

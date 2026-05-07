@@ -193,3 +193,18 @@ model ShowcaseItem {
 
   @@map("showcase_items")
 }
+
+model SeoSettings {
+  id          Int      @id @default(autoincrement())
+  routeKey    String   // 예: "home", "portfolio", "blog", "study"
+  locale      String   // "ko" | "en"
+  title       String
+  description String?  @db.Text
+  ogImageUrl  String?
+  keywords    Json?    // 예: ["React", "WebGL"]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([routeKey, locale])
+  @@map("seo_settings")
+}

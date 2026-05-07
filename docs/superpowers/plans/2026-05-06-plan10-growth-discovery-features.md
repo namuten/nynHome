@@ -621,14 +621,14 @@ frontend/src/components/admin/
 
 ### Steps
 
-- [ ] Step 1: `nodemailer` 의존성 추가
+- [x] Step 1: `nodemailer` 의존성 추가
 
 ```bash
 npm install nodemailer
 npm install --save-dev @types/nodemailer
 ```
 
-- [ ] Step 2: `backend/src/services/email.service.ts` — adapter 패턴
+- [x] Step 2: `backend/src/services/email.service.ts` — adapter 패턴
 
 ```typescript
 interface EmailAdapter {
@@ -641,7 +641,7 @@ class NodemailerAdapter implements EmailAdapter { ... }
 export const emailService = new EmailService(new NodemailerAdapter())
 ```
 
-- [ ] Step 3: `.env` 추가
+- [x] Step 3: `.env` 추가
 
 ```env
 EMAIL_SMTP_HOST=smtp.gmail.com
@@ -653,21 +653,21 @@ EMAIL_FROM="CrocHub <your@gmail.com>"
 
 > `.env.example`에 해당 키를 빈 값으로 추가하고 실제 값은 절대 커밋하지 않는다.
 
-- [ ] Step 4: `backend/src/jobs/emailDigest.job.ts` — 다이제스트 생성 잡
+- [x] Step 4: `backend/src/jobs/emailDigest.job.ts` — 다이제스트 생성 잡
 
   - `notification_preferences`에서 `emailDigestFreq !== 'never'` 인 관리자 조회
   - 마지막 다이제스트 발송 이후의 알림 집계
   - HTML 이메일 생성 (인라인 스타일, 브랜드 컬러 라벤더 퍼플)
   - `emailService.send()` 호출
 
-- [ ] Step 5: Plan 8 스케줄 잡 패턴 참조해 `emailDigest.job.ts`를 cron에 등록 (매일 08:00, 매주 월요일 08:00)
+- [x] Step 5: Plan 8 스케줄 잡 패턴 참조해 `emailDigest.job.ts`를 cron에 등록 (매일 08:00, 매주 월요일 08:00)
 
-- [ ] Step 6: 테스트:
+- [x] Step 6: 테스트:
   - `emailDigest.job collects unsent notifications`
   - `emailDigest.job skips users with emailDigestFreq=never`
   - `emailService.send calls nodemailer transport`
 
-- [ ] Step 7: 이메일 발송 실패는 throw가 아닌 error log만 남긴다 — 다이제스트 실패가 메인 서비스에 영향 주지 않도록.
+- [x] Step 7: 이메일 발송 실패는 throw가 아닌 error log만 남긴다 — 다이제스트 실패가 메인 서비스에 영향 주지 않도록.
 
 **Commit:** `feat(email): add email digest job with nodemailer adapter`
 

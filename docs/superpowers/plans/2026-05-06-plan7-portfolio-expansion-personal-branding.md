@@ -647,13 +647,13 @@ git commit -m "feat(portfolio): add portfolio sections API"
 - Create: `frontend/src/components/portfolio/PortfolioSectionRenderer.tsx`
 - Modify: `frontend/src/types/portfolio.ts`
 
-- [ ] **Step 1: portfolio API client 작성**
+- [x] **Step 1: portfolio API client 작성**
 
 ```typescript
 getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 ```
 
-- [ ] **Step 2: Portfolio landing 구현**
+- [x] **Step 2: Portfolio landing 구현**
 
 섹션:
 - intro hero
@@ -663,7 +663,7 @@ getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 - showcase CTA
 - resume CTA
 
-- [ ] **Step 3: Resume page 구현**
+- [x] **Step 3: Resume page 구현**
 
 이력서형 레이아웃:
 - education
@@ -673,22 +673,22 @@ getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 - goals
 - contact/social
 
-- [ ] **Step 4: section renderer 구현**
+- [x] **Step 4: section renderer 구현**
 
 sectionKey별 renderer를 두되 unknown section은 generic card로 렌더링한다.
 
-- [ ] **Step 5: print-friendly CSS 준비**
+- [x] **Step 5: print-friendly CSS 준비**
 
 PDF 자동 생성은 하지 않지만 브라우저 print에서 읽기 좋도록 최소 스타일을 추가한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/portfolio frontend/src/lib/portfolioApi.ts frontend/src/hooks/usePortfolio.ts frontend/src/components/portfolio frontend/src/types/portfolio.ts

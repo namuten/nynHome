@@ -990,11 +990,11 @@ git commit -m "feat(admin): add showcase editor"
 - Optional Modify: `backend/src/modules/media/*`
 - Optional Modify: `backend/tests/media.test.ts`
 
-- [ ] **Step 1: 오디오 media 식별 정책 확인**
+- [x] **Step 1: 오디오 media 식별 정책 확인**
 
 기존 media `fileCategory=audio`를 사용한다.
 
-- [ ] **Step 2: AudioPlayer 구현**
+- [x] **Step 2: AudioPlayer 구현**
 
 기능:
 - play/pause
@@ -1003,26 +1003,26 @@ git commit -m "feat(admin): add showcase editor"
 - volume 또는 mute
 - keyboard accessible controls
 
-- [ ] **Step 3: playlist mode 선택 구현**
+- [x] **Step 3: playlist mode 선택 구현**
 
 showcase detail에 audio media가 여러 개 있으면 playlist 형태로 표시한다.
 
-- [ ] **Step 4: fallback 처리**
+- [x] **Step 4: fallback 처리**
 
 브라우저에서 재생할 수 없는 MIME이면 다운로드 link 또는 “미리듣기 불가” 표시.
 
-- [ ] **Step 5: 모바일 UX 확인**
+- [x] **Step 5: 모바일 UX 확인**
 
 터치 target이 충분히 커야 한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/components/showcase/AudioPlayer.tsx frontend/src/components/showcase/ShowcaseDetail.tsx frontend/src/types/showcase.ts backend/src/modules/media backend/tests/media.test.ts

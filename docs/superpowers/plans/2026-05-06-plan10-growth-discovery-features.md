@@ -596,19 +596,19 @@ frontend/src/components/admin/
 
 ### Steps
 
-- [ ] Step 1: `TagsListPage.tsx` — 태그 목록 테이블, 인라인 색상 picker, slug 표시
+- [x] Step 1: `TagsListPage.tsx` — 태그 목록 테이블, 인라인 색상 picker, slug 표시
 
-- [ ] Step 2: `ContentTagSelector.tsx` — 기존 게시글/이미지/영상 편집 폼에 삽입 가능한 multi-select 태그 컴포넌트
+- [x] Step 2: `ContentTagSelector.tsx` — 기존 게시글/이미지/영상 편집 폼에 삽입 가능한 multi-select 태그 컴포넌트
 
-- [ ] Step 3: `CollectionsListPage.tsx` — 컬렉션 목록, 공개/비공개 토글, 생성 모달
+- [x] Step 3: `CollectionsListPage.tsx` — 컬렉션 목록, 공개/비공개 토글, 생성 모달
 
-- [ ] Step 4: `CollectionEditPage.tsx` — 아이템 검색 후 추가, 기존 아이템 제거, 드래그 순서 변경
+- [x] Step 4: `CollectionEditPage.tsx` — 아이템 검색 후 추가, 기존 아이템 제거, 드래그 순서 변경
 
-- [ ] Step 5: Admin 사이드바에 "태그 관리", "컬렉션 관리" 메뉴 추가
+- [x] Step 5: Admin 사이드바에 "태그 관리", "컬렉션 관리" 메뉴 추가
 
-- [ ] Step 6: Public 태그 탐색 페이지 `/tags` — 태그 클라우드, 태그 클릭 시 콘텐츠 목록
+- [x] Step 6: Public 태그 탐색 페이지 `/tags` — 태그 클라우드, 태그 클릭 시 콘텐츠 목록
 
-- [ ] Step 7: 콘텐츠 카드에 태그 badge 표시 (최대 3개, 초과 시 +N)
+- [x] Step 7: 콘텐츠 카드에 태그 badge 표시 (최대 3개, 초과 시 +N)
 
 **Commit:** `feat(admin): add tags and collections management UI`
 

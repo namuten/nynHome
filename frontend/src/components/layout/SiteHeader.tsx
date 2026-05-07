@@ -3,6 +3,7 @@ import { Home, Image, BookOpen, GraduationCap, User as UserIcon, ShieldAlert, Lo
 import { useAuth } from '../../hooks/useAuth';
 import { useLocale } from '../../hooks/useLocale';
 import LocaleToggle from '../LocaleToggle';
+import NotificationBell from '../notifications/NotificationBell';
 
 export default function SiteHeader() {
   const location = useLocation();
@@ -52,6 +53,10 @@ export default function SiteHeader() {
         {/* Auth / Right menu */}
         <div className="flex items-center space-x-2">
           <LocaleToggle />
+
+          {isAuthenticated && (
+            <NotificationBell isAdmin={isAdmin} />
+          )}
 
           {isAdmin && (
             <Link

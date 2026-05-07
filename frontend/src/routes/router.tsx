@@ -44,6 +44,7 @@ import AdminAuditLogsPage from '../pages/admin/AdminAuditLogsPage';
 import AdminOperationsPage from '../pages/admin/AdminOperationsPage';
 import AdminModerationPage from '../pages/admin/AdminModerationPage';
 import AdminReportsPage from '../pages/admin/AdminReportsPage';
+import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage';
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,7 @@ export const router = createBrowserRouter([
               { path: 'operations', element: <AdminOperationsPage /> },
               { path: 'moderation', element: <AdminModerationPage /> },
               { path: 'reports', element: <AdminReportsPage /> },
+              { path: 'notifications/preferences', element: <AdminNotificationsPage /> },
             ],
           },
         ],

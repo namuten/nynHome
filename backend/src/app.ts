@@ -25,6 +25,7 @@ import moderationRouter from './modules/moderation/moderation.router';
 import guestbookRouter from './modules/guestbook/guestbook.router';
 import notificationsRouter from './modules/notifications/notifications.router';
 import searchRouter from './modules/search/search.router';
+import tagsRouter from './modules/tags/tags.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -86,6 +87,7 @@ app.use('/api/admin', moderationRouter);
 app.use('/api/guestbook', guestbookRouter);
 app.use('/api/notifications', notificationsRouter);
 app.use('/api', searchRouter);
+app.use('/api', tagsRouter);
 app.use('/api', analyticsRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);

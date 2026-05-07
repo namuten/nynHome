@@ -17,10 +17,11 @@ model User {
   role         Role     @default(user)
   createdAt    DateTime @default(now())
 
-  comments        Comment[]
-  pushSubs        PushSubscription[]
-  reports         CommentReport[]    @relation("UserReports")
-  resolvedReports CommentReport[]    @relation("AdminResolvedReports")
+  comments          Comment[]
+  pushSubs          PushSubscription[]
+  reports           CommentReport[]    @relation("UserReports")
+  resolvedReports   CommentReport[]    @relation("AdminResolvedReports")
+  moderatedComments Comment[]          @relation("AdminModeratedComments")
 
   @@map("users")
 }
@@ -106,17 +107,21 @@ model MediaTypeConfig {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  postId    Int
-  userId    Int
-  body      String   @db.Text
-  reply     String?  @db.Text
-  isHidden  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id                 Int       @id @default(autoincrement())
+  postId             Int
+  userId             Int
+  body               String    @db.Text
+  reply              String?   @db.Text
+  isHidden           Boolean   @default(false)
+  hiddenReason       String?   @map("hidden_reason") @db.VarChar(200)
+  moderatedAt        DateTime? @map("moderated_at")
+  moderatedByAdminId Int?      @map("moderated_by_admin_id")
+  createdAt          DateTime  @default(now())
 
-  post    Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reports CommentReport[]
+  post             Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moderatedByAdmin User?           @relation("AdminModeratedComments", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
+  reports          CommentReport[]
 
   @@map("comments")
 }

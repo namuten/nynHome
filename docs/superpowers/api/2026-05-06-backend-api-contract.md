@@ -873,3 +873,76 @@
   - `404`: COMMENT_NOT_FOUND (존재하지 않는 댓글)
   - `409`: ALREADY_REPORTED (이미 신고한 댓글)
 
+### GET /api/admin/reports
+- **Auth**: Admin
+- **Query Params**:
+  - `type` (optional): 'comment' | 'guestbook'
+  - `status` (optional): 'open' | 'reviewing' | 'resolved' | 'rejected'
+  - `page` (optional): default 1
+  - `limit` (optional): default 20
+- **Response (200)**:
+  ```json
+  {
+    "items": [
+      {
+        "id": 1,
+        "commentId": 42,
+        "reporterUserId": 5,
+        "reason": "spam",
+        "description": "...",
+        "status": "open",
+        "createdAt": "2026-05-07T12:00:00Z"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
+  }
+  ```
+
+### PATCH /api/admin/reports/:type/:id/status
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "status": "resolved",
+    "resolutionNote": "숨김 처리 완료"
+  }
+  ```
+- **Response (200)**: `CommentReport` 객체
+
+### GET /api/admin/moderation/queue
+- **Auth**: Admin
+- **Query Params**:
+  - `status` (optional): 'open' | 'reviewing'
+  - `kind` (optional): 'comment' | 'guestbook'
+- **Response (200)**:
+  ```json
+  [
+    {
+      "queueId": "comment_report_1",
+      "kind": "comment",
+      "targetId": 42,
+      "contentBody": "스팸 내용",
+      "reporter": "User123",
+      "reason": "spam",
+      "description": "...",
+      "status": "open",
+      "createdAt": "2026-05-07T12:00:00Z",
+      "isHidden": false
+    }
+  ]
+  ```
+
+### PATCH /api/admin/comments/:id/moderation
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "isHidden": true,
+    "hiddenReason": "spam"
+  }
+  ```
+- **Response (200)**: 업데이트된 `Comment` 객체
+

@@ -920,13 +920,13 @@ git commit -m "feat(admin): add analytics dashboard"
 
 **Files:**
 - Create/Modify: `backend/src/modules/seo/sitemap.service.ts`
-- Modify: `backend/src/modules/seo/seo.router.ts` or `backend/src/app.ts`
+- Modify: `backend/src/app.ts`
 - Create: `backend/scripts/generate-sitemap.ts`
 - Create: `backend/tests/sitemap.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 - Optional Modify: `nginx/nginx.conf`
 
-- [ ] **Step 1: sitemap source 정의**
+- [x] **Step 1: sitemap source 정의**
 
 포함 대상:
 - `/`
@@ -938,7 +938,7 @@ git commit -m "feat(admin): add analytics dashboard"
 - published showcase items
 - category pages: `/gallery`, `/blog`, `/study`
 
-- [ ] **Step 2: public sitemap endpoint 구현**
+- [x] **Step 2: public sitemap endpoint 구현**
 
 ```text
 GET /sitemap.xml
@@ -955,7 +955,7 @@ Response:
 PUBLIC_SITE_URL=https://example.com
 ```
 
-- [ ] **Step 3: robots endpoint 구현**
+- [x] **Step 3: robots endpoint 구현**
 
 ```text
 GET /robots.txt
@@ -969,13 +969,9 @@ Allow: /
 Sitemap: https://example.com/sitemap.xml
 ```
 
-- [ ] **Step 4: admin preview optional 구현**
+- [x] **Step 4: admin preview optional 구현**
 
-```text
-GET /api/seo/sitemap-preview admin
-```
-
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /sitemap.xml -> 200 application/xml
@@ -983,7 +979,7 @@ GET /robots.txt -> 200 text/plain
 sitemap includes published post and excludes draft
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -991,7 +987,7 @@ npm test -- tests/sitemap.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/modules/seo backend/scripts/generate-sitemap.ts backend/tests/sitemap.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md nginx/nginx.conf

@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '../../lib/adminApi';
-import { UploadCloud, Trash2, FileText, AlertCircle, Link2 } from 'lucide-react';
+import { UploadCloud, Trash2, FileText, AlertCircle, Link2, RotateCw } from 'lucide-react';
 import AdminConfirmDialog from '../../components/admin/AdminConfirmDialog';
+import { getOptimizedImageUrl } from '../../lib/media';
 
 export default function AdminMediaPage() {
   const queryClient = useQueryClient();
@@ -22,6 +23,14 @@ export default function AdminMediaPage() {
   // Delete media mutation
   const deleteMutation = useMutation({
     mutationFn: (id: number) => adminApi.deleteAdminMedia(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'media'] });
+    },
+  });
+
+  // Regenerate media derivatives mutation
+  const regenerateMutation = useMutation({
+    mutationFn: (id: number) => adminApi.regenerateAdminMediaDerivatives(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'media'] });
     },
@@ -167,7 +176,7 @@ export default function AdminMediaPage() {
                   <div className="relative aspect-square w-full bg-surface-container-low/50 overflow-hidden shrink-0 border-b border-surface-container">
                     {isImage ? (
                       <img
-                        src={item.fileUrl}
+                        src={getOptimizedImageUrl(item, 'thumb_medium')}
                         alt={item.fileName}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                         loading="lazy"
@@ -189,10 +198,38 @@ export default function AdminMediaPage() {
                       </div>
                     )}
 
-                    {/* Hover delete button trigger overlay */}
+                    {/* Image Derivatives Optimization status badge overlay */}
+                    {isImage && (
+                      <div className={`absolute top-3 right-3 backdrop-blur-md px-2 py-1 rounded-xl text-[9px] font-black border flex items-center gap-1 shadow-sm select-none ${
+                        item.derivatives && item.derivatives.length > 0
+                          ? 'bg-emerald-500/90 text-white border-emerald-500/20'
+                          : 'bg-amber-500/90 text-white border-amber-500/20'
+                      }`}>
+                        <span>{item.derivatives && item.derivatives.length > 0 ? '⚡ WebP 완료' : '⚠️ 미최적화'}</span>
+                      </div>
+                    )}
+
+                    {/* Hover action buttons overlay */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      {isImage && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            regenerateMutation.mutate(item.id);
+                          }}
+                          disabled={regenerateMutation.isPending}
+                          className="p-3 bg-primary text-white rounded-2xl hover:bg-primary-container hover:text-primary hover:scale-110 active:scale-95 transition-all shadow-lg disabled:opacity-50"
+                          title="썸네일 재생성 및 최적화 실행"
+                        >
+                          <RotateCw className={`w-4 h-4 ${regenerateMutation.isPending ? 'animate-spin' : ''}`} />
+                        </button>
+                      )}
+
                       <button
-                        onClick={() => setDeleteId(item.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteId(item.id);
+                        }}
                         className="p-3 bg-red-500 text-white rounded-2xl hover:bg-red-600 hover:scale-110 active:scale-95 transition-all shadow-lg"
                         title="자산 삭제"
                       >

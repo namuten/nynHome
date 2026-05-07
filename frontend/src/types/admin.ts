@@ -1,4 +1,4 @@
-import type { User, PostSummary, CommentItem } from './api';
+import type { User, PostSummary, CommentItem, MediaDerivative } from './api';
 
 export interface AdminPostListItem extends PostSummary {
   isPublished: boolean;
@@ -14,6 +14,7 @@ export interface AdminMediaItem {
   fileName: string;
   fileSize: string | number;
   createdAt: string;
+  derivatives?: MediaDerivative[];
 }
 
 export interface AdminUserListItem extends User {}

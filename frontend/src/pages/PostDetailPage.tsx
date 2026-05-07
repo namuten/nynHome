@@ -7,6 +7,8 @@ import CommentForm from '../components/comments/CommentForm';
 import CommentList from '../components/comments/CommentList';
 import { ArrowLeft, Clock, Eye, AlertTriangle } from 'lucide-react';
 
+import { getOptimizedImageUrl } from '../lib/media';
+
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
   const postId = Number(id);
@@ -111,7 +113,12 @@ export default function PostDetailPage() {
             {post.media.map((item) => (
               <div key={item.id} className="rounded-2xl overflow-hidden border border-surface-container bg-surface-container/25">
                 {item.type.startsWith('image/') ? (
-                  <img src={item.url} alt={item.filename} className="w-full h-auto object-cover" />
+                  <img
+                    src={getOptimizedImageUrl(item, 'web_optimized')}
+                    alt={item.filename}
+                    loading="lazy"
+                    className="w-full h-auto object-cover aspect-video"
+                  />
                 ) : (
                   <div className="p-4 text-xs font-semibold text-primary text-center">
                     파일 첨부: <a href={item.url} target="_blank" className="underline">{item.filename}</a>

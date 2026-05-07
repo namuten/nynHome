@@ -22,9 +22,9 @@ export default function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full glass-surface border-b border-surface-container transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4 lg:gap-8">
         {/* Brand */}
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2 shrink-0 whitespace-nowrap">
           <img 
             src="/branding/crochub-logo.svg" 
             alt="CrocHub Logo" 
@@ -57,7 +57,7 @@ export default function SiteHeader() {
         </nav>
 
         {/* Auth / Right menu */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
           <div className="hidden sm:block">
             <SearchBar />
           </div>
@@ -70,7 +70,7 @@ export default function SiteHeader() {
           {isAdmin && (
             <Link
               to="/admin"
-              className={`p-2 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-primary transition duration-200 ${
+              className={`p-2 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-primary transition duration-200 shrink-0 ${
                 isActive('/admin') ? 'text-primary' : ''
               }`}
               title="Admin Panel"
@@ -80,15 +80,15 @@ export default function SiteHeader() {
           )}
 
           {isAuthenticated ? (
-            <div className="flex items-center space-x-3">
-              <span className="hidden sm:inline-block text-sm font-body font-bold text-on-surface">
+            <div className="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
+              <span className="hidden sm:inline-block text-sm font-body font-bold text-on-surface whitespace-nowrap shrink-0">
                 {user?.nickname}님
               </span>
               <button
                 onClick={logout}
-                className="flex items-center space-x-2 px-4 py-2 bg-surface-container text-on-surface-variant hover:bg-red-50 hover:text-red-600 rounded-xl text-sm font-body font-bold transition duration-200"
+                className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 bg-surface-container text-on-surface-variant hover:bg-red-50 hover:text-red-600 rounded-xl text-sm font-body font-bold transition duration-200 whitespace-nowrap shrink-0"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-4 h-4 shrink-0" />
                 <span className="hidden sm:inline">로그아웃</span>
               </button>
             </div>

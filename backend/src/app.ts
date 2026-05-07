@@ -37,9 +37,14 @@ app.use(auditMiddleware);
 app.use(cors());
 app.use(express.json());
 
+// Cache policy controls
+import { noCacheMiddleware, setCacheHeader } from './lib/cacheHeaders';
+app.use('/api', noCacheMiddleware);
+
 app.get('/sitemap.xml', async (_req, res) => {
   try {
     const xml = await generateSitemapXml();
+    setCacheHeader(res, 'SITEMAP_ROBOTS');
     res.header('Content-Type', 'application/xml');
     res.send(xml);
   } catch (err) {
@@ -49,11 +54,14 @@ app.get('/sitemap.xml', async (_req, res) => {
 
 app.get('/robots.txt', (_req, res) => {
   const robots = generateRobotsTxt();
+  setCacheHeader(res, 'SITEMAP_ROBOTS');
   res.header('Content-Type', 'text/plain');
   res.send(robots);
 });
 
 app.get('/api/health', (_req, res) => {
+  // Overwrite dynamic API no-store for health probe so proxy load balancers can cache health results if desired
+  setCacheHeader(res, 'SITEMAP_ROBOTS');
   res.json({ status: 'ok' });
 });
 

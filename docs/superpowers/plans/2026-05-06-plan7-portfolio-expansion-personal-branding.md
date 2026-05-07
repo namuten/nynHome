@@ -919,7 +919,7 @@ git commit -m "feat(showcase): add public showcase gallery"
 - Modify: `frontend/src/lib/showcaseApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: showcase admin list 구현**
+- [x] **Step 1: showcase admin list 구현**
 
 표시:
 - title
@@ -930,7 +930,7 @@ git commit -m "feat(showcase): add public showcase gallery"
 - updatedAt
 - actions
 
-- [ ] **Step 2: ShowcaseEditorForm 작성**
+- [x] **Step 2: ShowcaseEditorForm 작성**
 
 필드:
 - title
@@ -945,11 +945,11 @@ git commit -m "feat(showcase): add public showcase gallery"
 - isFeatured
 - isPublished
 
-- [ ] **Step 3: media picker 연동**
+- [x] **Step 3: media picker 연동**
 
 Plan 5/6 media library picker를 재사용한다.
 
-- [ ] **Step 4: slug preview 구현**
+- [x] **Step 4: slug preview 구현**
 
 public URL preview:
 
@@ -957,22 +957,22 @@ public URL preview:
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 5: publish flow 구현**
+- [x] **Step 5: publish flow 구현**
 
 draft/published 상태를 명확히 보여주고 public page link는 published일 때 강조한다.
 
-- [ ] **Step 6: 삭제 flow 구현**
+- [x] **Step 6: 삭제 flow 구현**
 
 confirm dialog 사용.
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminShowcasePage.tsx frontend/src/pages/admin/AdminShowcaseNewPage.tsx frontend/src/pages/admin/AdminShowcaseEditPage.tsx frontend/src/components/admin/ShowcaseEditorForm.tsx frontend/src/components/admin/MediaPicker.tsx frontend/src/lib frontend/src/types/showcase.ts

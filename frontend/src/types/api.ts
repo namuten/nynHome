@@ -21,6 +21,7 @@ export interface PostSummary {
   viewCount: number;
   commentCount?: number;
   thumbnailUrl?: string | null;
+  tags?: { id: number; name: string; color: string | null; slug: string }[];
 }
 
 export interface PostDetail {
@@ -43,11 +44,24 @@ export interface PaginatedResponse<T> {
   };
 }
 
+export interface MediaDerivative {
+  id: number;
+  mediaId: number;
+  derivativeType: 'thumb_small' | 'thumb_medium' | 'web_optimized';
+  fileUrl: string;
+  width?: number | null;
+  height?: number | null;
+  mimeType: string;
+  fileSize: number | string;
+  createdAt: string;
+}
+
 export interface MediaItem {
   id: number;
   url: string;
   type: string;
   filename: string;
+  derivatives?: MediaDerivative[];
 }
 
 export interface CommentItem {

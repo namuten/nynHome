@@ -1,6 +1,9 @@
 import axios from 'axios';
+import { Capacitor } from '@capacitor/core';
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+export const API_BASE_URL = 
+  import.meta.env.VITE_API_BASE_URL ?? 
+  (Capacitor.isNativePlatform() ? 'https://crochub.namuten.com' : '/api');
 
 export const api = axios.create({
   baseURL: API_BASE_URL,

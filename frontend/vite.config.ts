@@ -9,33 +9,13 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico'],
-      manifest: {
-        name: 'CrocHub',
-        short_name: 'CrocHub',
-        description: 'Creative, Blog, and Study Archive',
-        theme_color: '#6844c7',
-        background_color: '#fbf8ff',
-        display: 'standalone',
-        start_url: '/',
-        icons: [
-          {
-            src: 'icons/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-        navigateFallback: '/index.html'
-      }
+      registerType: 'prompt',       // 업데이트 시 사용자에게 확인 요청
+      injectRegister: 'auto',
+      strategies: 'injectManifest', // 커스텀 SW와 통합하기 위해 injectManifest 사용
+      srcDir: 'src',
+      filename: 'sw.ts',
+      manifest: false,              // manifest.json은 별도 관리
+      devOptions: { enabled: true }
     })
   ],
 })

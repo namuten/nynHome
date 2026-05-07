@@ -1,0 +1,90 @@
+name: Mobile Build
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+jobs:
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies and build web dist
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: frontend/dist
+
+  ios-build:
+    runs-on: macos-latest
+    needs: web-build
+    if: startsWith(github.ref, 'refs/tags/')  # 오직 태그 push 시에만 릴리즈 빌드 실행
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: frontend/dist
+      - name: Install Node & Capacitor Sync iOS
+        run: |
+          cd frontend
+          npm ci
+          npx cap sync ios
+      - name: Import Apple Certificates
+        uses: apple-actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.APPLE_P12_BASE64 }}
+          p12-password: ${{ secrets.APPLE_P12_PASSWORD }}
+      - name: Build iOS Archive & IPA
+        run: |
+          cd frontend
+          xcodebuild -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath ios/App/build/App.xcarchive \
+            archive
+          # 이후 xcrun altool 또는 Fastlane deliver를 연동하여 TestFlight / App Store Connect에 배포합니다.
+
+  android-build:
+    runs-on: ubuntu-latest
+    needs: web-build
+    if: startsWith(github.ref, 'refs/tags/')  # 오직 태그 push 시에만 릴리즈 빌드 실행
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: frontend/dist
+      - name: Install Node & Capacitor Sync Android
+        run: |
+          cd frontend
+          npm ci
+          npx cap sync android
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Inject Android Keystore and Build Release AAB
+        run: |
+          cd frontend
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/crochub-release.jks
+          cd android
+          ./gradlew bundleRelease
+      - name: Upload to Google Play Console
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+          packageName: com.crochub.app
+          releaseFiles: frontend/android/app/build/outputs/bundle/release/*.aab
+          track: internal

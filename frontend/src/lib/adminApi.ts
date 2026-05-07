@@ -82,6 +82,11 @@ export const adminApi = {
     await api.delete(`/media/${id}`);
   },
 
+  regenerateAdminMediaDerivatives: async (id: number) => {
+    const response = await api.post<{ status: 'SUCCESS' }>(`/media/${id}/derivatives/regenerate`);
+    return response.data;
+  },
+
   // Users
   getAdminUsers: async (params?: { page?: number; limit?: number }) => {
     const response = await api.get<PaginatedResponse<AdminUserListItem>>('/admin/users', {

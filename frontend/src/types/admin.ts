@@ -1,4 +1,4 @@
-import type { User, PostSummary, CommentItem } from './api';
+import type { User, PostSummary, CommentItem, MediaDerivative } from './api';
 
 export interface AdminPostListItem extends PostSummary {
   isPublished: boolean;
@@ -14,6 +14,7 @@ export interface AdminMediaItem {
   fileName: string;
   fileSize: string | number;
   createdAt: string;
+  derivatives?: MediaDerivative[];
 }
 
 export interface AdminUserListItem extends User {}
@@ -97,4 +98,25 @@ export interface PushSendRequest {
   body: string;
   url?: string;
 }
+
+export interface AuditLog {
+  id: number;
+  action: string;
+  resourceType: string;
+  resourceId?: string | null;
+  adminUserId?: number | null;
+  summary: string;
+  metadata?: any;
+  ipHash?: string | null;
+  userAgentSummary?: string | null;
+  createdAt: string;
+}
+
+export interface AuditLogListResponse {
+  data: AuditLog[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 

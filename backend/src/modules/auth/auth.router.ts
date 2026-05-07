@@ -1,10 +1,11 @@
 import { Router, Request, Response } from 'express';
 import * as authService from './auth.service';
 import { requireAuth } from '../../middleware/auth.middleware';
+import { authRateLimiter } from '../../middleware/rateLimit.middleware';
 
 const router = Router();
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', authRateLimiter, async (req: Request, res: Response) => {
   try {
     const user = await authService.register(req.body);
     res.status(201).json(user);
@@ -16,7 +17,7 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', authRateLimiter, async (req: Request, res: Response) => {
   try {
     const result = await authService.login(req.body);
     res.json(result);

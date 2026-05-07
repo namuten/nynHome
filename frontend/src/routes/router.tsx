@@ -9,6 +9,19 @@ import ProfilePage from '../pages/ProfilePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import GuestbookPage from '../pages/GuestbookPage';
+import CommunityGuidelinesPage from '../pages/CommunityGuidelinesPage';
+import PrivacySafetyPage from '../pages/PrivacySafetyPage';
+import SearchPage from '../pages/SearchPage';
+import TagsCloudPage from '../pages/TagsCloudPage';
+import TagDetailPage from '../pages/TagDetailPage';
+import OfflinePage from '../pages/OfflinePage';
+
+// Portfolio imports
+import PortfolioPage from '../pages/portfolio/PortfolioPage';
+import ResumePage from '../pages/portfolio/ResumePage';
+import ShowcasePage from '../pages/portfolio/ShowcasePage';
+import ShowcaseDetailPage from '../pages/portfolio/ShowcaseDetailPage';
 
 // Admin imports
 import AdminRouteGuard from '../components/admin/AdminRouteGuard';
@@ -24,6 +37,21 @@ import AdminLayoutPage from '../pages/admin/AdminLayoutPage';
 import AdminSchedulePage from '../pages/admin/AdminSchedulePage';
 import AdminSettingsPage from '../pages/admin/AdminSettingsPage';
 import AdminPushPage from '../pages/admin/AdminPushPage';
+import AdminProfilePage from '../pages/admin/AdminProfilePage';
+import AdminPortfolioPage from '../pages/admin/AdminPortfolioPage';
+import AdminShowcasePage from '../pages/admin/AdminShowcasePage';
+import AdminShowcaseNewPage from '../pages/admin/AdminShowcaseNewPage';
+import AdminShowcaseEditPage from '../pages/admin/AdminShowcaseEditPage';
+import AdminSeoPage from '../pages/admin/AdminSeoPage';
+import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage';
+import AdminAuditLogsPage from '../pages/admin/AdminAuditLogsPage';
+import AdminOperationsPage from '../pages/admin/AdminOperationsPage';
+import AdminModerationPage from '../pages/admin/AdminModerationPage';
+import AdminReportsPage from '../pages/admin/AdminReportsPage';
+import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage';
+import TagsListPage from '../pages/admin/tags/TagsListPage';
+import CollectionsListPage from '../pages/admin/collections/CollectionsListPage';
+import CollectionEditPage from '../pages/admin/collections/CollectionEditPage';
 
 export const router = createBrowserRouter([
   {
@@ -36,8 +64,19 @@ export const router = createBrowserRouter([
       { path: 'study', element: <StudyPage /> },
       { path: 'post/:id', element: <PostDetailPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'portfolio', element: <PortfolioPage /> },
+      { path: 'portfolio/resume', element: <ResumePage /> },
+      { path: 'portfolio/showcase', element: <ShowcasePage /> },
+      { path: 'portfolio/showcase/:slug', element: <ShowcaseDetailPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
+      { path: 'guestbook', element: <GuestbookPage /> },
+      { path: 'community-guidelines', element: <CommunityGuidelinesPage /> },
+      { path: 'privacy-safety', element: <PrivacySafetyPage /> },
+      { path: 'search', element: <SearchPage /> },
+      { path: 'tags', element: <TagsCloudPage /> },
+      { path: 'tags/:slug', element: <TagDetailPage /> },
+      { path: 'offline', element: <OfflinePage /> },
       {
         element: <AdminRouteGuard />,
         children: [
@@ -56,6 +95,21 @@ export const router = createBrowserRouter([
               { path: 'schedule', element: <AdminSchedulePage /> },
               { path: 'settings', element: <AdminSettingsPage /> },
               { path: 'push', element: <AdminPushPage /> },
+              { path: 'profile', element: <AdminProfilePage /> },
+              { path: 'portfolio', element: <AdminPortfolioPage /> },
+              { path: 'showcase', element: <AdminShowcasePage /> },
+              { path: 'showcase/new', element: <AdminShowcaseNewPage /> },
+              { path: 'showcase/:id/edit', element: <AdminShowcaseEditPage /> },
+              { path: 'seo', element: <AdminSeoPage /> },
+              { path: 'analytics', element: <AdminAnalyticsPage /> },
+              { path: 'audit-logs', element: <AdminAuditLogsPage /> },
+              { path: 'operations', element: <AdminOperationsPage /> },
+              { path: 'moderation', element: <AdminModerationPage /> },
+              { path: 'reports', element: <AdminReportsPage /> },
+              { path: 'notifications/preferences', element: <AdminNotificationsPage /> },
+              { path: 'tags', element: <TagsListPage /> },
+              { path: 'collections', element: <CollectionsListPage /> },
+              { path: 'collections/:id', element: <CollectionEditPage /> },
             ],
           },
         ],

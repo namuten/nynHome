@@ -42,7 +42,12 @@ export default function RegisterPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-16 space-y-6">
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-3">
+        <img 
+          src="/branding/crochub-logo.svg" 
+          alt="CrocHub Logo" 
+          className="w-16 h-16 mx-auto rounded-3xl object-contain bg-primary/10 border border-primary/20 p-1.5 shadow-md" 
+        />
         <h1 className="text-3xl font-display font-bold text-primary">회원가입</h1>
         <p className="text-sm text-on-surface-variant font-body">나만의 창작 커뮤니티 계정을 생성하세요.</p>
       </div>

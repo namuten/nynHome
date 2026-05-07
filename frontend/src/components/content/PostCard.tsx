@@ -69,6 +69,39 @@ export default function PostCard({ post }: PostCardProps) {
         <h3 className="text-lg font-display font-bold text-on-surface line-clamp-2 group-hover:text-primary transition duration-200">
           {post.title}
         </h3>
+
+        {/* Tags Badges Row (최대 3개 노출, 초과 시 +N 표시) */}
+        {post.tags && post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {post.tags.slice(0, 3).map((t) => {
+              const chipColor = t.color || '#a78bfa';
+              return (
+                <span
+                  key={t.id}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.href = `/tags/${t.slug}`;
+                  }}
+                  style={{
+                    backgroundColor: `${chipColor}17`,
+                    borderColor: `${chipColor}33`,
+                    color: chipColor,
+                  }}
+                  className="px-2 py-0.5 text-[10px] font-extrabold rounded border transition-colors hover:brightness-110 shrink-0"
+                >
+                  #{t.name}
+                </span>
+              );
+            })}
+            {post.tags.length > 3 && (
+              <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-zinc-900 border border-zinc-800 text-zinc-500 shrink-0">
+                +{post.tags.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+
         <div className="flex items-center justify-between text-xs text-on-surface-variant font-body font-medium">
           <span>{formattedDate}</span>
           <div className="flex items-center space-x-2">

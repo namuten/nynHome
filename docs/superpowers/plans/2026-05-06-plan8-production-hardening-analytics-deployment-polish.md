@@ -308,7 +308,7 @@ docs/
 - Create: `frontend/src/pages/admin/AdminOperationsPage.tsx`
 - Create: `frontend/src/lib/operationsApi.ts`
 
-- [ ] **Step 1: Plan 7 완료 상태 확인**
+- [x] **Step 1: Plan 7 완료 상태 확인**
 
 ```bash
 find frontend/src -maxdepth 4 -type f | sort
@@ -320,7 +320,7 @@ Expected:
 - admin shell/nav 존재
 - API contract 최신 상태
 
-- [ ] **Step 2: admin nav에 운영 메뉴 추가**
+- [x] **Step 2: admin nav에 운영 메뉴 추가**
 
 ```text
 Analytics → /admin/analytics
@@ -328,11 +328,11 @@ Audit Logs → /admin/audit-logs
 Operations → /admin/operations
 ```
 
-- [ ] **Step 3: route placeholder 추가**
+- [x] **Step 3: route placeholder 추가**
 
 보호 라우트는 Plan 5의 AdminRouteGuard를 그대로 사용한다.
 
-- [ ] **Step 4: operations API client baseline 작성**
+- [x] **Step 4: operations API client baseline 작성**
 
 ```typescript
 getAdminAnalyticsSummary(params)
@@ -342,14 +342,14 @@ getBackupRuns(params)
 getSystemHealth()
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src
@@ -366,14 +366,14 @@ git commit -m "feat(operations): prepare admin operations routes"
 - Modify: `backend/src/app.ts`
 - Create/Modify: `backend/tests/security.test.ts`
 
-- [ ] **Step 1: request id middleware 작성**
+- [x] **Step 1: request id middleware 작성**
 
 - incoming `x-request-id`가 있으면 검증 후 사용
 - 없으면 UUID 생성
 - response header `x-request-id`로 반환
 - request context 또는 `req.requestId`에 저장
 
-- [ ] **Step 2: security headers 적용**
+- [x] **Step 2: security headers 적용**
 
 기본 headers:
 
@@ -386,18 +386,18 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 CSP는 Vite/nginx/static asset 정책과 충돌 가능성이 있으므로 별도 검증 후 적용한다.
 
-- [ ] **Step 3: Express trust proxy 정책 확인**
+- [x] **Step 3: Express trust proxy 정책 확인**
 
 nginx 뒤에서 IP 기반 rate limit을 할 경우 `app.set('trust proxy', 1)` 필요 여부를 운영 환경 기준으로 정한다.
 
-- [ ] **Step 4: 테스트 작성**
+- [x] **Step 4: 테스트 작성**
 
 ```text
 GET /api/health returns x-request-id
 GET /api/health returns security headers
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -405,7 +405,7 @@ npm test -- tests/security.test.ts
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/middleware backend/src/app.ts backend/tests/security.test.ts
@@ -426,7 +426,7 @@ git commit -m "feat(security): add request id and security headers"
 - Create: `backend/tests/rate-limit.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: rate limit strategy 확정**
+- [x] **Step 1: rate limit strategy 확정**
 
 권장 baseline:
 
@@ -438,7 +438,7 @@ Admin mutation: 120 requests / min / admin user
 Global fallback: 300 requests / 5 min / IP
 ```
 
-- [ ] **Step 2: dependency 선택**
+- [x] **Step 2: dependency 선택**
 
 초기에는 `express-rate-limit` 사용을 권장한다.
 
@@ -447,7 +447,7 @@ cd backend
 npm install express-rate-limit
 ```
 
-- [ ] **Step 3: 429 error format 표준화**
+- [x] **Step 3: 429 error format 표준화**
 
 ```json
 {
@@ -456,21 +456,21 @@ npm install express-rate-limit
 }
 ```
 
-- [ ] **Step 4: comment spam guard 추가**
+- [x] **Step 4: comment spam guard 추가**
 
 간단한 규칙:
 - 빈/반복 문자 방지
 - 동일 body 짧은 시간 반복 방지
 - URL 과다 포함 방지
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 POST /api/auth/login over limit -> 429 RATE_LIMITED
 POST /api/posts/:id/comments repeated spam -> 400 or 429
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -478,7 +478,7 @@ npm test -- tests/rate-limit.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/src/middleware backend/src/modules/comments backend/src/modules/auth backend/tests/rate-limit.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -500,29 +500,29 @@ git commit -m "feat(security): add rate limiting and spam protection"
 - Create: `backend/src/lib/userAgentSummary.ts`
 - Create: `backend/tests/audit.test.ts`
 
-- [ ] **Step 1: Prisma model 추가**
+- [x] **Step 1: Prisma model 추가**
 
 `audit_logs` model을 추가한다.
 
-- [ ] **Step 2: audit service 작성**
+- [x] **Step 2: audit service 작성**
 
 ```typescript
 recordAuditLog({ action, resourceType, resourceId, adminUserId, summary, metadata, req })
 ```
 
-- [ ] **Step 3: IP hash helper 작성**
+- [x] **Step 3: IP hash helper 작성**
 
 - 원문 IP 저장 금지 권장
 - `AUDIT_IP_HASH_SALT` 환경변수 사용
-- salt 없으면 production에서 경고 또는 비활성화 정책 결정
+- **salt 없으면 IP 저장 완전 비활성화 (확정)** — `AUDIT_IP_HASH_SALT`가 비어 있거나 없으면 `ip_hash` 필드에 `null`을 저장하고 서버 시작 시 경고 로그를 남긴다. 어떤 경우에도 원문 IP를 DB에 저장하지 않는다.
 
-- [ ] **Step 4: audit query API 구현**
+- [x] **Step 4: audit query API 구현**
 
 ```text
 GET /api/admin/audit-logs?page=&limit=&action=&resourceType=
 ```
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/admin/audit-logs without token -> 401
@@ -531,7 +531,7 @@ GET /api/admin/audit-logs as admin -> 200
 recordAuditLog stores action/resource/admin id
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -540,7 +540,7 @@ npm test -- tests/audit.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/audit backend/src/middleware/audit.middleware.ts backend/src/lib/ipHash.ts backend/src/lib/userAgentSummary.ts backend/src/app.ts backend/tests/audit.test.ts
@@ -564,7 +564,7 @@ git commit -m "feat(audit): add admin mutation audit log service"
 - Modify: `backend/src/modules/seo/*` if exists
 - Modify: `backend/tests/audit.test.ts`
 
-- [ ] **Step 1: audit 대상 action 목록 정의**
+- [x] **Step 1: audit 대상 action 목록 정의**
 
 ```text
 post.create / post.update / post.delete
@@ -581,13 +581,13 @@ seo.update
 push.send
 ```
 
-- [ ] **Step 2: service layer 또는 router layer 연결 결정**
+- [x] **Step 2: service layer 또는 router layer 연결 결정**
 
 권장:
 - mutation 성공 후 router에서 명시적으로 `recordAuditLog` 호출
 - 비즈니스 데이터 변경과 audit log를 같은 transaction에 묶을 수 있으면 service에서 처리
 
-- [ ] **Step 3: metadata 최소화**
+- [x] **Step 3: metadata 최소화**
 
 metadata에는 민감정보를 넣지 않는다.
 
@@ -609,7 +609,7 @@ R2 secret
 개인 이메일 대량 dump
 ```
 
-- [ ] **Step 4: 테스트 보강**
+- [x] **Step 4: 테스트 보강**
 
 대표 mutation 몇 개만 우선 검증한다.
 
@@ -620,7 +620,7 @@ PUT /api/admin/media-types/:id creates audit log settings.mediaType.update
 POST /api/push/send creates audit log push.send
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -629,7 +629,7 @@ npm test
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src backend/tests/audit.test.ts
@@ -647,13 +647,13 @@ git commit -m "feat(audit): record admin mutations"
 - Modify: `frontend/src/lib/operationsApi.ts`
 - Modify: `frontend/src/types/admin.ts`
 
-- [ ] **Step 1: API client 작성**
+- [x] **Step 1: API client 작성**
 
 ```typescript
 getAuditLogs({ page, limit, action, resourceType })
 ```
 
-- [ ] **Step 2: table UI 구현**
+- [x] **Step 2: table UI 구현**
 
 컬럼:
 - createdAt
@@ -663,25 +663,25 @@ getAuditLogs({ page, limit, action, resourceType })
 - summary
 - request id
 
-- [ ] **Step 3: filter UI 구현**
+- [x] **Step 3: filter UI 구현**
 
 - action select/search
 - resourceType select
 - date range는 analytics와 같이 후속도 가능
 - pagination
 
-- [ ] **Step 4: metadata details disclosure**
+- [x] **Step 4: metadata details disclosure**
 
 각 row에서 metadata JSON 요약을 펼쳐 볼 수 있게 한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminAuditLogsPage.tsx frontend/src/components/admin/AuditLogTable.tsx frontend/src/hooks/useAuditLogs.ts frontend/src/lib/operationsApi.ts frontend/src/types/admin.ts
@@ -701,11 +701,11 @@ git commit -m "feat(admin): add audit log viewer"
 - Create: `backend/tests/analytics.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: analytics models 추가**
+- [x] **Step 1: analytics models 추가**
 
 `analytics_events`, `daily_analytics_rollups`를 추가한다.
 
-- [ ] **Step 2: public event ingest endpoint 구현**
+- [x] **Step 2: public event ingest endpoint 구현**
 
 ```text
 POST /api/analytics/events
@@ -724,7 +724,7 @@ Request:
 }
 ```
 
-- [ ] **Step 3: validation 규칙**
+- [x] **Step 3: validation 규칙**
 
 - eventName: 1~120, allowlist 권장
 - route: 내부 path만 허용
@@ -733,7 +733,7 @@ Request:
 - metadata: object, size 제한
 - sessionId: raw 저장하지 않고 hash 저장
 
-- [ ] **Step 4: admin summary endpoints 구현**
+- [x] **Step 4: admin summary endpoints 구현**
 
 ```text
 GET /api/admin/analytics/summary?from=&to=
@@ -741,22 +741,35 @@ GET /api/admin/analytics/routes?from=&to=&limit=
 GET /api/admin/analytics/events?from=&to=&eventName=
 ```
 
-- [ ] **Step 5: retention 정책 문서화**
+- [x] **Step 5: retention 정책 문서화**
 
 권장:
 - raw analytics_events: 90일 보관
 - daily rollups: 2년 보관
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: rollup job 작성**
+
+파일: `backend/src/jobs/analyticsRollup.job.ts`
+
+동작:
+- 전날(UTC 기준) raw `analytics_events`를 집계해 `daily_analytics_rollups`에 upsert
+- `route + event_name` 기준으로 `count` / `unique_sessions` 집계
+- 중복 실행 안전 (upsert, idempotent)
+- 실행 방법: 서버 cron에서 `node dist/jobs/analyticsRollup.job.js` 매일 실행
+
+`daily_analytics_rollups` 없이 admin summary endpoint만 구현하면 집계 데이터가 실제로 쌓이지 않는다.
+
+- [x] **Step 7: 테스트 작성**
 
 ```text
 POST /api/analytics/events page_view -> 202 or 201
 POST invalid route -> 400
 GET /api/admin/analytics/summary as user -> 403
 GET /api/admin/analytics/summary as admin -> 200
+analyticsRollup.job produces correct rollup row for yesterday
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 8: 확인**
 
 ```bash
 cd backend
@@ -765,11 +778,11 @@ npm test -- tests/analytics.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
-git add backend/prisma/schema.prisma backend/src/modules/analytics backend/src/app.ts backend/tests/analytics.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
-git commit -m "feat(analytics): add privacy conscious event tracking API"
+git add backend/prisma/schema.prisma backend/src/modules/analytics backend/src/jobs/analyticsRollup.job.ts backend/src/app.ts backend/tests/analytics.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
+git commit -m "feat(analytics): add privacy conscious event tracking and rollup job"
 ```
 
 ---
@@ -781,10 +794,10 @@ git commit -m "feat(analytics): add privacy conscious event tracking API"
 - Create: `frontend/src/components/analytics/AnalyticsProvider.tsx`
 - Create: `frontend/src/components/analytics/RouteTracker.tsx`
 - Create: `frontend/src/hooks/useAnalytics.ts`
-- Modify: `frontend/src/main.tsx` 또는 app shell
+- Modify: `frontend/src/components/layout/AppShell.tsx`
 - Modify: public interaction components as needed
 
-- [ ] **Step 1: session id 정책 구현**
+- [x] **Step 1: session id 정책 구현**
 
 - random UUID 생성
 - localStorage 또는 sessionStorage 저장
@@ -792,11 +805,11 @@ git commit -m "feat(analytics): add privacy conscious event tracking API"
 
 권장: 클라이언트 random id 전송 + 서버 hash 저장.
 
-- [ ] **Step 2: page_view 자동 수집**
+- [x] **Step 2: page_view 자동 수집**
 
 React Router location 변경 시 `page_view` event를 전송한다.
 
-- [ ] **Step 3: 주요 interaction event 추가**
+- [x] **Step 3: 주요 interaction event 추가**
 
 후보:
 
@@ -810,7 +823,7 @@ audio_play
 portfolio_resume_view
 ```
 
-- [ ] **Step 4: privacy opt-out 준비**
+- [x] **Step 4: privacy opt-out 준비**
 
 localStorage key 예시:
 
@@ -818,21 +831,21 @@ localStorage key 예시:
 crochub:analytics-opt-out=true
 ```
 
-- [ ] **Step 5: 실패 무시 정책**
+- [x] **Step 5: 실패 무시 정책**
 
 analytics 전송 실패는 사용자 flow를 막지 않는다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add frontend/src/lib/analytics.ts frontend/src/components/analytics frontend/src/hooks/useAnalytics.ts frontend/src/main.tsx frontend/src
+git add frontend/src/lib/analytics.ts frontend/src/components/analytics frontend/src/hooks/useAnalytics.ts frontend/src/components/layout/AppShell.tsx
 git commit -m "feat(analytics): track public route events"
 ```
 
@@ -848,7 +861,7 @@ git commit -m "feat(analytics): track public route events"
 - Modify: `frontend/src/lib/operationsApi.ts`
 - Modify: `frontend/src/types/admin.ts`
 
-- [ ] **Step 1: API client 작성**
+- [x] **Step 1: API client 작성**
 
 ```typescript
 getAdminAnalyticsSummary({ from, to })
@@ -856,7 +869,7 @@ getAdminRouteAnalytics({ from, to, limit })
 getAdminAnalyticsEvents({ from, to, eventName })
 ```
 
-- [ ] **Step 2: summary cards 구현**
+- [x] **Step 2: summary cards 구현**
 
 표시:
 - page views
@@ -866,7 +879,7 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - push opt-ins
 - PWA install events
 
-- [ ] **Step 3: date range filter 구현**
+- [x] **Step 3: date range filter 구현**
 
 기본:
 - 최근 7일
@@ -874,7 +887,7 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - 이번 달
 - custom from/to
 
-- [ ] **Step 4: route table 구현**
+- [x] **Step 4: route table 구현**
 
 컬럼:
 - route
@@ -883,18 +896,18 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - top locale
 - trend placeholder
 
-- [ ] **Step 5: empty state**
+- [x] **Step 5: empty state**
 
 데이터가 없으면 analytics 설치/수집 상태 안내를 보여준다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminAnalyticsPage.tsx frontend/src/components/admin/AnalyticsSummaryCards.tsx frontend/src/components/admin/RouteAnalyticsTable.tsx frontend/src/hooks/useAdminAnalytics.ts frontend/src/lib/operationsApi.ts frontend/src/types/admin.ts
@@ -907,13 +920,13 @@ git commit -m "feat(admin): add analytics dashboard"
 
 **Files:**
 - Create/Modify: `backend/src/modules/seo/sitemap.service.ts`
-- Modify: `backend/src/modules/seo/seo.router.ts` or `backend/src/app.ts`
+- Modify: `backend/src/app.ts`
 - Create: `backend/scripts/generate-sitemap.ts`
 - Create: `backend/tests/sitemap.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 - Optional Modify: `nginx/nginx.conf`
 
-- [ ] **Step 1: sitemap source 정의**
+- [x] **Step 1: sitemap source 정의**
 
 포함 대상:
 - `/`
@@ -925,7 +938,7 @@ git commit -m "feat(admin): add analytics dashboard"
 - published showcase items
 - category pages: `/gallery`, `/blog`, `/study`
 
-- [ ] **Step 2: public sitemap endpoint 구현**
+- [x] **Step 2: public sitemap endpoint 구현**
 
 ```text
 GET /sitemap.xml
@@ -942,7 +955,7 @@ Response:
 PUBLIC_SITE_URL=https://example.com
 ```
 
-- [ ] **Step 3: robots endpoint 구현**
+- [x] **Step 3: robots endpoint 구현**
 
 ```text
 GET /robots.txt
@@ -956,13 +969,9 @@ Allow: /
 Sitemap: https://example.com/sitemap.xml
 ```
 
-- [ ] **Step 4: admin preview optional 구현**
+- [x] **Step 4: admin preview optional 구현**
 
-```text
-GET /api/seo/sitemap-preview admin
-```
-
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /sitemap.xml -> 200 application/xml
@@ -970,7 +979,7 @@ GET /robots.txt -> 200 text/plain
 sitemap includes published post and excludes draft
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -978,7 +987,7 @@ npm test -- tests/sitemap.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/src/modules/seo backend/scripts/generate-sitemap.ts backend/tests/sitemap.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md nginx/nginx.conf
@@ -998,7 +1007,7 @@ git commit -m "feat(seo): generate sitemap and robots endpoints"
 - Create: `backend/tests/media-derivatives.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: 이미지 처리 라이브러리 선택**
+- [x] **Step 1: 이미지 처리 라이브러리 선택**
 
 권장: `sharp`
 
@@ -1007,15 +1016,29 @@ cd backend
 npm install sharp
 ```
 
-주의:
-- Alpine Docker에서 sharp native dependency 확인 필요
-- 설치/빌드 문제가 있으면 Dockerfile 보강
+**Alpine Docker에서 sharp 빌드 실패 시 (흔한 문제):**
 
-- [ ] **Step 2: media_derivatives model 추가**
+방법 A — Dockerfile에 native dependency 추가:
+
+```dockerfile
+RUN apk add --no-cache vips-dev fftw-dev gcc g++ make
+```
+
+방법 B — musl 전용 prebuilt 바이너리 사용:
+
+```bash
+npm install --cpu=x64 --os=linuxmusl sharp
+```
+
+방법 C — sharp 대신 `jimp` (순수 JS, native 없음, 처리 속도 느림) 로 대체.
+
+**이 Step이 블로킹되면 Task 11을 선택 구현으로 격하하고 다음 Task를 먼저 진행한다.**
+
+- [x] **Step 2: media_derivatives model 추가**
 
 `media_id`, derivative_type, file_url, width/height, mimeType, fileSize 저장.
 
-- [ ] **Step 3: derivative generation 정책 정의**
+- [x] **Step 3: derivative generation 정책 정의**
 
 이미지 업로드 시 생성:
 
@@ -1026,7 +1049,7 @@ web_optimized: max 1600px webp
 og_image: 1200x630 crop/fit optional
 ```
 
-- [ ] **Step 4: R2 업로드 연동**
+- [x] **Step 4: R2 업로드 연동**
 
 파생 파일 key 예시:
 
@@ -1034,14 +1057,14 @@ og_image: 1200x630 crop/fit optional
 derivatives/{mediaId}/thumb_medium.webp
 ```
 
-- [ ] **Step 5: regenerate endpoint 구현**
+- [x] **Step 5: regenerate endpoint 구현**
 
 ```text
 POST /api/admin/media/:id/derivatives/regenerate
 GET  /api/admin/media/:id/derivatives
 ```
 
-- [ ] **Step 6: 실패 정책**
+- [x] **Step 6: 실패 정책**
 
 원본 업로드 성공 후 derivative 실패는 업로드 전체를 실패시킬지 결정한다.
 
@@ -1049,7 +1072,7 @@ GET  /api/admin/media/:id/derivatives
 - 원본 업로드는 성공 처리
 - derivative 실패는 warning log + admin에서 regenerate 가능
 
-- [ ] **Step 7: 테스트 작성**
+- [x] **Step 7: 테스트 작성**
 
 ```text
 image upload creates derivatives when image type
@@ -1058,7 +1081,7 @@ regenerate as user -> 403
 regenerate as admin -> 200
 ```
 
-- [ ] **Step 8: 확인**
+- [x] **Step 8: 확인**
 
 ```bash
 cd backend
@@ -1066,7 +1089,7 @@ npm test -- tests/media-derivatives.test.ts
 npm run build
 ```
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/prisma/schema.prisma backend/src/modules/media backend/tests/media-derivatives.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -1084,11 +1107,11 @@ git commit -m "feat(media): add image derivative pipeline"
 - Modify: `frontend/src/types/media.ts` or equivalent
 - Modify: `frontend/src/lib/adminApi.ts` or media API client
 
-- [ ] **Step 1: media type에 derivatives 추가**
+- [x] **Step 1: media type에 derivatives 추가**
 
 Frontend 타입에서 `derivatives` 배열 또는 key map을 지원한다.
 
-- [ ] **Step 2: image source 선택 helper 작성**
+- [x] **Step 2: image source 선택 helper 작성**
 
 우선순위:
 
@@ -1098,27 +1121,27 @@ OG/share image → og_image → web_optimized → original
 full gallery → web_optimized → original
 ```
 
-- [ ] **Step 3: lazy loading 적용**
+- [x] **Step 3: lazy loading 적용**
 
 public gallery/showcase/post thumbnail에 `loading="lazy"` 적용.
 
-- [ ] **Step 4: width/height 지정**
+- [x] **Step 4: width/height 지정**
 
 CLS 방지를 위해 가능한 이미지에 width/height 또는 aspect-ratio를 지정한다.
 
-- [ ] **Step 5: admin media 화면 derivative 상태 표시**
+- [x] **Step 5: admin media 화면 derivative 상태 표시**
 
 - derivative exists/missing badge
 - regenerate action link
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src
@@ -1136,7 +1159,7 @@ git commit -m "feat(media): use optimized image derivatives"
 - Modify: `docker-compose.yml` if needed
 - Create/Modify: `docs/operations/production-checklist.md`
 
-- [ ] **Step 1: static asset cache 정책 정의**
+- [x] **Step 1: static asset cache 정책 정의**
 
 권장:
 
@@ -1149,19 +1172,19 @@ media original: public, max-age=86400
 media derivatives: public, max-age=31536000, immutable if key content-addressed
 ```
 
-- [ ] **Step 2: nginx headers 적용**
+- [x] **Step 2: nginx headers 적용**
 
 정적 asset location에 cache header 추가.
 
-- [ ] **Step 3: API cache 방지**
+- [x] **Step 3: API cache 방지**
 
 민감한 admin API에 `Cache-Control: no-store`를 적용한다.
 
-- [ ] **Step 4: R2/CDN cache 정책 문서화**
+- [x] **Step 4: R2/CDN cache 정책 문서화**
 
 Cloudflare R2 public URL/CDN 앞단에서 어떤 cache TTL을 기대하는지 문서화한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 docker compose up --build -d
@@ -1170,7 +1193,7 @@ curl -I http://localhost/api/health
 curl -I http://localhost/sitemap.xml
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add nginx/nginx.conf backend/src/lib/cacheHeaders.ts backend/src/app.ts docker-compose.yml docs/operations/production-checklist.md
@@ -1189,7 +1212,7 @@ git commit -m "chore(cache): define production cache headers"
 - Create/Modify: `docs/operations/production-checklist.md`
 - Optional Modify: `docker-compose.yml`
 
-- [ ] **Step 1: backup script 작성**
+- [x] **Step 1: backup script 작성**
 
 기능:
 - `mysqldump` 실행
@@ -1204,7 +1227,7 @@ git commit -m "chore(cache): define production cache headers"
 ./backend/scripts/backup-db.sh ./backups
 ```
 
-- [ ] **Step 2: restore script 작성**
+- [x] **Step 2: restore script 작성**
 
 기능:
 - gzip dump 복원
@@ -1217,7 +1240,7 @@ git commit -m "chore(cache): define production cache headers"
 ./backend/scripts/restore-db.sh ./backups/crochub.sql.gz --target crochub_restore
 ```
 
-- [ ] **Step 3: media backup policy 문서화**
+- [x] **Step 3: media backup policy 문서화**
 
 R2 bucket은 DB dump와 별개로:
 - lifecycle/versioning 정책
@@ -1225,7 +1248,7 @@ R2 bucket은 DB dump와 별개로:
 - 삭제 보호 정책
 을 문서화한다.
 
-- [ ] **Step 4: restore rehearsal 문서 작성**
+- [x] **Step 4: restore rehearsal 문서 작성**
 
 최소 절차:
 1. 새 DB 생성
@@ -1234,7 +1257,7 @@ R2 bucket은 DB dump와 별개로:
 4. API health check
 5. 주요 public/admin route smoke test
 
-- [ ] **Step 5: incident response 문서 작성**
+- [x] **Step 5: incident response 문서 작성**
 
 포함:
 - 장애 분류
@@ -1243,7 +1266,7 @@ R2 bucket은 DB dump와 별개로:
 - secret leak 대응
 - R2 media 삭제 사고 대응
 
-- [ ] **Step 6: shellcheck 또는 dry-run 확인**
+- [x] **Step 6: shellcheck 또는 dry-run 확인**
 
 가능하면 실행:
 
@@ -1252,7 +1275,7 @@ bash -n backend/scripts/backup-db.sh
 bash -n backend/scripts/restore-db.sh
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/scripts/backup-db.sh backend/scripts/restore-db.sh docs/operations
@@ -1272,15 +1295,15 @@ git commit -m "docs(ops): add backup restore runbooks"
 - Create: `frontend/src/components/admin/BackupRunsTable.tsx`
 - Modify: `frontend/src/lib/operationsApi.ts`
 
-- [ ] **Step 1: API 구현 여부 결정**
+- [x] **Step 1: API 구현 여부 결정**
 
 초기 운영에서는 script + 문서만으로 충분할 수 있다. UI에서 backup run history를 보여주려면 `backup_runs` model/API를 추가한다.
 
-- [ ] **Step 2: backup_runs model 추가**
+- [x] **Step 2: backup_runs model 추가**
 
 Task 14 script가 backup 결과를 DB에 기록하도록 연동할지 결정한다.
 
-- [ ] **Step 3: backup runs endpoint 구현**
+- [x] **Step 3: backup runs endpoint 구현**
 
 ```text
 GET /api/admin/backup-runs?page=&limit=
@@ -1294,7 +1317,7 @@ POST /api/admin/backup-runs/db
 
 수동 trigger는 운영 서버 권한/보안 리스크가 있으므로 기본 비활성화 권장.
 
-- [ ] **Step 4: system health endpoint 구현**
+- [x] **Step 4: system health endpoint 구현**
 
 ```text
 GET /api/admin/system/health
@@ -1311,7 +1334,7 @@ Response 후보:
 }
 ```
 
-- [ ] **Step 5: AdminOperationsPage 구현**
+- [x] **Step 5: AdminOperationsPage 구현**
 
 표시:
 - system health card
@@ -1319,7 +1342,7 @@ Response 후보:
 - runbook links
 - smoke test checklist
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/admin/system/health as admin -> 200

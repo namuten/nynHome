@@ -17,8 +17,15 @@ model User {
   role         Role     @default(user)
   createdAt    DateTime @default(now())
 
-  comments      Comment[]
-  pushSubs      PushSubscription[]
+  comments                  Comment[]
+  pushSubs                  PushSubscription[]
+  reports                   CommentReport[]    @relation("UserReports")
+  resolvedReports           CommentReport[]    @relation("AdminResolvedReports")
+  moderatedComments         Comment[]          @relation("AdminModeratedComments")
+  guestbookEntries          GuestbookEntry[]   @relation("UserGuestbookEntries")
+  guestbookReports          GuestbookReport[]  @relation("UserGuestbookReports")
+  resolvedGuestbookReports  GuestbookReport[]  @relation("AdminResolvedGuestbookReports")
+  moderatedGuestbookEntries GuestbookEntry[]   @relation("AdminModeratedGuestbookEntries")
 
   @@map("users")
 }
@@ -26,6 +33,21 @@ model User {
 enum Role {
   admin
   user
+}
+
+enum ReportReason {
+  spam
+  harassment
+  personal_info
+  inappropriate
+  other
+}
+
+enum ReportStatus {
+  open
+  reviewing
+  resolved
+  rejected
 }
 
 model Post {
@@ -64,7 +86,8 @@ model Media {
   height       Int?
   createdAt    DateTime     @default(now())
 
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post        Post?             @relation(fields: [postId], references: [id], onDelete: SetNull)
+  derivatives MediaDerivative[]
 
   @@map("media")
 }
@@ -88,18 +111,43 @@ model MediaTypeConfig {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  postId    Int
-  userId    Int
-  body      String   @db.Text
-  reply     String?  @db.Text
-  isHidden  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id                 Int       @id @default(autoincrement())
+  postId             Int
+  userId             Int
+  body               String    @db.Text
+  reply              String?   @db.Text
+  isHidden           Boolean   @default(false)
+  hiddenReason       String?   @map("hidden_reason") @db.VarChar(200)
+  moderatedAt        DateTime? @map("moderated_at")
+  moderatedByAdminId Int?      @map("moderated_by_admin_id")
+  createdAt          DateTime  @default(now())
 
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post             Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moderatedByAdmin User?           @relation("AdminModeratedComments", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
+  reports          CommentReport[]
 
   @@map("comments")
+}
+
+model CommentReport {
+  id                Int          @id @default(autoincrement())
+  commentId         Int          @map("comment_id")
+  reporterUserId    Int          @map("reporter_user_id")
+  reason            ReportReason
+  description       String?      @db.Text
+  status            ReportStatus @default(open)
+  resolutionNote    String?      @map("resolution_note") @db.Text
+  resolvedByAdminId Int?         @map("resolved_by_admin_id")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  comment         Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  reporterUser    User    @relation("UserReports", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  resolvedByAdmin User?   @relation("AdminResolvedReports", fields: [resolvedByAdminId], references: [id], onDelete: SetNull)
+
+  @@unique([commentId, reporterUserId])
+  @@map("comment_reports")
 }
 
 model Schedule {
@@ -136,4 +184,269 @@ model PushSubscription {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@map("push_subscriptions")
+}
+
+model ProfileSettings {
+  id            Int      @id @default(autoincrement())
+  locale        String   @unique
+  displayName   String
+  tagline       String?
+  bio           String?  @db.Text
+  avatarUrl     String?
+  coverImageUrl String?
+  school        String?
+  location      String?
+  emailPublic   String?
+  socialLinks   Json? // 예: { "github": "...", "instagram": "..." }
+  interests     Json? // 예: ["웹개발", "디자인"]
+  skills        Json? // 예: ["React", "TypeScript", "Node.js"]
+  achievements  Json? // 예: [{"title": "우수상", "date": "2026-01-01"}]
+  updatedAt     DateTime @updatedAt
+
+  @@map("profile_settings")
+}
+
+model PortfolioSection {
+  id         Int      @id @default(autoincrement())
+  locale     String // "ko" | "en"
+  sectionKey String // 예: "education", "experience"
+  title      String
+  body       String?  @db.Text
+  items      Json? // 예: [{"title": "...", "subtitle": "...", "date": "...", "desc": "..."}]
+  order      Int      @default(0)
+  isVisible  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("portfolio_sections")
+}
+
+model ShowcaseItem {
+  id           Int       @id @default(autoincrement())
+  title        String
+  slug         String    @unique
+  description  String?   @db.Text
+  category     String // 예: "3D Graphics", "Full-Stack Web"
+  coverMediaId Int?
+  mediaIds     Json? // 예: [1, 2, 3]
+  postId       Int? // 관련 블로그 포스트 ID
+  locale       String    @default("ko") // "ko" | "en"
+  tags         Json? // 예: ["React", "WebGL"]
+  isFeatured   Boolean   @default(false)
+  isPublished  Boolean   @default(false)
+  publishedAt  DateTime?
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("showcase_items")
+}
+
+model SeoSettings {
+  id          Int      @id @default(autoincrement())
+  routeKey    String // 예: "home", "portfolio", "blog", "study"
+  locale      String // "ko" | "en"
+  title       String
+  description String?  @db.Text
+  ogImageUrl  String?
+  keywords    Json? // 예: ["React", "WebGL"]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([routeKey, locale])
+  @@map("seo_settings")
+}
+
+model AuditLog {
+  id               Int      @id @default(autoincrement())
+  action           String   @db.VarChar(120)
+  resourceType     String   @map("resource_type") @db.VarChar(80)
+  resourceId       String?  @map("resource_id") @db.VarChar(120)
+  adminUserId      Int?     @map("admin_user_id")
+  summary          String   @db.VarChar(300)
+  metadata         Json?
+  ipHash           String?  @map("ip_hash") @db.VarChar(128)
+  userAgentSummary String?  @map("user_agent_summary") @db.VarChar(200)
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
+
+model AnalyticsEvent {
+  id            BigInt   @id @default(autoincrement())
+  eventName     String   @map("event_name") @db.VarChar(120)
+  route         String   @db.VarChar(300)
+  referrer      String?  @db.VarChar(500)
+  locale        String?  @db.VarChar(5)
+  userId        Int?     @map("user_id")
+  sessionIdHash String?  @map("session_id_hash") @db.VarChar(128)
+  metadata      Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("analytics_events")
+}
+
+model DailyAnalyticsRollup {
+  id             Int      @id @default(autoincrement())
+  day            DateTime @db.Date
+  route          String?  @db.VarChar(300)
+  eventName      String   @map("event_name") @db.VarChar(120)
+  count          Int
+  uniqueSessions Int      @map("unique_sessions")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("daily_analytics_rollups")
+}
+
+model MediaDerivative {
+  id             Int      @id @default(autoincrement())
+  mediaId        Int      @map("media_id")
+  derivativeType String   @map("derivative_type") @db.VarChar(80)
+  fileUrl        String   @map("file_url") @db.VarChar(500)
+  width          Int?
+  height         Int?
+  mimeType       String   @map("mime_type") @db.VarChar(120)
+  fileSize       BigInt   @map("file_size")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, derivativeType])
+  @@map("media_derivatives")
+}
+
+model BackupRun {
+  id           Int       @id @default(autoincrement())
+  backupType   String    @map("backup_type") @db.VarChar(80)
+  status       String    @db.VarChar(40)
+  fileUrl      String?   @map("file_url") @db.VarChar(500)
+  checksum     String?   @db.VarChar(128)
+  sizeBytes    BigInt?   @map("size_bytes")
+  startedAt    DateTime  @map("started_at")
+  finishedAt   DateTime? @map("finished_at")
+  errorMessage String?   @map("error_message") @db.Text
+
+  @@map("backup_runs")
+}
+
+model GuestbookEntry {
+  id                 Int               @id @default(autoincrement())
+  userId             Int               @map("user_id")
+  body               String            @db.Text
+  isHidden           Boolean           @default(false) @map("is_hidden")
+  hiddenReason       String?           @db.VarChar(200) @map("hidden_reason")
+  moderatedAt        DateTime?         @map("moderated_at")
+  moderatedByAdminId Int?              @map("moderated_by_admin_id")
+  createdAt          DateTime          @default(now()) @map("created_at")
+
+  user             User              @relation("UserGuestbookEntries", fields: [userId], references: [id], onDelete: Cascade)
+  moderatedByAdmin User?             @relation("AdminModeratedGuestbookEntries", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
+  reports          GuestbookReport[]
+
+  @@map("guestbook_entries")
+}
+
+model GuestbookReport {
+  id                Int          @id @default(autoincrement())
+  guestbookEntryId  Int          @map("guestbook_entry_id")
+  reporterUserId    Int          @map("reporter_user_id")
+  reason            ReportReason
+  description       String?      @db.Text
+  status            ReportStatus @default(open)
+  resolutionNote    String?      @db.Text @map("resolution_note")
+  resolvedByAdminId Int?         @map("resolved_by_admin_id")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  guestbookEntry  GuestbookEntry @relation(fields: [guestbookEntryId], references: [id], onDelete: Cascade)
+  reporterUser    User           @relation("UserGuestbookReports", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  resolvedByAdmin User?          @relation("AdminResolvedGuestbookReports", fields: [resolvedByAdminId], references: [id], onDelete: SetNull)
+
+  @@unique([guestbookEntryId, reporterUserId])
+  @@map("guestbook_reports")
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    Int?      @map("user_id") // nullable = 관리자 전용 알림이면 null
+  type      String    // "new_comment" | "new_guestbook" | "report_resolved" | "broadcast"
+  title     String    @db.VarChar(200)
+  body      String    @db.VarChar(500)
+  linkUrl   String?   @map("link_url") @db.VarChar(500)
+  isRead    Boolean   @default(false) @map("is_read")
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId, isRead, createdAt])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  id              Int      @id @default(autoincrement())
+  adminUserId     Int      @unique @map("admin_user_id")
+  onNewComment    Boolean  @default(true) @map("on_new_comment")
+  onNewGuestbook  Boolean  @default(true) @map("on_new_guestbook")
+  onReportFlagged Boolean  @default(true) @map("on_report_flagged")
+  emailDigestFreq String    @default("weekly") @map("email_digest_freq") // "never" | "daily" | "weekly"
+  emailAddress    String?   @map("email_address") @db.VarChar(320)
+  lastDigestSentAt DateTime? @map("last_digest_sent_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("notification_preferences")
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  slug      String   @db.VarChar(50) @unique
+  color     String?  @db.VarChar(7)  // hex color e.g. "#a78bfa"
+  createdAt DateTime @default(now()) @map("created_at")
+
+  contentTags ContentTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model ContentTag {
+  id          Int    @id @default(autoincrement())
+  tagId       Int    @map("tag_id")
+  contentType String @map("content_type") // "post" | "image" | "video" | "portfolio_item"
+  contentId   Int    @map("content_id")
+
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tagId, contentType, contentId])
+  @@index([contentType, contentId])
+  @@map("content_tags")
+}
+
+model Collection {
+  id           Int      @id @default(autoincrement())
+  title        String   @db.VarChar(200)
+  description  String?  @db.Text
+  coverImageId Int?     @map("cover_image_id")
+  isPublished  Boolean  @default(false) @map("is_published")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  items CollectionItem[]
+
+  @@map("collections")
+}
+
+model CollectionItem {
+  id           Int    @id @default(autoincrement())
+  collectionId Int    @map("collection_id")
+  contentType  String @map("content_type") // "post" | "image" | "video" | "portfolio_item"
+  contentId    Int    @map("content_id")
+  position     Int    @default(0) // display order within collection
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, contentType, contentId])
+  @@index([collectionId, position])
+  @@index([contentType, contentId])   // reverse lookup: "which collections contain this item?"
+  @@map("collection_items")
 }

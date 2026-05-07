@@ -316,7 +316,7 @@ backend/
 - Create: `frontend/src/types/profile.ts`
 - Create: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: Plan 6 완료 상태 확인**
+- [x] **Step 1: Plan 6 완료 상태 확인**
 
 ```bash
 find frontend/src -maxdepth 4 -type f | sort
@@ -328,7 +328,7 @@ Expected:
 - admin shell/nav 존재
 - media library와 layout/schedule/settings 기능이 존재
 
-- [ ] **Step 2: public route placeholder 추가**
+- [x] **Step 2: public route placeholder 추가**
 
 ```text
 /profile
@@ -338,7 +338,7 @@ Expected:
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 3: admin route placeholder 추가**
+- [x] **Step 3: admin route placeholder 추가**
 
 ```text
 /admin/profile
@@ -349,7 +349,7 @@ Expected:
 /admin/seo
 ```
 
-- [ ] **Step 4: API 타입 baseline 작성**
+- [x] **Step 4: API 타입 baseline 작성**
 
 최소 타입:
 
@@ -362,14 +362,14 @@ SeoSettings
 LocaleCode = 'ko' | 'en'
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src
@@ -389,11 +389,11 @@ git commit -m "feat(portfolio): prepare portfolio and branding routes"
 - Create: `backend/tests/profile.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: Prisma model 추가**
+- [x] **Step 1: Prisma model 추가**
 
 `profile_settings` 모델을 추가한다. locale별 1 row를 권장한다.
 
-- [ ] **Step 2: public profile endpoint 구현**
+- [x] **Step 2: public profile endpoint 구현**
 
 ```text
 GET /api/profile?locale=ko
@@ -404,7 +404,7 @@ GET /api/profile?locale=ko
 - 해당 locale 데이터 없으면 default profile fallback 반환
 - public endpoint
 
-- [ ] **Step 3: admin profile update endpoint 구현**
+- [x] **Step 3: admin profile update endpoint 구현**
 
 ```text
 PUT /api/admin/profile/:locale
@@ -418,11 +418,11 @@ Validation:
 - socialLinks: known keys만 허용하거나 string map으로 제한
 - interests/skills: string array, 각 항목 max 60
 
-- [ ] **Step 4: seed 기본값 추가**
+- [x] **Step 4: seed 기본값 추가**
 
 관리자 seed와 별개로 `ko`, `en` 기본 profile row를 생성한다.
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/profile -> 200 default ko
@@ -433,7 +433,7 @@ PUT /api/admin/profile/ko invalid url -> 400 VALIDATION_ERROR
 PUT /api/admin/profile/ko as admin -> 200
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -442,7 +442,7 @@ npm test -- tests/profile.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/profile backend/src/app.ts backend/tests/profile.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -461,13 +461,13 @@ git commit -m "feat(profile): add branding profile API"
 - Create: `frontend/src/components/portfolio/AchievementCards.tsx`
 - Modify: `frontend/src/types/profile.ts`
 
-- [ ] **Step 1: profile API client 작성**
+- [x] **Step 1: profile API client 작성**
 
 ```typescript
 getProfile(locale: LocaleCode): Promise<ProfileSettings>
 ```
 
-- [ ] **Step 2: profile page 레이아웃 개선**
+- [x] **Step 2: profile page 레이아웃 개선**
 
 섹션:
 - hero: avatar, displayName, tagline
@@ -478,22 +478,22 @@ getProfile(locale: LocaleCode): Promise<ProfileSettings>
 - social links
 - portfolio CTA
 
-- [ ] **Step 3: fallback UX 구현**
+- [x] **Step 3: fallback UX 구현**
 
 profile API 실패 시 정적 fallback 또는 empty state를 제공한다.
 
-- [ ] **Step 4: 반응형 확인**
+- [x] **Step 4: 반응형 확인**
 
 모바일에서 avatar/cover/social link가 깨지지 않아야 한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/pages/ProfilePage.tsx frontend/src/lib/profileApi.ts frontend/src/hooks/useProfile.ts frontend/src/components/portfolio frontend/src/types/profile.ts
@@ -511,11 +511,11 @@ git commit -m "feat(profile): enhance public branding page"
 - Modify: `frontend/src/lib/profileApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/profile.ts`
 
-- [ ] **Step 1: locale tab UI 구현**
+- [x] **Step 1: locale tab UI 구현**
 
 `ko`, `en` 탭으로 profile settings를 편집한다.
 
-- [ ] **Step 2: profile editor form 작성**
+- [x] **Step 2: profile editor form 작성**
 
 필드:
 - displayName
@@ -530,26 +530,26 @@ git commit -m "feat(profile): enhance public branding page"
 - skills
 - achievements
 
-- [ ] **Step 3: list field editor 구현**
+- [x] **Step 3: list field editor 구현**
 
 interests/skills/achievements는 add/remove/reorder가 가능해야 한다.
 
-- [ ] **Step 4: 저장 플로우 구현**
+- [x] **Step 4: 저장 플로우 구현**
 
 `PUT /api/admin/profile/:locale` 호출 후 public profile preview link 제공.
 
-- [ ] **Step 5: validation details 표시**
+- [x] **Step 5: validation details 표시**
 
 backend `VALIDATION_ERROR.details`를 field-level로 표시한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminProfilePage.tsx frontend/src/components/admin/ProfileEditorForm.tsx frontend/src/components/admin/LocaleTabs.tsx frontend/src/lib frontend/src/types/profile.ts
@@ -569,11 +569,11 @@ git commit -m "feat(admin): add profile branding editor"
 - Create: `backend/tests/portfolio.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: portfolio_sections model 추가**
+- [x] **Step 1: portfolio_sections model 추가**
 
 locale, sectionKey, title, body, items JSON, order, isVisible을 포함한다.
 
-- [ ] **Step 2: public portfolio endpoint 구현**
+- [x] **Step 2: public portfolio endpoint 구현**
 
 ```text
 GET /api/portfolio?locale=ko
@@ -588,7 +588,7 @@ Response:
 }
 ```
 
-- [ ] **Step 3: admin section CRUD 구현**
+- [x] **Step 3: admin section CRUD 구현**
 
 ```text
 POST   /api/admin/portfolio/sections
@@ -597,7 +597,7 @@ DELETE /api/admin/portfolio/sections/:id
 PUT    /api/admin/portfolio/sections/reorder
 ```
 
-- [ ] **Step 4: validation 규칙 정의**
+- [x] **Step 4: validation 규칙 정의**
 
 - sectionKey: 1~80
 - title: 1~160
@@ -607,7 +607,7 @@ PUT    /api/admin/portfolio/sections/reorder
 - isVisible: boolean
 - locale: ko/en
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/portfolio -> 200 sections
@@ -617,7 +617,7 @@ PUT section as admin -> 200
 DELETE section as admin -> 204
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -626,7 +626,7 @@ npm test -- tests/portfolio.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/portfolio backend/src/app.ts backend/tests/portfolio.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -647,13 +647,13 @@ git commit -m "feat(portfolio): add portfolio sections API"
 - Create: `frontend/src/components/portfolio/PortfolioSectionRenderer.tsx`
 - Modify: `frontend/src/types/portfolio.ts`
 
-- [ ] **Step 1: portfolio API client 작성**
+- [x] **Step 1: portfolio API client 작성**
 
 ```typescript
 getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 ```
 
-- [ ] **Step 2: Portfolio landing 구현**
+- [x] **Step 2: Portfolio landing 구현**
 
 섹션:
 - intro hero
@@ -663,7 +663,7 @@ getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 - showcase CTA
 - resume CTA
 
-- [ ] **Step 3: Resume page 구현**
+- [x] **Step 3: Resume page 구현**
 
 이력서형 레이아웃:
 - education
@@ -673,22 +673,22 @@ getPortfolio(locale: LocaleCode): Promise<PortfolioResponse>
 - goals
 - contact/social
 
-- [ ] **Step 4: section renderer 구현**
+- [x] **Step 4: section renderer 구현**
 
 sectionKey별 renderer를 두되 unknown section은 generic card로 렌더링한다.
 
-- [ ] **Step 5: print-friendly CSS 준비**
+- [x] **Step 5: print-friendly CSS 준비**
 
 PDF 자동 생성은 하지 않지만 브라우저 print에서 읽기 좋도록 최소 스타일을 추가한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/portfolio frontend/src/lib/portfolioApi.ts frontend/src/hooks/usePortfolio.ts frontend/src/components/portfolio frontend/src/types/portfolio.ts
@@ -706,7 +706,7 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - Modify: `frontend/src/lib/portfolioApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/portfolio.ts`
 
-- [ ] **Step 1: section list UI 구현**
+- [x] **Step 1: section list UI 구현**
 
 표시:
 - locale
@@ -716,7 +716,7 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - order
 - actions
 
-- [ ] **Step 2: section editor 구현**
+- [x] **Step 2: section editor 구현**
 
 필드:
 - sectionKey
@@ -725,26 +725,26 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - items JSON 또는 structured list editor
 - visible toggle
 
-- [ ] **Step 3: reorder 구현**
+- [x] **Step 3: reorder 구현**
 
 up/down 버튼 우선. drag-and-drop은 선택 기능이다.
 
-- [ ] **Step 4: preview pane 구현**
+- [x] **Step 4: preview pane 구현**
 
 작성 중 public portfolio에서 어떻게 보일지 간단히 preview한다.
 
-- [ ] **Step 5: 저장/삭제 flow 구현**
+- [x] **Step 5: 저장/삭제 flow 구현**
 
 create/update/delete/reorder API와 연결한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminPortfolioPage.tsx frontend/src/components/admin/PortfolioSectionEditor.tsx frontend/src/components/admin/LocaleTabs.tsx frontend/src/lib frontend/src/types/portfolio.ts
@@ -764,7 +764,7 @@ git commit -m "feat(admin): add portfolio section editor"
 - Create: `backend/tests/showcase.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: showcase_items model 추가**
+- [x] **Step 1: showcase_items model 추가**
 
 필수 필드:
 - title
@@ -780,7 +780,7 @@ git commit -m "feat(admin): add portfolio section editor"
 - isPublished
 - publishedAt
 
-- [ ] **Step 2: public showcase list/detail 구현**
+- [x] **Step 2: public showcase list/detail 구현**
 
 ```text
 GET /api/showcase?category=&featured=&locale=ko
@@ -791,7 +791,7 @@ GET /api/showcase/:slug
 - public은 `isPublished=true`만 반환
 - detail도 unpublished면 404
 
-- [ ] **Step 3: admin showcase CRUD 구현**
+- [x] **Step 3: admin showcase CRUD 구현**
 
 ```text
 POST   /api/admin/showcase
@@ -800,18 +800,18 @@ DELETE /api/admin/showcase/:id
 PUT    /api/admin/showcase/reorder
 ```
 
-- [ ] **Step 4: slug 정책 구현**
+- [x] **Step 4: slug 정책 구현**
 
 - title 기반 자동 slug 생성 가능
 - slug 직접 수정 가능
 - unique validation
 - lowercase/kebab-case 권장
 
-- [ ] **Step 5: media id validation**
+- [x] **Step 5: media id validation**
 
 coverMediaId/mediaIds가 존재하는 media인지 확인한다.
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/showcase returns published only
@@ -822,7 +822,7 @@ PUT as admin -> 200
 DELETE as admin -> 204
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd backend
@@ -831,7 +831,7 @@ npm test -- tests/showcase.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/showcase backend/src/app.ts backend/tests/showcase.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -853,14 +853,14 @@ git commit -m "feat(showcase): add portfolio showcase API"
 - Create: `frontend/src/components/showcase/GallerySlideshow.tsx`
 - Modify: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: showcase API client 작성**
+- [x] **Step 1: showcase API client 작성**
 
 ```typescript
 getShowcaseList(params): Promise<ShowcaseItem[]>
 getShowcaseDetail(slug): Promise<ShowcaseDetail>
 ```
 
-- [ ] **Step 2: showcase grid 구현**
+- [x] **Step 2: showcase grid 구현**
 
 기능:
 - category filter
@@ -868,7 +868,7 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - responsive masonry 또는 simple grid
 - empty state
 
-- [ ] **Step 3: showcase detail 구현**
+- [x] **Step 3: showcase detail 구현**
 
 구성:
 - title/category/tags
@@ -877,7 +877,7 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - media gallery
 - linked post CTA
 
-- [ ] **Step 4: GallerySlideshow 구현**
+- [x] **Step 4: GallerySlideshow 구현**
 
 기능:
 - previous/next
@@ -886,20 +886,20 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - image/video/document fallback
 - mobile swipe는 선택
 
-- [ ] **Step 5: 접근성 확인**
+- [x] **Step 5: 접근성 확인**
 
 - slideshow button aria-label
 - modal focus 처리
 - 이미지 alt fallback
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/portfolio frontend/src/lib/showcaseApi.ts frontend/src/hooks/useShowcase.ts frontend/src/components/showcase frontend/src/types/showcase.ts
@@ -919,7 +919,7 @@ git commit -m "feat(showcase): add public showcase gallery"
 - Modify: `frontend/src/lib/showcaseApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: showcase admin list 구현**
+- [x] **Step 1: showcase admin list 구현**
 
 표시:
 - title
@@ -930,7 +930,7 @@ git commit -m "feat(showcase): add public showcase gallery"
 - updatedAt
 - actions
 
-- [ ] **Step 2: ShowcaseEditorForm 작성**
+- [x] **Step 2: ShowcaseEditorForm 작성**
 
 필드:
 - title
@@ -945,11 +945,11 @@ git commit -m "feat(showcase): add public showcase gallery"
 - isFeatured
 - isPublished
 
-- [ ] **Step 3: media picker 연동**
+- [x] **Step 3: media picker 연동**
 
 Plan 5/6 media library picker를 재사용한다.
 
-- [ ] **Step 4: slug preview 구현**
+- [x] **Step 4: slug preview 구현**
 
 public URL preview:
 
@@ -957,22 +957,22 @@ public URL preview:
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 5: publish flow 구현**
+- [x] **Step 5: publish flow 구현**
 
 draft/published 상태를 명확히 보여주고 public page link는 published일 때 강조한다.
 
-- [ ] **Step 6: 삭제 flow 구현**
+- [x] **Step 6: 삭제 flow 구현**
 
 confirm dialog 사용.
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminShowcasePage.tsx frontend/src/pages/admin/AdminShowcaseNewPage.tsx frontend/src/pages/admin/AdminShowcaseEditPage.tsx frontend/src/components/admin/ShowcaseEditorForm.tsx frontend/src/components/admin/MediaPicker.tsx frontend/src/lib frontend/src/types/showcase.ts
@@ -990,11 +990,11 @@ git commit -m "feat(admin): add showcase editor"
 - Optional Modify: `backend/src/modules/media/*`
 - Optional Modify: `backend/tests/media.test.ts`
 
-- [ ] **Step 1: 오디오 media 식별 정책 확인**
+- [x] **Step 1: 오디오 media 식별 정책 확인**
 
 기존 media `fileCategory=audio`를 사용한다.
 
-- [ ] **Step 2: AudioPlayer 구현**
+- [x] **Step 2: AudioPlayer 구현**
 
 기능:
 - play/pause
@@ -1003,26 +1003,26 @@ git commit -m "feat(admin): add showcase editor"
 - volume 또는 mute
 - keyboard accessible controls
 
-- [ ] **Step 3: playlist mode 선택 구현**
+- [x] **Step 3: playlist mode 선택 구현**
 
 showcase detail에 audio media가 여러 개 있으면 playlist 형태로 표시한다.
 
-- [ ] **Step 4: fallback 처리**
+- [x] **Step 4: fallback 처리**
 
 브라우저에서 재생할 수 없는 MIME이면 다운로드 link 또는 “미리듣기 불가” 표시.
 
-- [ ] **Step 5: 모바일 UX 확인**
+- [x] **Step 5: 모바일 UX 확인**
 
 터치 target이 충분히 커야 한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/components/showcase/AudioPlayer.tsx frontend/src/components/showcase/ShowcaseDetail.tsx frontend/src/types/showcase.ts backend/src/modules/media backend/tests/media.test.ts
@@ -1042,11 +1042,11 @@ git commit -m "feat(showcase): add audio player experience"
 - Create: `backend/tests/seo.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: seo_settings model 추가**
+- [x] **Step 1: seo_settings model 추가**
 
 routeKey별 title/description/ogImageUrl/keywords/locale를 저장한다.
 
-- [ ] **Step 2: public SEO endpoint 구현**
+- [x] **Step 2: public SEO endpoint 구현**
 
 ```text
 GET /api/seo?routeKey=portfolio&locale=ko
@@ -1056,7 +1056,7 @@ fallback:
 - routeKey 데이터 없음 → default
 - locale 데이터 없음 → ko 또는 default
 
-- [ ] **Step 3: admin SEO update endpoint 구현**
+- [x] **Step 3: admin SEO update endpoint 구현**
 
 ```text
 PUT /api/admin/seo/:routeKey
@@ -1068,7 +1068,7 @@ Validation:
 - ogImageUrl: optional URL
 - keywords: string array
 
-- [ ] **Step 4: 테스트 작성**
+- [x] **Step 4: 테스트 작성**
 
 ```text
 GET /api/seo?routeKey=missing -> 200 default fallback
@@ -1077,7 +1077,7 @@ PUT /api/admin/seo/default invalid ogImageUrl -> 400
 PUT /api/admin/seo/default as admin -> 200
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -1086,7 +1086,7 @@ npm test -- tests/seo.test.ts
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/seo backend/src/app.ts backend/tests/seo.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
@@ -1105,11 +1105,11 @@ git commit -m "feat(seo): add Open Graph settings API"
 - Modify: public route pages as needed
 - Modify: `frontend/src/types/seo.ts`
 
-- [ ] **Step 1: meta helper 구현**
+- [x] **Step 1: meta helper 구현**
 
 Vite SPA 환경에서 최소 `document.title`, `meta[name=description]`, `og:*` meta tag를 runtime에 업데이트한다.
 
-- [ ] **Step 2: public pages에 SEO 적용**
+- [x] **Step 2: public pages에 SEO 적용**
 
 적용 대상:
 - home
@@ -1120,7 +1120,7 @@ Vite SPA 환경에서 최소 `document.title`, `meta[name=description]`, `og:*` 
 - showcase detail
 - post detail
 
-- [ ] **Step 3: Admin SEO form 구현**
+- [x] **Step 3: Admin SEO form 구현**
 
 routeKey 선택:
 - default
@@ -1138,18 +1138,18 @@ routeKey 선택:
 - keywords
 - locale
 
-- [ ] **Step 4: fallback preview 구현**
+- [x] **Step 4: fallback preview 구현**
 
 카카오/Discord/X 스타일의 간단한 link preview card를 보여준다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/lib/seo.ts frontend/src/hooks/useSeoMeta.ts frontend/src/pages/admin/AdminSeoPage.tsx frontend/src/components/admin/SeoSettingsForm.tsx frontend/src/types/seo.ts frontend/src/pages
@@ -1168,7 +1168,7 @@ git commit -m "feat(seo): manage public metadata settings"
 - Modify: admin profile/portfolio/showcase/seo pages
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: locale 상태 정책 구현**
+- [x] **Step 1: locale 상태 정책 구현**
 
 우선순위:
 1. URL query `?lang=ko|en`
@@ -1176,19 +1176,19 @@ git commit -m "feat(seo): manage public metadata settings"
 3. browser language
 4. default `ko`
 
-- [ ] **Step 2: LocaleToggle 구현**
+- [x] **Step 2: LocaleToggle 구현**
 
 public header 또는 profile/portfolio 페이지 상단에 노출한다.
 
-- [ ] **Step 3: API 요청 locale 연결**
+- [x] **Step 3: API 요청 locale 연결**
 
 profile/portfolio/showcase/seo API 호출에 locale을 전달한다.
 
-- [ ] **Step 4: 관리자 locale 편집 UX 통일**
+- [x] **Step 4: 관리자 locale 편집 UX 통일**
 
 Profile/Portfolio/Showcase/SEO admin page에서 `LocaleTabs`를 재사용한다.
 
-- [ ] **Step 5: 번역 누락 fallback 정책 구현**
+- [x] **Step 5: 번역 누락 fallback 정책 구현**
 
 영문 데이터가 없으면:
 - admin 화면에서는 “영문 콘텐츠 없음” 표시
@@ -1196,17 +1196,17 @@ Profile/Portfolio/Showcase/SEO admin page에서 `LocaleTabs`를 재사용한다.
 
 권장: public은 ko fallback + locale badge.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add frontend/src/lib/i18n.ts frontend/src/hooks/useLocale.ts frontend/src/components/LocaleToggle.tsx frontend/src/pages frontend/src/components/admin docs/superpowers/api/2026-05-06-backend-api-contract.md
+git add frontend/src/lib/i18n.ts frontend/src/hooks/useLocale.tsx frontend/src/components/LocaleToggle.tsx frontend/src/pages frontend/src/components/admin
 git commit -m "feat(i18n): add Korean English locale foundation"
 ```
 
@@ -1220,10 +1220,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - Modify as needed: `frontend/src/pages/portfolio/*`
 - Modify as needed: `frontend/src/pages/ProfilePage.tsx`
 
-- [ ] **Step 1: portfolio responsive 확인**
+- [x] **Step 1: portfolio responsive 확인**
 
 확인 화면:
-
 ```text
 /profile
 /portfolio
@@ -1232,10 +1231,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 2: admin responsive 확인**
+- [x] **Step 2: admin responsive 확인**
 
 확인 화면:
-
 ```text
 /admin/profile
 /admin/portfolio
@@ -1243,7 +1241,7 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /admin/seo
 ```
 
-- [ ] **Step 3: keyboard accessibility 확인**
+- [x] **Step 3: keyboard accessibility 확인**
 
 특히 확인:
 - GallerySlideshow open/close/focus
@@ -1251,7 +1249,7 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - LocaleToggle
 - Admin list editor add/remove/reorder
 
-- [ ] **Step 4: metadata 확인**
+- [x] **Step 4: metadata 확인**
 
 브라우저 devtools로 확인:
 - title
@@ -1260,10 +1258,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - og:description
 - og:image
 
-- [ ] **Step 5: screenshot 캡처**
+- [x] **Step 5: screenshot 캡처**
 
 웹 앱 시각 변경이 크므로 최소 다음 스크린샷을 남긴다.
-
 ```text
 /profile
 /portfolio
@@ -1276,14 +1273,14 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /admin/seo
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src
@@ -1299,7 +1296,7 @@ git commit -m "fix(portfolio): polish responsive branding experience"
 - Modify: `README.md`
 - Modify: `docs/superpowers/plans/2026-05-06-plan7-portfolio-expansion-personal-branding.md`
 
-- [ ] **Step 1: API contract 업데이트 확인**
+- [x] **Step 1: API contract 업데이트 확인**
 
 반드시 포함:
 - profile public/admin endpoints
@@ -1309,7 +1306,7 @@ git commit -m "fix(portfolio): polish responsive branding experience"
 - locale query 정책
 - error code / validation 규칙
 
-- [ ] **Step 2: README 사용법 추가**
+- [x] **Step 2: README 사용법 추가**
 
 필요 시 다음을 추가한다.
 
@@ -1321,17 +1318,17 @@ SEO/Open Graph 설정 방법
 KO/EN locale 사용 정책
 ```
 
-- [ ] **Step 3: Plan 7 체크박스 상태 반영**
+- [x] **Step 3: Plan 7 체크박스 상태 반영**
 
 구현 완료된 Task/Step은 `[x]`로 업데이트한다.
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 git diff --check
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/superpowers/api/2026-05-06-backend-api-contract.md README.md docs/superpowers/plans/2026-05-06-plan7-portfolio-expansion-personal-branding.md
@@ -1342,7 +1339,7 @@ git commit -m "docs: finalize portfolio expansion plan"
 
 ## Task 17: 전체 회귀 검증
 
-- [ ] **Step 1: clean 상태 확인**
+- [x] **Step 1: clean 상태 확인**
 
 ```bash
 git status --short
@@ -1350,7 +1347,7 @@ git status --short
 
 Expected: 의도한 변경만 존재
 
-- [ ] **Step 2: backend build/test**
+- [x] **Step 2: backend build/test**
 
 ```bash
 cd backend
@@ -1360,7 +1357,7 @@ npm test
 
 Expected: PASS
 
-- [ ] **Step 3: frontend build/lint/test**
+- [x] **Step 3: frontend build/lint/test**
 
 ```bash
 cd frontend
@@ -1373,7 +1370,7 @@ Expected:
 - build PASS
 - lint/test 스크립트가 없으면 최종 보고에 명시
 
-- [ ] **Step 4: Docker smoke test**
+- [x] **Step 4: Docker smoke test**
 
 ```bash
 docker compose up --build -d
@@ -1382,7 +1379,7 @@ curl http://localhost/api/health
 
 Expected: `{"status":"ok"}`
 
-- [ ] **Step 5: Public route smoke test**
+- [x] **Step 5: Public route smoke test**
 
 ```text
 /profile
@@ -1397,7 +1394,7 @@ Expected:
 - API loading/error fallback 정상
 - mobile layout 깨짐 없음
 
-- [ ] **Step 6: Admin route smoke test**
+- [x] **Step 6: Admin route smoke test**
 
 ```text
 /admin/profile
@@ -1411,7 +1408,7 @@ Expected:
 - 일반 user 접근 차단
 - admin 접근 가능
 
-- [ ] **Step 7: 최종 Commit**
+- [x] **Step 7: 최종 Commit**
 
 ```bash
 git add .
@@ -1422,21 +1419,21 @@ git commit -m "chore: complete portfolio expansion and personal branding"
 
 ## 완료 기준
 
-- [ ] `/profile`이 API 기반 public branding page로 고도화됨
-- [ ] `/portfolio` 포트폴리오 랜딩 페이지가 구현됨
-- [ ] `/portfolio/resume` 이력서형 요약 페이지가 구현됨
-- [ ] `/portfolio/showcase` 작품 전시 목록이 구현됨
-- [ ] `/portfolio/showcase/:slug` 작품 상세와 gallery slideshow가 구현됨
-- [ ] 오디오/음악 미디어를 재생할 수 있는 AudioPlayer가 구현됨
-- [ ] `/admin/profile`에서 프로필/브랜딩 정보를 편집할 수 있음
-- [ ] `/admin/portfolio`에서 포트폴리오 섹션을 관리할 수 있음
-- [ ] `/admin/showcase`에서 작품 showcase를 작성/수정/삭제할 수 있음
-- [ ] `/admin/seo`에서 SEO/Open Graph 기본값을 관리할 수 있음
-- [ ] KO/EN locale toggle과 locale-aware API 요청이 동작함
-- [ ] API contract 문서가 Plan 7 변경사항을 반영함
-- [ ] `cd backend && npm run build && npm test` PASS
-- [ ] `cd frontend && npm run build` PASS
-- [ ] Docker smoke test에서 `/api/health` 정상 응답
+- [x] `/profile`이 API 기반 public branding page로 고도화됨
+- [x] `/portfolio` 포트폴리오 랜딩 페이지가 구현됨
+- [x] `/portfolio/resume` 이력서형 요약 페이지가 구현됨
+- [x] `/portfolio/showcase` 작품 전시 목록이 구현됨
+- [x] `/portfolio/showcase/:slug` 작품 상세와 gallery slideshow가 구현됨
+- [x] 오디오/음악 미디어를 재생할 수 있는 AudioPlayer가 구현됨
+- [x] `/admin/profile`에서 프로필/브랜딩 정보를 편집할 수 있음
+- [x] `/admin/portfolio`에서 포트폴리오 섹션을 관리할 수 있음
+- [x] `/admin/showcase`에서 작품 showcase를 작성/수정/삭제할 수 있음
+- [x] `/admin/seo`에서 SEO/Open Graph 기본값을 관리할 수 있음
+- [x] KO/EN locale toggle과 locale-aware API 요청이 동작함
+- [x] API contract 문서가 Plan 7 변경사항을 반영함
+- [x] `cd backend && npm run build && npm test` PASS
+- [x] `cd frontend && npm run build` PASS
+- [x] Docker smoke test에서 `/api/health` 정상 응답
 
 ---
 

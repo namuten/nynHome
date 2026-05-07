@@ -5,7 +5,10 @@ import type { PostDetail } from '../types/api';
 import { useComments } from '../hooks/useComments';
 import CommentForm from '../components/comments/CommentForm';
 import CommentList from '../components/comments/CommentList';
+import PendingCommentsBanner from '../components/comments/PendingCommentsBanner';
 import { ArrowLeft, Clock, Eye, AlertTriangle } from 'lucide-react';
+
+import OptimizedImage from '../components/common/OptimizedImage';
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -111,7 +114,11 @@ export default function PostDetailPage() {
             {post.media.map((item) => (
               <div key={item.id} className="rounded-2xl overflow-hidden border border-surface-container bg-surface-container/25">
                 {item.type.startsWith('image/') ? (
-                  <img src={item.url} alt={item.filename} className="w-full h-auto object-cover" />
+                  <OptimizedImage
+                    media={item}
+                    alt={item.filename}
+                    className="w-full h-auto object-cover aspect-video"
+                  />
                 ) : (
                   <div className="p-4 text-xs font-semibold text-primary text-center">
                     파일 첨부: <a href={item.url} target="_blank" className="underline">{item.filename}</a>
@@ -128,6 +135,8 @@ export default function PostDetailPage() {
         <h3 className="text-xl font-display font-bold text-on-surface">
           댓글 <span className="text-primary font-extrabold">{commentsQuery.data?.length ?? 0}</span>
         </h3>
+
+        <PendingCommentsBanner postId={postId} onSyncComplete={() => commentsQuery.refetch()} />
 
         {/* Create Parent Comment Form */}
         <CommentForm

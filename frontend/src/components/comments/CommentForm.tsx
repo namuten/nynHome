@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
@@ -17,17 +19,43 @@ export default function CommentForm({
   const { isAuthenticated, user } = useAuth();
   const [body, setBody] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [offlineSuccess, setOfflineSuccess] = useState(false);
+
+  // 모바일 앱 네이티브 물리적 햅틱 반응 트리거
+  const triggerHaptics = async (type: 'success' | 'warning' | 'error') => {
+    if (!Capacitor.isNativePlatform()) return;
+    try {
+      if (type === 'success') {
+        await Haptics.impact({ style: ImpactStyle.Light });
+      } else if (type === 'warning') {
+        await Haptics.notification({ type: NotificationType.Warning });
+      } else {
+        await Haptics.notification({ type: NotificationType.Error });
+      }
+    } catch (err) {
+      console.warn('Haptics failed to trigger:', err);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!body.trim()) return;
     try {
       setErrorMsg(null);
+      setOfflineSuccess(false);
       await onSubmit(body);
       setBody('');
+      triggerHaptics('success'); // 성공 진동 발포
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
-      setErrorMsg(message);
+      if (err instanceof Error && err.message === 'OFFLINE_SAVED') {
+        setOfflineSuccess(true);
+        setBody('');
+        triggerHaptics('warning'); // 오프라인 세이브 진동 발포
+      } else {
+        const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
+        setErrorMsg(message);
+        triggerHaptics('error'); // 서버 실패 무거운 진동 발포
+      }
     }
   };
 
@@ -56,6 +84,11 @@ export default function CommentForm({
       {errorMsg && (
         <div className="p-3 text-xs rounded-xl bg-red-50 text-red-600 border border-red-100">
           {errorMsg}
+        </div>
+      )}
+      {offlineSuccess && (
+        <div className="p-3 text-xs rounded-xl bg-violet-500/10 text-violet-300 border border-violet-500/20 animate-pulse font-medium">
+          💚 네트워크 장애가 감지되어 작성하신 댓글이 <strong>오프라인 대기열(IndexedDB)</strong>에 임시 안전 저장되었습니다. 온라인 연결이 복구되면 자동으로 전송 및 적용됩니다!
         </div>
       )}
       <div className="relative">

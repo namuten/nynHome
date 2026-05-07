@@ -3,6 +3,7 @@ import DashboardMetricGrid from '../../components/admin/DashboardMetricGrid';
 import { Image as ImageIcon, Users, Clock, ArrowRight, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminStatusBadge from '../../components/admin/AdminStatusBadge';
+import { getOptimizedImageUrl } from '../../lib/media';
 
 /**
  * AdminDashboardPage - 어드민 통합 대시보드 페이지
@@ -236,8 +237,9 @@ export default function AdminDashboardPage() {
                 <div key={media.id} className="relative aspect-video rounded-2xl border border-surface-container bg-surface-container/10 overflow-hidden group">
                   {isImage ? (
                     <img
-                      src={media.fileUrl}
+                      src={getOptimizedImageUrl(media, 'thumb_medium')}
                       alt={media.fileName}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                     />
                   ) : (

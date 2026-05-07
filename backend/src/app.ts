@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { errorMiddleware } from './middleware/error.middleware';
+import { requestIdMiddleware } from './middleware/requestId.middleware';
+import { securityHeadersMiddleware } from './middleware/securityHeaders.middleware';
 import authRouter from './modules/auth/auth.router';
 import postsRouter from './modules/posts/posts.router';
 import mediaRouter from './modules/media/media.router';
@@ -20,6 +22,10 @@ import seoRouter from './modules/seo/seo.router';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
+app.use(requestIdMiddleware);
+app.use(securityHeadersMiddleware);
 app.use(cors());
 app.use(express.json());
 

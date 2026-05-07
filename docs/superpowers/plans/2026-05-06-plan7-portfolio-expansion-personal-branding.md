@@ -511,11 +511,11 @@ git commit -m "feat(profile): enhance public branding page"
 - Modify: `frontend/src/lib/profileApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/profile.ts`
 
-- [ ] **Step 1: locale tab UI 구현**
+- [x] **Step 1: locale tab UI 구현**
 
 `ko`, `en` 탭으로 profile settings를 편집한다.
 
-- [ ] **Step 2: profile editor form 작성**
+- [x] **Step 2: profile editor form 작성**
 
 필드:
 - displayName
@@ -530,26 +530,26 @@ git commit -m "feat(profile): enhance public branding page"
 - skills
 - achievements
 
-- [ ] **Step 3: list field editor 구현**
+- [x] **Step 3: list field editor 구현**
 
 interests/skills/achievements는 add/remove/reorder가 가능해야 한다.
 
-- [ ] **Step 4: 저장 플로우 구현**
+- [x] **Step 4: 저장 플로우 구현**
 
 `PUT /api/admin/profile/:locale` 호출 후 public profile preview link 제공.
 
-- [ ] **Step 5: validation details 표시**
+- [x] **Step 5: validation details 표시**
 
 backend `VALIDATION_ERROR.details`를 field-level로 표시한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminProfilePage.tsx frontend/src/components/admin/ProfileEditorForm.tsx frontend/src/components/admin/LocaleTabs.tsx frontend/src/lib frontend/src/types/profile.ts

@@ -790,7 +790,7 @@ cd android && ./gradlew bundleRelease
 
 ### Steps
 
-- [ ] Step 1: `.github/workflows/mobile-build.yml` 생성
+- [x] Step 1: `.github/workflows/mobile-build.yml` 생성
 
 ```yaml
 name: Mobile Build
@@ -848,7 +848,7 @@ jobs:
           track: internal
 ```
 
-- [ ] Step 2: GitHub Secrets 추가 목록 문서화
+- [x] Step 2: GitHub Secrets 추가 목록 문서화
 
 ```text
 APPLE_P12_BASE64            iOS 코드사이닝 인증서 (Base64)
@@ -859,9 +859,9 @@ ANDROID_KEYSTORE_ALIAS      키 alias
 GOOGLE_PLAY_SERVICE_ACCOUNT Google Play API 서비스 계정 JSON
 ```
 
-- [ ] Step 3: `main` 브랜치 push는 웹 빌드만 실행, `v*` 태그는 전체 모바일 빌드 + 스토어 업로드
+- [x] Step 3: `main` 브랜치 push는 웹 빌드만 실행, `v*` 태그는 전체 모바일 빌드 + 스토어 업로드
 
-- [ ] Step 4: Fastlane 선택적 도입 — `Fastfile`이 있으면 `xcodebuild` 대신 `fastlane beta`/`fastlane deliver` 사용
+- [x] Step 4: Fastlane 선택적 도입 — `Fastfile`이 있으면 `xcodebuild` 대신 `fastlane beta`/`fastlane deliver` 사용
 
 **Commit:** `ci: add GitHub Actions workflow for iOS and Android Capacitor builds`
 
@@ -874,7 +874,7 @@ GOOGLE_PLAY_SERVICE_ACCOUNT Google Play API 서비스 계정 JSON
 
 ### Steps
 
-- [ ] Step 1: Playwright 모바일 프로파일로 주요 플로우 테스트
+- [x] Step 1: Playwright 모바일 프로파일로 주요 플로우 테스트
 
 ```typescript
 // playwright.config.ts에 추가
@@ -893,7 +893,7 @@ projects: [
 - 오프라인 fallback 페이지 표시
 ```
 
-- [ ] Step 2: Lighthouse CI 모바일 점수 기준
+- [x] Step 2: Lighthouse CI 모바일 점수 기준
 
 ```text
 Performance: 70+
@@ -903,11 +903,11 @@ SEO: 90+
 PWA: 90+
 ```
 
-- [ ] Step 3: `axe-core` 접근성 자동 테스트 — Bottom nav, OfflinePage, PWAInstallBanner 포함
+- [x] Step 3: `axe-core` 접근성 자동 테스트 — Bottom nav, OfflinePage, PWAInstallBanner 포함
 
-- [ ] Step 4: 터치 타겟 크기 검사 — 모든 인터랙티브 요소 최소 44×44px (iOS HIG 기준)
+- [x] Step 4: 터치 타겟 크기 검사 — 모든 인터랙티브 요소 최소 44×44px (iOS HIG 기준)
 
-- [ ] Step 5: Plan 10 기능 (알림, 검색, 컬렉션) 모바일에서 regression 확인
+- [x] Step 5: Plan 10 기능 (알림, 검색, 컬렉션) 모바일에서 regression 확인
 
 **Commit:** `test(mobile): add mobile e2e tests and accessibility regression`
 

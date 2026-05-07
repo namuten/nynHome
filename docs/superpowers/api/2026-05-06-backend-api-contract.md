@@ -648,5 +648,124 @@
 2. **반복 연속 문자 도배 차단**: 동일한 문자가 consecutive하게 10회 이상 반복해서 나열된 경우 거부 (`SPAM_DETECTED`)
 3. **단기 동일 댓글 연속 등록 방지**: 동일 사용자가 15초 이내에 동일한 내용의 댓글을 연속해서 이중 작성(Double Posting)하는 경우 거부 (`SPAM_DETECTED`)
 
+---
+
+## 14. Operational Audit Logs
+
+관리자 계정에서 행한 자원 생성, 수정, 삭제 등의 중요 비즈니스 뮤테이션 활동 기록을 정밀 추적/보관합니다.
+
+### GET /api/admin/audit-logs
+- **Auth**: Admin
+- **Query Parameters**:
+  - `page` (optional): number (기본값 1)
+  - `limit` (optional): number (기본값 20)
+  - `action` (optional): string (특정 행위 필터, 예: `post.create`)
+  - `resourceType` (optional): string (특정 리소스 종류 필터)
+- **Response (200)**:
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "action": "media-types.put",
+        "resourceType": "media-types",
+        "resourceId": "5",
+        "adminUserId": 1,
+        "summary": "Admin executed PUT on media-types (ID: 5)",
+        "metadata": {
+          "path": "/api/admin/media-types/5",
+          "statusCode": 200,
+          "body": { "maxSizeMb": 25, "isAllowed": true }
+        },
+        "ipHash": "a1f5904cb9b7a33945e9cfb980...",
+        "userAgentSummary": "Chrome on macOS",
+        "createdAt": "2026-05-07T12:00:00.000Z"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 20
+  }
+  ```
+
+---
+
+## 15. Privacy-Conscious Analytics
+
+개인정보 보호(IP, Session 암호화 해싱)를 준수하며 사이트 유입 및 페이지 뷰 통계를 실시간으로 집계합니다.
+
+### POST /api/analytics/events
+- **Auth**: Public (익명 전송 가능)
+- **Request Body**:
+  ```json
+  {
+    "eventName": "page_view",
+    "route": "/portfolio",
+    "referrer": "https://google.com",
+    "locale": "ko",
+    "sessionId": "client-side-uuid-or-random-string",
+    "metadata": {}
+  }
+  ```
+- **Response (201)**:
+  ```json
+  {
+    "status": "ACCEPTED",
+    "eventId": "1"
+  }
+  ```
+
+### GET /api/admin/analytics/summary
+- **Auth**: Admin
+- **Query Parameters**:
+  - `from` (optional): ISO date / YYYY-MM-DD
+  - `to` (optional): ISO date / YYYY-MM-DD
+- **Response (200)**:
+  ```json
+  {
+    "totalPageViews": 12450,
+    "totalUniqueSessions": 3200,
+    "avgViewsPerSession": 3.89,
+    "timeline": [
+      {
+        "date": "2026-05-06",
+        "pageViews": 450,
+        "sessions": 120
+      }
+    ]
+  }
+  ```
+
+### GET /api/admin/analytics/routes
+- **Auth**: Admin
+- **Query Parameters**:
+  - `from` (optional): ISO date / YYYY-MM-DD
+  - `to` (optional): ISO date / YYYY-MM-DD
+  - `limit` (optional): number (기본값 15)
+- **Response (200)**:
+  ```json
+  [
+    {
+      "route": "/portfolio",
+      "pageViews": 8450,
+      "uniqueSessions": 2100
+    },
+    {
+      "route": "/blog",
+      "pageViews": 3100,
+      "uniqueSessions": 950
+    }
+  ]
+  ```
+
+### GET /api/admin/analytics/events
+- **Auth**: Admin
+- **Query Parameters**:
+  - `from` (optional): ISO date / YYYY-MM-DD
+  - `to` (optional): ISO date / YYYY-MM-DD
+  - `eventName` (optional): string (예: `cta_click`)
+- **Response (200)**: Event 객체 리스트 (최대 100건)
+
+
 
 

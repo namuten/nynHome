@@ -1168,7 +1168,7 @@ git commit -m "feat(seo): manage public metadata settings"
 - Modify: admin profile/portfolio/showcase/seo pages
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: locale 상태 정책 구현**
+- [x] **Step 1: locale 상태 정책 구현**
 
 우선순위:
 1. URL query `?lang=ko|en`
@@ -1176,19 +1176,19 @@ git commit -m "feat(seo): manage public metadata settings"
 3. browser language
 4. default `ko`
 
-- [ ] **Step 2: LocaleToggle 구현**
+- [x] **Step 2: LocaleToggle 구현**
 
 public header 또는 profile/portfolio 페이지 상단에 노출한다.
 
-- [ ] **Step 3: API 요청 locale 연결**
+- [x] **Step 3: API 요청 locale 연결**
 
 profile/portfolio/showcase/seo API 호출에 locale을 전달한다.
 
-- [ ] **Step 4: 관리자 locale 편집 UX 통일**
+- [x] **Step 4: 관리자 locale 편집 UX 통일**
 
 Profile/Portfolio/Showcase/SEO admin page에서 `LocaleTabs`를 재사용한다.
 
-- [ ] **Step 5: 번역 누락 fallback 정책 구현**
+- [x] **Step 5: 번역 누락 fallback 정책 구현**
 
 영문 데이터가 없으면:
 - admin 화면에서는 “영문 콘텐츠 없음” 표시
@@ -1196,17 +1196,17 @@ Profile/Portfolio/Showcase/SEO admin page에서 `LocaleTabs`를 재사용한다.
 
 권장: public은 ko fallback + locale badge.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add frontend/src/lib/i18n.ts frontend/src/hooks/useLocale.ts frontend/src/components/LocaleToggle.tsx frontend/src/pages frontend/src/components/admin docs/superpowers/api/2026-05-06-backend-api-contract.md
+git add frontend/src/lib/i18n.ts frontend/src/hooks/useLocale.tsx frontend/src/components/LocaleToggle.tsx frontend/src/pages frontend/src/components/admin
 git commit -m "feat(i18n): add Korean English locale foundation"
 ```
 

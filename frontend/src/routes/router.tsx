@@ -9,6 +9,9 @@ import ProfilePage from '../pages/ProfilePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import GuestbookPage from '../pages/GuestbookPage';
+import CommunityGuidelinesPage from '../pages/CommunityGuidelinesPage';
+import PrivacySafetyPage from '../pages/PrivacySafetyPage';
 
 // Portfolio imports
 import PortfolioPage from '../pages/portfolio/PortfolioPage';
@@ -39,6 +42,8 @@ import AdminSeoPage from '../pages/admin/AdminSeoPage';
 import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage';
 import AdminAuditLogsPage from '../pages/admin/AdminAuditLogsPage';
 import AdminOperationsPage from '../pages/admin/AdminOperationsPage';
+import AdminModerationPage from '../pages/admin/AdminModerationPage';
+import AdminReportsPage from '../pages/admin/AdminReportsPage';
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +62,9 @@ export const router = createBrowserRouter([
       { path: 'portfolio/showcase/:slug', element: <ShowcaseDetailPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
+      { path: 'guestbook', element: <GuestbookPage /> },
+      { path: 'community-guidelines', element: <CommunityGuidelinesPage /> },
+      { path: 'privacy-safety', element: <PrivacySafetyPage /> },
       {
         element: <AdminRouteGuard />,
         children: [
@@ -84,6 +92,8 @@ export const router = createBrowserRouter([
               { path: 'analytics', element: <AdminAnalyticsPage /> },
               { path: 'audit-logs', element: <AdminAuditLogsPage /> },
               { path: 'operations', element: <AdminOperationsPage /> },
+              { path: 'moderation', element: <AdminModerationPage /> },
+              { path: 'reports', element: <AdminReportsPage /> },
             ],
           },
         ],

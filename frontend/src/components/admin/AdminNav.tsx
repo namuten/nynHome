@@ -17,6 +17,8 @@ import {
   BarChart3,
   History,
   Server,
+  ShieldAlert,
+  Flag,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -36,6 +38,11 @@ export default function AdminNav() {
     { to: '/admin/portfolio', label: '포트폴리오 관리', icon: Briefcase },
     { to: '/admin/showcase', label: '작품 쇼케이스', icon: Palette },
     { to: '/admin/seo', label: 'SEO 설정', icon: Globe },
+  ];
+
+  const communityMenuItems = [
+    { to: '/admin/moderation', label: '모더레이션 큐', icon: ShieldAlert },
+    { to: '/admin/reports', label: '신고 내역 관리', icon: Flag },
   ];
 
   const advancedMenuItems = [
@@ -86,6 +93,30 @@ export default function AdminNav() {
               key={item.to}
               to={item.to}
               end={item.exact}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-300 ${
+                  isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]'
+                    : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                }`
+              }
+            >
+              <Icon className="w-4.5 h-4.5" />
+              <span>{item.label}</span>
+            </NavLink>
+          );
+        })}
+
+        {/* Community Management */}
+        <div className="text-[10px] font-black text-on-surface-variant/70 uppercase tracking-widest px-3 pt-6 mb-2 select-none">
+          커뮤니티 관리
+        </div>
+        {communityMenuItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-300 ${
                   isActive

@@ -569,11 +569,11 @@ git commit -m "feat(admin): add profile branding editor"
 - Create: `backend/tests/portfolio.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: portfolio_sections model 추가**
+- [x] **Step 1: portfolio_sections model 추가**
 
 locale, sectionKey, title, body, items JSON, order, isVisible을 포함한다.
 
-- [ ] **Step 2: public portfolio endpoint 구현**
+- [x] **Step 2: public portfolio endpoint 구현**
 
 ```text
 GET /api/portfolio?locale=ko
@@ -588,7 +588,7 @@ Response:
 }
 ```
 
-- [ ] **Step 3: admin section CRUD 구현**
+- [x] **Step 3: admin section CRUD 구현**
 
 ```text
 POST   /api/admin/portfolio/sections
@@ -597,7 +597,7 @@ DELETE /api/admin/portfolio/sections/:id
 PUT    /api/admin/portfolio/sections/reorder
 ```
 
-- [ ] **Step 4: validation 규칙 정의**
+- [x] **Step 4: validation 규칙 정의**
 
 - sectionKey: 1~80
 - title: 1~160
@@ -607,7 +607,7 @@ PUT    /api/admin/portfolio/sections/reorder
 - isVisible: boolean
 - locale: ko/en
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/portfolio -> 200 sections
@@ -617,7 +617,7 @@ PUT section as admin -> 200
 DELETE section as admin -> 204
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -626,7 +626,7 @@ npm test -- tests/portfolio.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/portfolio backend/src/app.ts backend/tests/portfolio.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

@@ -861,7 +861,7 @@ git commit -m "feat(analytics): track public route events"
 - Modify: `frontend/src/lib/operationsApi.ts`
 - Modify: `frontend/src/types/admin.ts`
 
-- [ ] **Step 1: API client 작성**
+- [x] **Step 1: API client 작성**
 
 ```typescript
 getAdminAnalyticsSummary({ from, to })
@@ -869,7 +869,7 @@ getAdminRouteAnalytics({ from, to, limit })
 getAdminAnalyticsEvents({ from, to, eventName })
 ```
 
-- [ ] **Step 2: summary cards 구현**
+- [x] **Step 2: summary cards 구현**
 
 표시:
 - page views
@@ -879,7 +879,7 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - push opt-ins
 - PWA install events
 
-- [ ] **Step 3: date range filter 구현**
+- [x] **Step 3: date range filter 구현**
 
 기본:
 - 최근 7일
@@ -887,7 +887,7 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - 이번 달
 - custom from/to
 
-- [ ] **Step 4: route table 구현**
+- [x] **Step 4: route table 구현**
 
 컬럼:
 - route
@@ -896,18 +896,18 @@ getAdminAnalyticsEvents({ from, to, eventName })
 - top locale
 - trend placeholder
 
-- [ ] **Step 5: empty state**
+- [x] **Step 5: empty state**
 
 데이터가 없으면 analytics 설치/수집 상태 안내를 보여준다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminAnalyticsPage.tsx frontend/src/components/admin/AnalyticsSummaryCards.tsx frontend/src/components/admin/RouteAnalyticsTable.tsx frontend/src/hooks/useAdminAnalytics.ts frontend/src/lib/operationsApi.ts frontend/src/types/admin.ts

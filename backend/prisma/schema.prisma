@@ -366,3 +366,86 @@ model GuestbookReport {
   @@unique([guestbookEntryId, reporterUserId])
   @@map("guestbook_reports")
 }
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    Int?      @map("user_id") // nullable = 관리자 전용 알림이면 null
+  type      String    // "new_comment" | "new_guestbook" | "report_resolved" | "broadcast"
+  title     String    @db.VarChar(200)
+  body      String    @db.VarChar(500)
+  linkUrl   String?   @map("link_url") @db.VarChar(500)
+  isRead    Boolean   @default(false) @map("is_read")
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId, isRead, createdAt])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  id              Int      @id @default(autoincrement())
+  adminUserId     Int      @unique @map("admin_user_id")
+  onNewComment    Boolean  @default(true) @map("on_new_comment")
+  onNewGuestbook  Boolean  @default(true) @map("on_new_guestbook")
+  onReportFlagged Boolean  @default(true) @map("on_report_flagged")
+  emailDigestFreq String   @default("weekly") @map("email_digest_freq") // "never" | "daily" | "weekly"
+  emailAddress    String?  @map("email_address") @db.VarChar(320)
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("notification_preferences")
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  slug      String   @db.VarChar(50) @unique
+  color     String?  @db.VarChar(7)  // hex color e.g. "#a78bfa"
+  createdAt DateTime @default(now()) @map("created_at")
+
+  contentTags ContentTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model ContentTag {
+  id          Int    @id @default(autoincrement())
+  tagId       Int    @map("tag_id")
+  contentType String @map("content_type") // "post" | "image" | "video" | "portfolio_item"
+  contentId   Int    @map("content_id")
+
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tagId, contentType, contentId])
+  @@index([contentType, contentId])
+  @@map("content_tags")
+}
+
+model Collection {
+  id           Int      @id @default(autoincrement())
+  title        String   @db.VarChar(200)
+  description  String?  @db.Text
+  coverImageId Int?     @map("cover_image_id")
+  isPublished  Boolean  @default(false) @map("is_published")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  items CollectionItem[]
+
+  @@map("collections")
+}
+
+model CollectionItem {
+  id           Int    @id @default(autoincrement())
+  collectionId Int    @map("collection_id")
+  contentType  String @map("content_type") // "post" | "image" | "video" | "portfolio_item"
+  contentId    Int    @map("content_id")
+  position     Int    @default(0) // display order within collection
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, contentType, contentId])
+  @@index([collectionId, position])
+  @@index([contentType, contentId])   // reverse lookup: "which collections contain this item?"
+  @@map("collection_items")
+}

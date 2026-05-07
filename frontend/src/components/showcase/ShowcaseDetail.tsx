@@ -2,12 +2,46 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Tag, Calendar, ExternalLink, Bookmark, Newspaper, Grid } from 'lucide-react';
 import { GallerySlideshow } from './GallerySlideshow';
+import { AudioPlayer } from './AudioPlayer';
 import type { ShowcaseItem } from '../../types/showcase';
 
 interface ShowcaseDetailProps {
   item: ShowcaseItem;
   locale: 'ko' | 'en';
 }
+
+// 각 작품 고유 슬러그별로 프리미엄 오디오 데모 트랙 할당 (소리 체험)
+const getDemoAudioTracks = (slug: string) => {
+  const tracks: Record<string, { title: string; url: string; artist?: string }[]> = {
+    'crochub-dashboard': [
+      {
+        title: '🐊 CrocHub Telemetry Lo-Fi Beat',
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+        artist: 'Antigravity Sound Labs',
+      },
+      {
+        title: '🔋 Device Under Test Chill Ambient',
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+        artist: 'IoT Symphony Orchestra',
+      },
+    ],
+    'webgl-monster-lab': [
+      {
+        title: '👾 Shaders GLSL Procedural Rhythm',
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+        artist: 'Render Knight',
+      },
+    ],
+    'antigravity-ai-assistant': [
+      {
+        title: '🤖 Agentic Flow Coding Chill',
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+        artist: 'Antigravity AI Co-Pilot',
+      },
+    ],
+  };
+  return tracks[slug] || [];
+};
 
 // 작품 고유 ID별로 매칭하여 상세 스크린샷 갤러리 가상 이미지 구성 (풍성한 데모 시각화 제공)
 const getFallbackGalleryImages = (id: number): string[] => {
@@ -40,6 +74,9 @@ export default function ShowcaseDetail({ item, locale }: ShowcaseDetailProps) {
 
   // 미디어 파일 또는 Fallback 갤러리 이미지 할당
   const galleryImages = getFallbackGalleryImages(item.id);
+
+  // 오디오 트랙 정보 획득
+  const audioTracks = getDemoAudioTracks(item.slug);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto font-body animate-fade-in">
@@ -119,6 +156,19 @@ export default function ShowcaseDetail({ item, locale }: ShowcaseDetailProps) {
           {item.description}
         </p>
       </div>
+
+      {/* 4.5. 음악 / 오디오 플레이어 (존재할 시 동적으로 승격 상영!) */}
+      {audioTracks.length > 0 && (
+        <div className="space-y-3.5">
+          <h3 className="text-sm font-black text-primary flex items-center gap-1.5 uppercase tracking-wider">
+            <span>🎵 프로젝트 동행 오디오 가이드 (Audio Walkthrough)</span>
+          </h3>
+          <p className="text-xs text-on-surface-variant font-medium leading-relaxed">
+            나만의 고품격 개발 해설 가이드 음성 또는 배경 Lo-Fi 음악을 들어보세요.
+          </p>
+          <AudioPlayer tracks={audioTracks} />
+        </div>
+      )}
 
       {/* 5. 미디어 상세 이력 갤러리 모음 */}
       {galleryImages.length > 0 && (

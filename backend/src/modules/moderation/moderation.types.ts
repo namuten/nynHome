@@ -22,7 +22,13 @@ export const ModerateCommentSchema = z.object({
   hiddenReason: z.string().optional().nullable(),
 });
 
+export const ModerateGuestbookSchema = z.object({
+  isHidden: z.boolean(),
+  hiddenReason: z.string().optional().nullable(),
+});
+
 export type ReportListQueryDto = z.infer<typeof ReportListQuerySchema>;
 export type UpdateReportStatusDto = z.infer<typeof UpdateReportStatusSchema>;
 export type ModerationQueueQueryDto = z.infer<typeof ModerationQueueQuerySchema>;
 export type ModerateCommentDto = z.infer<typeof ModerateCommentSchema>;
+export type ModerateGuestbookDto = z.infer<typeof ModerateGuestbookSchema>;

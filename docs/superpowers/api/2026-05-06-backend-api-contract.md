@@ -946,3 +946,66 @@
   ```
 - **Response (200)**: 업데이트된 `Comment` 객체
 
+## 19. Guestbook (방명록)
+
+### GET /api/guestbook
+- **Auth**: Public (None)
+- **Query Params**:
+  - `page` (optional): default 1
+  - `limit` (optional): default 20
+- **Response (200)**:
+  ```json
+  {
+    "items": [
+      {
+        "id": 1,
+        "userId": 5,
+        "body": "Nice web!",
+        "isHidden": false,
+        "createdAt": "2026-05-07T12:00:00Z",
+        "user": {
+          "id": 5,
+          "nickname": "User123",
+          "avatarUrl": "..."
+        }
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
+  }
+  ```
+
+### POST /api/guestbook
+- **Auth**: User+
+- **Request Body**:
+  ```json
+  {
+    "body": "응원합니다!"
+  }
+  ```
+- **Response (201)**: 생성된 `GuestbookEntry` 객체
+
+### POST /api/guestbook/:id/reports
+- **Auth**: User+
+- **Request Body**:
+  ```json
+  {
+    "reason": "spam",
+    "description": "광고성 스팸 글입니다."
+  }
+  ```
+- **Response (201)**: 생성된 `GuestbookReport` 객체
+
+### PATCH /api/admin/guestbook/:id/moderation
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "isHidden": true,
+    "hiddenReason": "spam"
+  }
+  ```
+- **Response (200)**: 업데이트된 `GuestbookEntry` 객체
+

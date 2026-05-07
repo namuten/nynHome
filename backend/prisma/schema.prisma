@@ -17,11 +17,15 @@ model User {
   role         Role     @default(user)
   createdAt    DateTime @default(now())
 
-  comments          Comment[]
-  pushSubs          PushSubscription[]
-  reports           CommentReport[]    @relation("UserReports")
-  resolvedReports   CommentReport[]    @relation("AdminResolvedReports")
-  moderatedComments Comment[]          @relation("AdminModeratedComments")
+  comments                  Comment[]
+  pushSubs                  PushSubscription[]
+  reports                   CommentReport[]    @relation("UserReports")
+  resolvedReports           CommentReport[]    @relation("AdminResolvedReports")
+  moderatedComments         Comment[]          @relation("AdminModeratedComments")
+  guestbookEntries          GuestbookEntry[]   @relation("UserGuestbookEntries")
+  guestbookReports          GuestbookReport[]  @relation("UserGuestbookReports")
+  resolvedGuestbookReports  GuestbookReport[]  @relation("AdminResolvedGuestbookReports")
+  moderatedGuestbookEntries GuestbookEntry[]   @relation("AdminModeratedGuestbookEntries")
 
   @@map("users")
 }
@@ -324,4 +328,41 @@ model BackupRun {
   errorMessage String?   @map("error_message") @db.Text
 
   @@map("backup_runs")
+}
+
+model GuestbookEntry {
+  id                 Int               @id @default(autoincrement())
+  userId             Int               @map("user_id")
+  body               String            @db.Text
+  isHidden           Boolean           @default(false) @map("is_hidden")
+  hiddenReason       String?           @db.VarChar(200) @map("hidden_reason")
+  moderatedAt        DateTime?         @map("moderated_at")
+  moderatedByAdminId Int?              @map("moderated_by_admin_id")
+  createdAt          DateTime          @default(now()) @map("created_at")
+
+  user             User              @relation("UserGuestbookEntries", fields: [userId], references: [id], onDelete: Cascade)
+  moderatedByAdmin User?             @relation("AdminModeratedGuestbookEntries", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
+  reports          GuestbookReport[]
+
+  @@map("guestbook_entries")
+}
+
+model GuestbookReport {
+  id                Int          @id @default(autoincrement())
+  guestbookEntryId  Int          @map("guestbook_entry_id")
+  reporterUserId    Int          @map("reporter_user_id")
+  reason            ReportReason
+  description       String?      @db.Text
+  status            ReportStatus @default(open)
+  resolutionNote    String?      @db.Text @map("resolution_note")
+  resolvedByAdminId Int?         @map("resolved_by_admin_id")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  guestbookEntry  GuestbookEntry @relation(fields: [guestbookEntryId], references: [id], onDelete: Cascade)
+  reporterUser    User           @relation("UserGuestbookReports", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  resolvedByAdmin User?          @relation("AdminResolvedGuestbookReports", fields: [resolvedByAdminId], references: [id], onDelete: SetNull)
+
+  @@unique([guestbookEntryId, reporterUserId])
+  @@map("guestbook_reports")
 }

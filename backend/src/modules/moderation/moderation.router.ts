@@ -6,6 +6,7 @@ import {
   UpdateReportStatusSchema,
   ModerationQueueQuerySchema,
   ModerateCommentSchema,
+  ModerateGuestbookSchema,
 } from './moderation.types';
 import * as moderationService from './moderation.service';
 
@@ -52,6 +53,21 @@ router.get('/moderation/queue', validateQuery(ModerationQueueQuerySchema), async
 router.patch('/comments/:id/moderation', validateBody(ModerateCommentSchema), async (req: Request, res: Response) => {
   try {
     const result = await moderationService.moderateComment(
+      parseInt(req.params.id),
+      req.body,
+      req.user!.userId,
+      req
+    );
+    res.json(result);
+  } catch (err: any) {
+    if (err.message === 'NOT_FOUND') return res.status(404).json({ error: 'NOT_FOUND' });
+    res.status(500).json({ error: 'INTERNAL_ERROR' });
+  }
+});
+
+router.patch('/guestbook/:id/moderation', validateBody(ModerateGuestbookSchema), async (req: Request, res: Response) => {
+  try {
+    const result = await moderationService.moderateGuestbook(
       parseInt(req.params.id),
       req.body,
       req.user!.userId,

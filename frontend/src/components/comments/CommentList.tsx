@@ -162,7 +162,8 @@ export default function CommentList({
       {/* Report Dialog */}
       <ReportDialog
         isOpen={reportCommentId !== null}
-        commentId={reportCommentId!}
+        targetType="comment"
+        targetId={reportCommentId || 0}
         onClose={() => setReportCommentId(null)}
       />
     </div>

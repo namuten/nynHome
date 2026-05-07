@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { X, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useReportComment } from '../../hooks/useReportComment';
-import type { ReportCommentPayload } from '../../lib/reportsApi';
+import { useReportGuestbookEntry } from '../../hooks/useGuestbook';
 import CommunityGuidelinesLink from './CommunityGuidelinesLink';
 import { AxiosError } from 'axios';
 
 interface ReportDialogProps {
-  commentId: number;
+  targetType: 'comment' | 'guestbook';
+  targetId: number;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const REASONS: { value: ReportCommentPayload['reason']; label: string; desc: string }[] = [
+const REASONS: { value: 'spam' | 'harassment' | 'personal_info' | 'inappropriate' | 'other'; label: string; desc: string }[] = [
   { value: 'spam', label: '스팸/홍보성', desc: '상업적 광고나 무의미한 내용 도배' },
   { value: 'harassment', label: '욕설/비방', desc: '특정인에 대한 모욕이나 혐오 발언' },
   { value: 'personal_info', label: '개인정보 노출', desc: '본인 또는 타인의 민감한 정보 포함' },
@@ -19,45 +20,52 @@ const REASONS: { value: ReportCommentPayload['reason']; label: string; desc: str
   { value: 'other', label: '기타 사유', desc: '기타 정책 위반 사항' },
 ];
 
-export default function ReportDialog({ commentId, isOpen, onClose }: ReportDialogProps) {
-  const [reason, setReason] = useState<ReportCommentPayload['reason']>('spam');
+export default function ReportDialog({ targetType, targetId, isOpen, onClose }: ReportDialogProps) {
+  const [reason, setReason] = useState<'spam' | 'harassment' | 'personal_info' | 'inappropriate' | 'other'>('spam');
   const [description, setDescription] = useState('');
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const reportMutation = useReportComment(commentId);
+  const commentMutation = useReportComment(targetType === 'comment' ? targetId : 0);
+  const guestbookMutation = useReportGuestbookEntry();
 
   if (!isOpen) return null;
+
+  const isPending = targetType === 'comment' ? commentMutation.isPending : guestbookMutation.isPending;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
 
-    reportMutation.mutate(
-      { reason, description },
-      {
-        onSuccess: () => {
-          setSuccess(true);
-          setTimeout(() => {
-            handleClose();
-          }, 2000);
-        },
-        onError: (err) => {
-          if (err instanceof AxiosError) {
-            const apiError = err.response?.data?.error;
-            if (apiError === 'ALREADY_REPORTED') {
-              setErrorMsg('이미 신고가 접수된 댓글입니다.');
-            } else if (apiError === 'COMMENT_NOT_FOUND') {
-              setErrorMsg('존재하지 않거나 이미 삭제된 댓글입니다.');
-            } else {
-              setErrorMsg('신고 접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            }
-          } else {
-            setErrorMsg('알 수 없는 오류가 발생했습니다.');
-          }
-        },
+    const onSuccess = () => {
+      setSuccess(true);
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+    };
+
+    const onError = (err: any) => {
+      if (err instanceof AxiosError) {
+        const apiError = err.response?.data?.error;
+        if (apiError === 'ALREADY_REPORTED') {
+          setErrorMsg('이미 신고가 접수된 콘텐츠입니다.');
+        } else if (apiError === 'NOT_FOUND') {
+          setErrorMsg('존재하지 않거나 이미 삭제된 콘텐츠입니다.');
+        } else if (err.response?.data?.message) {
+          setErrorMsg(err.response.data.message);
+        } else {
+          setErrorMsg('신고 접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        }
+      } else {
+        setErrorMsg('알 수 없는 오류가 발생했습니다.');
       }
-    );
+    };
+
+    if (targetType === 'comment') {
+      commentMutation.mutate({ reason, description }, { onSuccess, onError });
+    } else {
+      guestbookMutation.mutate({ id: targetId, payload: { reason, description } }, { onSuccess, onError });
+    }
   };
 
   const handleClose = () => {
@@ -68,6 +76,8 @@ export default function ReportDialog({ commentId, isOpen, onClose }: ReportDialo
     onClose();
   };
 
+  const title = targetType === 'comment' ? '댓글 신고하기' : '방명록 신고하기';
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in font-body">
       <div className="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden flex flex-col">
@@ -75,7 +85,7 @@ export default function ReportDialog({ commentId, isOpen, onClose }: ReportDialo
         <div className="flex items-center justify-between p-6 border-b border-surface-container">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-red-500" />
-            <h2 className="text-lg font-black text-on-surface tracking-tight">댓글 신고하기</h2>
+            <h2 className="text-lg font-black text-on-surface tracking-tight">{title}</h2>
           </div>
           <button
             onClick={handleClose}
@@ -126,7 +136,7 @@ export default function ReportDialog({ commentId, isOpen, onClose }: ReportDialo
                         name="reason"
                         value={r.value}
                         checked={reason === r.value}
-                        onChange={(e) => setReason(e.target.value as ReportCommentPayload['reason'])}
+                        onChange={(e) => setReason(e.target.value as any)}
                         className="mt-1 shrink-0 text-primary focus:ring-primary border-outline-variant"
                       />
                       <div className="flex flex-col">
@@ -164,10 +174,10 @@ export default function ReportDialog({ commentId, isOpen, onClose }: ReportDialo
                 </div>
                 <button
                   type="submit"
-                  disabled={reportMutation.isPending}
+                  disabled={isPending}
                   className="w-full sm:w-auto px-6 py-2.5 bg-red-500 text-white text-sm font-bold rounded-xl hover:bg-red-600 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center"
                 >
-                  {reportMutation.isPending ? (
+                  {isPending ? (
                     <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
                   ) : (
                     '신고 접수'

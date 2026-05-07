@@ -31,7 +31,7 @@ export class SearchService {
   }): Promise<SearchResult> {
     const { query, types, page, limit } = params;
 
-    if (!query || query.trim() === '') {
+    if (!query || query.trim().length < 2) {
       return { query, results: [], total: 0, page, limit };
     }
 

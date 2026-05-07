@@ -13,6 +13,14 @@ router.get('/search', async (req: Request, res: Response, next: NextFunction) =>
     const page = parseInt(req.query.page as string || '1', 10);
     const limit = parseInt(req.query.limit as string || '20', 10);
 
+    // 2글자 미만 가드 (ngram_token_size=2 정렬)
+    if (q.trim().length < 2) {
+      return res.status(400).json({
+        error: 'BAD_REQUEST',
+        message: '검색어는 최소 2글자 이상 입력해주셔야 합니다.',
+      });
+    }
+
     // 쉼표로 분할하여 타입 배열 확보, 비어있을 시 디폴트 전체 검색
     const typesParam = req.query.types as string;
     let types: ('post' | 'image' | 'video' | 'portfolio')[] = ['post', 'image', 'video', 'portfolio'];

@@ -87,4 +87,16 @@ describe('Search Integration Tests', () => {
     expect(res.total).toBe(0);
     expect(res.results).toEqual([]);
   });
+
+  it('should return empty results if query is shorter than 2 characters', async () => {
+    const res = await SearchService.search({
+      query: '크',
+      types: ['post', 'portfolio'],
+      page: 1,
+      limit: 10,
+    });
+
+    expect(res.total).toBe(0);
+    expect(res.results).toEqual([]);
+  });
 });

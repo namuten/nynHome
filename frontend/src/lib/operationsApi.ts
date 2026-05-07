@@ -38,3 +38,9 @@ export async function getSystemHealth() {
   const { data } = await api.get('/admin/system/health');
   return data;
 }
+
+export async function getAdminAnalyticsEvents(params?: AnalyticsQueryParams) {
+  const { data } = await api.get('/admin/analytics/events', { params });
+  return data;
+}
+

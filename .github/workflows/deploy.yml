@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             # 서버 상의 nynHome 프로젝트 루트 디렉토리 생성 및 최초 복제(Clone) 자동화
-            TARGET_PARENT="$HOME/nagee"
+            TARGET_PARENT="/home/tfsmaster/nagee"
             mkdir -p "$TARGET_PARENT"
             cd "$TARGET_PARENT"
 

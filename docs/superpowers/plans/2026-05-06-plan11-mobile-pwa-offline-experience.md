@@ -303,13 +303,13 @@ registerRoute(
 
 ### Steps
 
-- [ ] Step 1: `idb-keyval` 설치
+- [x] Step 1: `idb-keyval` 설치
 
 ```bash
 npm install idb-keyval
 ```
 
-- [ ] Step 2: `frontend/src/lib/offlineComments.ts`
+- [x] Step 2: `frontend/src/lib/offlineComments.ts`
 
 ```typescript
 import { set, get, del, keys } from 'idb-keyval'
@@ -329,7 +329,7 @@ export const pendingComments = {
 }
 ```
 
-- [ ] Step 3: `sw.ts`에 Background Sync 플러그인 등록
+- [x] Step 3: `sw.ts`에 Background Sync 플러그인 등록
 
 ```typescript
 import { BackgroundSyncPlugin } from 'workbox-background-sync'
@@ -346,13 +346,13 @@ registerRoute(
 )
 ```
 
-- [ ] Step 4: 댓글 폼 컴포넌트 수정 — `navigator.onLine === false` 또는 fetch 실패 시 `pendingComments.add()` 호출
+- [x] Step 4: 댓글 폼 컴포넌트 수정 — `navigator.onLine === false` 또는 fetch 실패 시 `pendingComments.add()` 호출
 
-- [ ] Step 5: `PendingCommentsBanner.tsx` — 오프라인 댓글이 있으면 상단 배너 표시 ("3개의 댓글이 전송 대기 중입니다")
+- [x] Step 5: `PendingCommentsBanner.tsx` — 오프라인 댓글이 있으면 상단 배너 표시 ("3개의 댓글이 전송 대기 중입니다")
 
-- [ ] Step 6: Background Sync 미지원 fallback — `window.addEventListener('online', ...)` 로 온라인 복귀 시 자동 재전송 시도
+- [x] Step 6: Background Sync 미지원 fallback — `window.addEventListener('online', ...)` 로 온라인 복귀 시 자동 재전송 시도
 
-- [ ] Step 7: 테스트:
+- [x] Step 7: 테스트:
   - `DevTools Offline → 댓글 작성 → Offline 해제 → 댓글 전송 성공` 플로우 확인
   - `pendingComments.add stores to IndexedDB`
   - 미지원 브라우저에서 fallback 배너 표시 확인

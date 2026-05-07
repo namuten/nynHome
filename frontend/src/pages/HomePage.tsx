@@ -1,18 +1,30 @@
 import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { usePosts } from '../hooks/usePosts';
 import { useSchedules } from '../hooks/useSchedules';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import PostGrid from '../components/content/PostGrid';
+import PullToRefreshContainer from '../components/common/PullToRefreshContainer';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   useSeoMeta('home', 'ko');
+  const queryClient = useQueryClient();
+
   const { data: postsData, isLoading: postsLoading, isError: postsError } = usePosts({ limit: 6 });
   const currentMonth = new Date().toISOString().substring(0, 7); // "YYYY-MM"
   const { data: schedules, isLoading: schedLoading } = useSchedules(currentMonth);
 
+  const handleRefresh = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['posts'] }),
+      queryClient.invalidateQueries({ queryKey: ['schedules'] }),
+    ]);
+  };
+
   return (
-    <div className="space-y-12 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <PullToRefreshContainer onRefresh={handleRefresh}>
+      <div className="space-y-12 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Premium Hero block */}
       <div className="relative rounded-[40px] overflow-hidden bg-gradient-to-tr from-primary/10 via-secondary/5 to-transparent border border-primary/10 p-8 md:p-12 text-center md:text-left croc-scale-bg">
         <div className="max-w-2xl space-y-4">
@@ -113,5 +125,6 @@ export default function HomePage() {
         </div>
       </div>
     </div>
-  );
+  </PullToRefreshContainer>
+);
 }

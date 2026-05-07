@@ -1007,7 +1007,7 @@ git commit -m "feat(seo): generate sitemap and robots endpoints"
 - Create: `backend/tests/media-derivatives.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: 이미지 처리 라이브러리 선택**
+- [x] **Step 1: 이미지 처리 라이브러리 선택**
 
 권장: `sharp`
 
@@ -1034,11 +1034,11 @@ npm install --cpu=x64 --os=linuxmusl sharp
 
 **이 Step이 블로킹되면 Task 11을 선택 구현으로 격하하고 다음 Task를 먼저 진행한다.**
 
-- [ ] **Step 2: media_derivatives model 추가**
+- [x] **Step 2: media_derivatives model 추가**
 
 `media_id`, derivative_type, file_url, width/height, mimeType, fileSize 저장.
 
-- [ ] **Step 3: derivative generation 정책 정의**
+- [x] **Step 3: derivative generation 정책 정의**
 
 이미지 업로드 시 생성:
 
@@ -1049,7 +1049,7 @@ web_optimized: max 1600px webp
 og_image: 1200x630 crop/fit optional
 ```
 
-- [ ] **Step 4: R2 업로드 연동**
+- [x] **Step 4: R2 업로드 연동**
 
 파생 파일 key 예시:
 
@@ -1057,14 +1057,14 @@ og_image: 1200x630 crop/fit optional
 derivatives/{mediaId}/thumb_medium.webp
 ```
 
-- [ ] **Step 5: regenerate endpoint 구현**
+- [x] **Step 5: regenerate endpoint 구현**
 
 ```text
 POST /api/admin/media/:id/derivatives/regenerate
 GET  /api/admin/media/:id/derivatives
 ```
 
-- [ ] **Step 6: 실패 정책**
+- [x] **Step 6: 실패 정책**
 
 원본 업로드 성공 후 derivative 실패는 업로드 전체를 실패시킬지 결정한다.
 
@@ -1072,7 +1072,7 @@ GET  /api/admin/media/:id/derivatives
 - 원본 업로드는 성공 처리
 - derivative 실패는 warning log + admin에서 regenerate 가능
 
-- [ ] **Step 7: 테스트 작성**
+- [x] **Step 7: 테스트 작성**
 
 ```text
 image upload creates derivatives when image type
@@ -1081,7 +1081,7 @@ regenerate as user -> 403
 regenerate as admin -> 200
 ```
 
-- [ ] **Step 8: 확인**
+- [x] **Step 8: 확인**
 
 ```bash
 cd backend
@@ -1089,7 +1089,7 @@ npm test -- tests/media-derivatives.test.ts
 npm run build
 ```
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/prisma/schema.prisma backend/src/modules/media backend/tests/media-derivatives.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

@@ -545,7 +545,7 @@ PUT    /api/admin/collections/:id/reorder   # 아이템 순서 변경
 
 ### Steps
 
-- [ ] Step 1: `backend/src/modules/collections/collections.service.ts`
+- [x] Step 1: `backend/src/modules/collections/collections.service.ts`
 
 ```typescript
 createCollection(data: { title: string; description?: string; coverImageId?: number }): Promise<Collection>
@@ -556,13 +556,13 @@ removeItemFromCollection(collectionId: number, itemId: number): Promise<void>
 reorderItems(collectionId: number, items: { contentType: string; contentId: number; position: number }[]): Promise<void>
 ```
 
-- [ ] Step 2: 역조회 확인 — `getCollectionsByContent(contentType, contentId)` 구현 (pivot table이므로 단순 JOIN)
+- [x] Step 2: 역조회 확인 — `getCollectionsByContent(contentType, contentId)` 구현 (pivot table이므로 단순 JOIN)
 
-- [ ] Step 3: 아이템 추가 시 UNIQUE constraint 위반 → 409 Conflict 반환
+- [x] Step 3: 아이템 추가 시 UNIQUE constraint 위반 → 409 Conflict 반환
 
-- [ ] Step 4: `backend/src/modules/collections/collections.routes.ts` 등록
+- [x] Step 4: `backend/src/modules/collections/collections.routes.ts` 등록
 
-- [ ] Step 5: 테스트:
+- [x] Step 5: 테스트:
   - `addItemToCollection stores pivot row with position`
   - `addItemToCollection duplicate returns 409`
   - `reorderItems updates positions`

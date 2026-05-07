@@ -379,7 +379,7 @@ registerRoute(
 
 ### Steps
 
-- [ ] Step 1: `usePWAInstall.ts` 훅
+- [x] Step 1: `usePWAInstall.ts` 훅
 
 ```typescript
 export function usePWAInstall() {
@@ -398,17 +398,17 @@ export function usePWAInstall() {
 }
 ```
 
-- [ ] Step 2: `PWAInstallBanner.tsx` — 하단 fixed 배너
+- [x] Step 2: `PWAInstallBanner.tsx` — 하단 fixed 배너
 
 ```text
 [크로코다일 아이콘] "CrocHub를 홈 화면에 추가하세요" [추가하기] [×]
 ```
 
-- [ ] Step 3: iOS용 안내 모달 — Safari 공유 버튼 + "홈 화면에 추가" 단계 이미지 포함
+- [x] Step 3: iOS용 안내 모달 — Safari 공유 버튼 + "홈 화면에 추가" 단계 이미지 포함
 
-- [ ] Step 4: 방문 횟수 카운터 — sessionStorage로 방문 횟수 추적, 3회 도달 시 배너 표시
+- [x] Step 4: 방문 횟수 카운터 — sessionStorage로 방문 횟수 추적, 3회 도달 시 배너 표시
 
-- [ ] Step 5: Public layout에 `PWAInstallBanner` 삽입 (이미 설치했거나 dismissed면 숨김)
+- [x] Step 5: Public layout에 `PWAInstallBanner` 삽입 (이미 설치했거나 dismissed면 숨김)
 
 **Commit:** `feat(pwa): add public install prompt with iOS fallback`
 

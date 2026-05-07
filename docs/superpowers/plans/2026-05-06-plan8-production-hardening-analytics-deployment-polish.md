@@ -366,14 +366,14 @@ git commit -m "feat(operations): prepare admin operations routes"
 - Modify: `backend/src/app.ts`
 - Create/Modify: `backend/tests/security.test.ts`
 
-- [ ] **Step 1: request id middleware 작성**
+- [x] **Step 1: request id middleware 작성**
 
 - incoming `x-request-id`가 있으면 검증 후 사용
 - 없으면 UUID 생성
 - response header `x-request-id`로 반환
 - request context 또는 `req.requestId`에 저장
 
-- [ ] **Step 2: security headers 적용**
+- [x] **Step 2: security headers 적용**
 
 기본 headers:
 
@@ -386,18 +386,18 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 CSP는 Vite/nginx/static asset 정책과 충돌 가능성이 있으므로 별도 검증 후 적용한다.
 
-- [ ] **Step 3: Express trust proxy 정책 확인**
+- [x] **Step 3: Express trust proxy 정책 확인**
 
 nginx 뒤에서 IP 기반 rate limit을 할 경우 `app.set('trust proxy', 1)` 필요 여부를 운영 환경 기준으로 정한다.
 
-- [ ] **Step 4: 테스트 작성**
+- [x] **Step 4: 테스트 작성**
 
 ```text
 GET /api/health returns x-request-id
 GET /api/health returns security headers
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -405,7 +405,7 @@ npm test -- tests/security.test.ts
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src/middleware backend/src/app.ts backend/tests/security.test.ts

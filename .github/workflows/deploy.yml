@@ -19,16 +19,29 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             # 서버 상의 nynHome 프로젝트 루트 디렉토리 탐색 및 진입
-            if [ -d "$HOME/git/nynHome" ]; then
-              cd "$HOME/git/nynHome"
-            elif [ -d "$HOME/nagee/nynHome" ]; then
-              cd "$HOME/nagee/nynHome"
-            elif [ -d "$HOME/nynHome" ]; then
-              cd "$HOME/nynHome"
-            else
-              echo "Error: nynHome directory not found."
+            TARGET_DIR=""
+            for dir in \
+              "/home/nagee/git/nynHome" \
+              "/home/nagee/nagee/nynHome" \
+              "$HOME/git/nynHome" \
+              "$HOME/nagee/nynHome" \
+              "~/git/nynHome" \
+              "~/nagee/nynHome" \
+              "$HOME/nynHome" \
+              "~/nynHome" \
+              "/root/nynHome"; do
+              if [ -d "$dir" ]; then
+                TARGET_DIR="$dir"
+                break
+              fi
+            done
+
+            if [ -z "$TARGET_DIR" ]; then
+              echo "Error: nynHome directory not found on any of the expected paths."
               exit 1
             fi
+
+            cd "$TARGET_DIR"
 
             echo "Current working directory: $(pwd)"
 

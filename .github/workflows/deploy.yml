@@ -18,17 +18,17 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            # 서버 상의 nynHome 프로젝트 루트 디렉토리 탐색 및 진입
-            if [ -d "$HOME/git/nynHome" ]; then
-              cd "$HOME/git/nynHome"
-            elif [ -d "$HOME/nagee/nynHome" ]; then
-              cd "$HOME/nagee/nynHome"
-            elif [ -d "$HOME/nynHome" ]; then
-              cd "$HOME/nynHome"
-            else
-              echo "Error: nynHome directory not found."
-              exit 1
+            # 서버 상의 nynHome 프로젝트 루트 디렉토리 생성 및 최초 복제(Clone) 자동화
+            TARGET_PARENT="/home/tfsmaster/nagee"
+            mkdir -p "$TARGET_PARENT"
+            cd "$TARGET_PARENT"
+
+            if [ ! -d "nynHome" ]; then
+              echo "nynHome not found! Initiating automatic clone..."
+              git clone git@github.com:namuten/nynHome.git || git clone https://github.com/namuten/nynHome.git
             fi
+
+            cd nynHome
 
             echo "Current working directory: $(pwd)"
 

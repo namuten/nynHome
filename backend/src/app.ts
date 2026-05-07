@@ -19,6 +19,7 @@ import showcaseRouter from './modules/showcase/showcase.router';
 import seoRouter from './modules/seo/seo.router';
 import auditRouter from './modules/audit/audit.router';
 import analyticsRouter from './modules/analytics/analytics.router';
+import operationsRouter from './modules/operations/operations.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -74,6 +75,7 @@ app.use('/api/layout', layoutRouter);
 app.use('/api/push', pushRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/admin', auditRouter);
+app.use('/api/admin', operationsRouter);
 app.use('/api', analyticsRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);

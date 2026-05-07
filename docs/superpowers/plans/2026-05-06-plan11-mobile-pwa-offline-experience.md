@@ -504,9 +504,9 @@ export function usePullToRefresh(onRefresh: () => Promise<void>, options?: { thr
 
 ### Steps
 
-- [ ] Step 1: `<img>` 태그에 `loading="lazy"` + `decoding="async"` 적용 (이미 되어 있다면 확인)
+- [x] Step 1: `<img>` 태그에 `loading="lazy"` + `decoding="async"` 적용 (이미 되어 있다면 확인)
 
-- [ ] Step 2: `srcset` + `sizes` 추가 — Plan 8에서 sharp로 생성한 multi-resolution 이미지 활용
+- [x] Step 2: `srcset` + `sizes` 추가 — Plan 8에서 sharp로 생성한 multi-resolution 이미지 활용
 
 ```html
 <img
@@ -519,14 +519,14 @@ export function usePullToRefresh(onRefresh: () => Promise<void>, options?: { thr
 />
 ```
 
-- [ ] Step 3: Blur placeholder (LQIP — Low Quality Image Placeholder)
+- [x] Step 3: Blur placeholder (LQIP — Low Quality Image Placeholder)
 
 ```typescript
 // Plan 8 업로드 시 sharp로 16x16 Base64 thumbnail을 생성해 DB에 저장
 // 이미지 로드 전 blur CSS filter로 표시 → 로드 완료 시 fade-in
 ```
 
-- [ ] Step 4: `navigator.connection` API로 저대역폭 감지
+- [x] Step 4: `navigator.connection` API로 저대역폭 감지
 
 ```typescript
 const connection = (navigator as any).connection
@@ -535,9 +535,9 @@ if (connection?.effectiveType === '2g' || connection?.saveData === true) {
 }
 ```
 
-- [ ] Step 5: 홈 피드 Intersection Observer 기반 점진적 로드 (`IntersectionObserver` + `rootMargin: '100px'`)
+- [x] Step 5: 홈 피드 Intersection Observer 기반 점진적 로드 (`IntersectionObserver` + `rootMargin: '100px'`)
 
-- [ ] Step 6: WebP 미지원 브라우저 fallback — `<picture>` + `<source type="image/webp">` + `<img>` fallback
+- [x] Step 6: WebP 미지원 브라우저 fallback — `<picture>` + `<source type="image/webp">` + `<img>` fallback
 
 **Commit:** `perf(mobile): add lazy loading, srcset, blur placeholders, data-saver UX`
 

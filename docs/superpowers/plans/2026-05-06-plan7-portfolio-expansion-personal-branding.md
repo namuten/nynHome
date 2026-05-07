@@ -1296,7 +1296,7 @@ git commit -m "fix(portfolio): polish responsive branding experience"
 - Modify: `README.md`
 - Modify: `docs/superpowers/plans/2026-05-06-plan7-portfolio-expansion-personal-branding.md`
 
-- [ ] **Step 1: API contract 업데이트 확인**
+- [x] **Step 1: API contract 업데이트 확인**
 
 반드시 포함:
 - profile public/admin endpoints
@@ -1306,7 +1306,7 @@ git commit -m "fix(portfolio): polish responsive branding experience"
 - locale query 정책
 - error code / validation 규칙
 
-- [ ] **Step 2: README 사용법 추가**
+- [x] **Step 2: README 사용법 추가**
 
 필요 시 다음을 추가한다.
 
@@ -1318,17 +1318,17 @@ SEO/Open Graph 설정 방법
 KO/EN locale 사용 정책
 ```
 
-- [ ] **Step 3: Plan 7 체크박스 상태 반영**
+- [x] **Step 3: Plan 7 체크박스 상태 반영**
 
 구현 완료된 Task/Step은 `[x]`로 업데이트한다.
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 git diff --check
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/superpowers/api/2026-05-06-backend-api-contract.md README.md docs/superpowers/plans/2026-05-06-plan7-portfolio-expansion-personal-branding.md
@@ -1339,7 +1339,7 @@ git commit -m "docs: finalize portfolio expansion plan"
 
 ## Task 17: 전체 회귀 검증
 
-- [ ] **Step 1: clean 상태 확인**
+- [x] **Step 1: clean 상태 확인**
 
 ```bash
 git status --short
@@ -1347,7 +1347,7 @@ git status --short
 
 Expected: 의도한 변경만 존재
 
-- [ ] **Step 2: backend build/test**
+- [x] **Step 2: backend build/test**
 
 ```bash
 cd backend
@@ -1357,7 +1357,7 @@ npm test
 
 Expected: PASS
 
-- [ ] **Step 3: frontend build/lint/test**
+- [x] **Step 3: frontend build/lint/test**
 
 ```bash
 cd frontend
@@ -1370,7 +1370,7 @@ Expected:
 - build PASS
 - lint/test 스크립트가 없으면 최종 보고에 명시
 
-- [ ] **Step 4: Docker smoke test**
+- [x] **Step 4: Docker smoke test**
 
 ```bash
 docker compose up --build -d
@@ -1379,7 +1379,7 @@ curl http://localhost/api/health
 
 Expected: `{"status":"ok"}`
 
-- [ ] **Step 5: Public route smoke test**
+- [x] **Step 5: Public route smoke test**
 
 ```text
 /profile
@@ -1394,7 +1394,7 @@ Expected:
 - API loading/error fallback 정상
 - mobile layout 깨짐 없음
 
-- [ ] **Step 6: Admin route smoke test**
+- [x] **Step 6: Admin route smoke test**
 
 ```text
 /admin/profile
@@ -1408,7 +1408,7 @@ Expected:
 - 일반 user 접근 차단
 - admin 접근 가능
 
-- [ ] **Step 7: 최종 Commit**
+- [x] **Step 7: 최종 Commit**
 
 ```bash
 git add .
@@ -1419,21 +1419,21 @@ git commit -m "chore: complete portfolio expansion and personal branding"
 
 ## 완료 기준
 
-- [ ] `/profile`이 API 기반 public branding page로 고도화됨
-- [ ] `/portfolio` 포트폴리오 랜딩 페이지가 구현됨
-- [ ] `/portfolio/resume` 이력서형 요약 페이지가 구현됨
-- [ ] `/portfolio/showcase` 작품 전시 목록이 구현됨
-- [ ] `/portfolio/showcase/:slug` 작품 상세와 gallery slideshow가 구현됨
-- [ ] 오디오/음악 미디어를 재생할 수 있는 AudioPlayer가 구현됨
-- [ ] `/admin/profile`에서 프로필/브랜딩 정보를 편집할 수 있음
-- [ ] `/admin/portfolio`에서 포트폴리오 섹션을 관리할 수 있음
-- [ ] `/admin/showcase`에서 작품 showcase를 작성/수정/삭제할 수 있음
-- [ ] `/admin/seo`에서 SEO/Open Graph 기본값을 관리할 수 있음
-- [ ] KO/EN locale toggle과 locale-aware API 요청이 동작함
-- [ ] API contract 문서가 Plan 7 변경사항을 반영함
-- [ ] `cd backend && npm run build && npm test` PASS
-- [ ] `cd frontend && npm run build` PASS
-- [ ] Docker smoke test에서 `/api/health` 정상 응답
+- [x] `/profile`이 API 기반 public branding page로 고도화됨
+- [x] `/portfolio` 포트폴리오 랜딩 페이지가 구현됨
+- [x] `/portfolio/resume` 이력서형 요약 페이지가 구현됨
+- [x] `/portfolio/showcase` 작품 전시 목록이 구현됨
+- [x] `/portfolio/showcase/:slug` 작품 상세와 gallery slideshow가 구현됨
+- [x] 오디오/음악 미디어를 재생할 수 있는 AudioPlayer가 구현됨
+- [x] `/admin/profile`에서 프로필/브랜딩 정보를 편집할 수 있음
+- [x] `/admin/portfolio`에서 포트폴리오 섹션을 관리할 수 있음
+- [x] `/admin/showcase`에서 작품 showcase를 작성/수정/삭제할 수 있음
+- [x] `/admin/seo`에서 SEO/Open Graph 기본값을 관리할 수 있음
+- [x] KO/EN locale toggle과 locale-aware API 요청이 동작함
+- [x] API contract 문서가 Plan 7 변경사항을 반영함
+- [x] `cd backend && npm run build && npm test` PASS
+- [x] `cd frontend && npm run build` PASS
+- [x] Docker smoke test에서 `/api/health` 정상 응답
 
 ---
 

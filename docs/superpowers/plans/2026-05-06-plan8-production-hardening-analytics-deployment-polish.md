@@ -1212,7 +1212,7 @@ git commit -m "chore(cache): define production cache headers"
 - Create/Modify: `docs/operations/production-checklist.md`
 - Optional Modify: `docker-compose.yml`
 
-- [ ] **Step 1: backup script 작성**
+- [x] **Step 1: backup script 작성**
 
 기능:
 - `mysqldump` 실행
@@ -1227,7 +1227,7 @@ git commit -m "chore(cache): define production cache headers"
 ./backend/scripts/backup-db.sh ./backups
 ```
 
-- [ ] **Step 2: restore script 작성**
+- [x] **Step 2: restore script 작성**
 
 기능:
 - gzip dump 복원
@@ -1240,7 +1240,7 @@ git commit -m "chore(cache): define production cache headers"
 ./backend/scripts/restore-db.sh ./backups/crochub.sql.gz --target crochub_restore
 ```
 
-- [ ] **Step 3: media backup policy 문서화**
+- [x] **Step 3: media backup policy 문서화**
 
 R2 bucket은 DB dump와 별개로:
 - lifecycle/versioning 정책
@@ -1248,7 +1248,7 @@ R2 bucket은 DB dump와 별개로:
 - 삭제 보호 정책
 을 문서화한다.
 
-- [ ] **Step 4: restore rehearsal 문서 작성**
+- [x] **Step 4: restore rehearsal 문서 작성**
 
 최소 절차:
 1. 새 DB 생성
@@ -1257,7 +1257,7 @@ R2 bucket은 DB dump와 별개로:
 4. API health check
 5. 주요 public/admin route smoke test
 
-- [ ] **Step 5: incident response 문서 작성**
+- [x] **Step 5: incident response 문서 작성**
 
 포함:
 - 장애 분류
@@ -1266,7 +1266,7 @@ R2 bucket은 DB dump와 별개로:
 - secret leak 대응
 - R2 media 삭제 사고 대응
 
-- [ ] **Step 6: shellcheck 또는 dry-run 확인**
+- [x] **Step 6: shellcheck 또는 dry-run 확인**
 
 가능하면 실행:
 
@@ -1275,7 +1275,7 @@ bash -n backend/scripts/backup-db.sh
 bash -n backend/scripts/restore-db.sh
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/scripts/backup-db.sh backend/scripts/restore-db.sh docs/operations

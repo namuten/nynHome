@@ -1107,11 +1107,11 @@ git commit -m "feat(media): add image derivative pipeline"
 - Modify: `frontend/src/types/media.ts` or equivalent
 - Modify: `frontend/src/lib/adminApi.ts` or media API client
 
-- [ ] **Step 1: media type에 derivatives 추가**
+- [x] **Step 1: media type에 derivatives 추가**
 
 Frontend 타입에서 `derivatives` 배열 또는 key map을 지원한다.
 
-- [ ] **Step 2: image source 선택 helper 작성**
+- [x] **Step 2: image source 선택 helper 작성**
 
 우선순위:
 
@@ -1121,27 +1121,27 @@ OG/share image → og_image → web_optimized → original
 full gallery → web_optimized → original
 ```
 
-- [ ] **Step 3: lazy loading 적용**
+- [x] **Step 3: lazy loading 적용**
 
 public gallery/showcase/post thumbnail에 `loading="lazy"` 적용.
 
-- [ ] **Step 4: width/height 지정**
+- [x] **Step 4: width/height 지정**
 
 CLS 방지를 위해 가능한 이미지에 width/height 또는 aspect-ratio를 지정한다.
 
-- [ ] **Step 5: admin media 화면 derivative 상태 표시**
+- [x] **Step 5: admin media 화면 derivative 상태 표시**
 
 - derivative exists/missing badge
 - regenerate action link
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src

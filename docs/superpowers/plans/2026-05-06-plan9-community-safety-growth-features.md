@@ -358,38 +358,38 @@ git commit -m "feat(reports): add comment report workflow"
 - Modify: comment components in post detail
 - Modify: `frontend/src/types` as needed
 
-- [ ] **Step 1: reports API client 작성**
+- [x] **Step 1: reports API client 작성**
 
 ```typescript
 reportComment(commentId, { reason, description })
 ```
 
-- [ ] **Step 2: ReportDialog 구현**
+- [x] **Step 2: ReportDialog 구현**
 
 필드:
 - reason select (ENUM 기반)
 - description textarea (optional)
 - community guidelines link
 
-- [ ] **Step 3: comment action에 신고 버튼 추가**
+- [x] **Step 3: comment action에 신고 버튼 추가**
 
 - 로그인 user에게만 신고 버튼 표시
 - 미로그인 사용자는 로그인 유도
 
-- [ ] **Step 4: success/error UX**
+- [x] **Step 4: success/error UX**
 
 - 성공: "신고가 접수되었습니다."
 - 중복: "이미 신고한 댓글입니다."
 - validation: field-level 표시
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/lib/reportsApi.ts frontend/src/hooks/useReportComment.ts frontend/src/components/safety frontend/src

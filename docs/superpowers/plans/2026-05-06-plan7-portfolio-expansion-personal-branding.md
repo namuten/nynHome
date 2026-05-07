@@ -1220,10 +1220,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - Modify as needed: `frontend/src/pages/portfolio/*`
 - Modify as needed: `frontend/src/pages/ProfilePage.tsx`
 
-- [ ] **Step 1: portfolio responsive 확인**
+- [x] **Step 1: portfolio responsive 확인**
 
 확인 화면:
-
 ```text
 /profile
 /portfolio
@@ -1232,10 +1231,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 2: admin responsive 확인**
+- [x] **Step 2: admin responsive 확인**
 
 확인 화면:
-
 ```text
 /admin/profile
 /admin/portfolio
@@ -1243,7 +1241,7 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /admin/seo
 ```
 
-- [ ] **Step 3: keyboard accessibility 확인**
+- [x] **Step 3: keyboard accessibility 확인**
 
 특히 확인:
 - GallerySlideshow open/close/focus
@@ -1251,7 +1249,7 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - LocaleToggle
 - Admin list editor add/remove/reorder
 
-- [ ] **Step 4: metadata 확인**
+- [x] **Step 4: metadata 확인**
 
 브라우저 devtools로 확인:
 - title
@@ -1260,10 +1258,9 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 - og:description
 - og:image
 
-- [ ] **Step 5: screenshot 캡처**
+- [x] **Step 5: screenshot 캡처**
 
 웹 앱 시각 변경이 크므로 최소 다음 스크린샷을 남긴다.
-
 ```text
 /profile
 /portfolio
@@ -1276,14 +1273,14 @@ git commit -m "feat(i18n): add Korean English locale foundation"
 /admin/seo
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src

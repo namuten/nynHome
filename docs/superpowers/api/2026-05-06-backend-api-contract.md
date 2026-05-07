@@ -837,6 +837,39 @@
 
 
 
+---
 
+## 18. Reports & Moderation
 
+커뮤니티 안전을 위한 사용자 신고 및 어드민 모더레이션 관련 엔드포인트입니다.
+
+### POST /api/comments/:id/reports
+- **Auth**: User (로그인 필수)
+- **Request Body**:
+  ```json
+  {
+    "reason": "spam", // 'spam' | 'harassment' | 'personal_info' | 'inappropriate' | 'other'
+    "description": "반복적인 광고성 댓글입니다."
+  }
+  ```
+- **Response (201)**:
+  ```json
+  {
+    "id": 1,
+    "commentId": 42,
+    "reporterUserId": 5,
+    "reason": "spam",
+    "description": "반복적인 광고성 댓글입니다.",
+    "status": "open",
+    "resolutionNote": null,
+    "resolvedByAdminId": null,
+    "createdAt": "2026-05-07T12:00:00Z",
+    "updatedAt": "2026-05-07T12:00:00Z"
+  }
+  ```
+- **Error**:
+  - `401`: UNAUTHORIZED
+  - `400`: VALIDATION_ERROR (잘못된 사유 등)
+  - `404`: COMMENT_NOT_FOUND (존재하지 않는 댓글)
+  - `409`: ALREADY_REPORTED (이미 신고한 댓글)
 

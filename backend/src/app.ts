@@ -20,6 +20,7 @@ import seoRouter from './modules/seo/seo.router';
 import auditRouter from './modules/audit/audit.router';
 import analyticsRouter from './modules/analytics/analytics.router';
 import operationsRouter from './modules/operations/operations.router';
+import reportsRouter from './modules/reports/reports.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -70,6 +71,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/media', mediaRouter);
 app.use('/api', commentsRouter);
+app.use('/api', reportsRouter);
 app.use('/api/schedules', scheduleRouter);
 app.use('/api/layout', layoutRouter);
 app.use('/api/push', pushRouter);

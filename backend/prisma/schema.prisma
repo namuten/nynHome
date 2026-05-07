@@ -17,8 +17,10 @@ model User {
   role         Role     @default(user)
   createdAt    DateTime @default(now())
 
-  comments      Comment[]
-  pushSubs      PushSubscription[]
+  comments        Comment[]
+  pushSubs        PushSubscription[]
+  reports         CommentReport[]    @relation("UserReports")
+  resolvedReports CommentReport[]    @relation("AdminResolvedReports")
 
   @@map("users")
 }
@@ -26,6 +28,21 @@ model User {
 enum Role {
   admin
   user
+}
+
+enum ReportReason {
+  spam
+  harassment
+  personal_info
+  inappropriate
+  other
+}
+
+enum ReportStatus {
+  open
+  reviewing
+  resolved
+  rejected
 }
 
 model Post {
@@ -70,7 +87,6 @@ model Media {
   @@map("media")
 }
 
-
 enum FileCategory {
   image
   video
@@ -98,10 +114,31 @@ model Comment {
   isHidden  Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reports CommentReport[]
 
   @@map("comments")
+}
+
+model CommentReport {
+  id                Int          @id @default(autoincrement())
+  commentId         Int          @map("comment_id")
+  reporterUserId    Int          @map("reporter_user_id")
+  reason            ReportReason
+  description       String?      @db.Text
+  status            ReportStatus @default(open)
+  resolutionNote    String?      @map("resolution_note") @db.Text
+  resolvedByAdminId Int?         @map("resolved_by_admin_id")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  comment         Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  reporterUser    User    @relation("UserReports", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  resolvedByAdmin User?   @relation("AdminResolvedReports", fields: [resolvedByAdminId], references: [id], onDelete: SetNull)
+
+  @@unique([commentId, reporterUserId])
+  @@map("comment_reports")
 }
 
 model Schedule {
@@ -141,32 +178,32 @@ model PushSubscription {
 }
 
 model ProfileSettings {
-  id             Int      @id @default(autoincrement())
-  locale         String   @unique
-  displayName    String
-  tagline        String?
-  bio            String?  @db.Text
-  avatarUrl      String?
-  coverImageUrl  String?
-  school         String?
-  location       String?
-  emailPublic    String?
-  socialLinks    Json?    // 예: { "github": "...", "instagram": "..." }
-  interests      Json?    // 예: ["웹개발", "디자인"]
-  skills         Json?    // 예: ["React", "TypeScript", "Node.js"]
-  achievements   Json?    // 예: [{"title": "우수상", "date": "2026-01-01"}]
-  updatedAt      DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  locale        String   @unique
+  displayName   String
+  tagline       String?
+  bio           String?  @db.Text
+  avatarUrl     String?
+  coverImageUrl String?
+  school        String?
+  location      String?
+  emailPublic   String?
+  socialLinks   Json? // 예: { "github": "...", "instagram": "..." }
+  interests     Json? // 예: ["웹개발", "디자인"]
+  skills        Json? // 예: ["React", "TypeScript", "Node.js"]
+  achievements  Json? // 예: [{"title": "우수상", "date": "2026-01-01"}]
+  updatedAt     DateTime @updatedAt
 
   @@map("profile_settings")
 }
 
 model PortfolioSection {
   id         Int      @id @default(autoincrement())
-  locale     String   // "ko" | "en"
-  sectionKey String   // 예: "education", "experience"
+  locale     String // "ko" | "en"
+  sectionKey String // 예: "education", "experience"
   title      String
   body       String?  @db.Text
-  items      Json?    // 예: [{"title": "...", "subtitle": "...", "date": "...", "desc": "..."}]
+  items      Json? // 예: [{"title": "...", "subtitle": "...", "date": "...", "desc": "..."}]
   order      Int      @default(0)
   isVisible  Boolean  @default(true)
   createdAt  DateTime @default(now())
@@ -180,12 +217,12 @@ model ShowcaseItem {
   title        String
   slug         String    @unique
   description  String?   @db.Text
-  category     String    // 예: "3D Graphics", "Full-Stack Web"
+  category     String // 예: "3D Graphics", "Full-Stack Web"
   coverMediaId Int?
-  mediaIds     Json?     // 예: [1, 2, 3]
-  postId       Int?      // 관련 블로그 포스트 ID
+  mediaIds     Json? // 예: [1, 2, 3]
+  postId       Int? // 관련 블로그 포스트 ID
   locale       String    @default("ko") // "ko" | "en"
-  tags         Json?     // 예: ["React", "WebGL"]
+  tags         Json? // 예: ["React", "WebGL"]
   isFeatured   Boolean   @default(false)
   isPublished  Boolean   @default(false)
   publishedAt  DateTime?
@@ -198,12 +235,12 @@ model ShowcaseItem {
 
 model SeoSettings {
   id          Int      @id @default(autoincrement())
-  routeKey    String   // 예: "home", "portfolio", "blog", "study"
-  locale      String   // "ko" | "en"
+  routeKey    String // 예: "home", "portfolio", "blog", "study"
+  locale      String // "ko" | "en"
   title       String
   description String?  @db.Text
   ogImageUrl  String?
-  keywords    Json?    // 예: ["React", "WebGL"]
+  keywords    Json? // 예: ["React", "WebGL"]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -214,13 +251,13 @@ model SeoSettings {
 model AuditLog {
   id               Int      @id @default(autoincrement())
   action           String   @db.VarChar(120)
-  resourceType     String   @db.VarChar(80) @map("resource_type")
-  resourceId       String?  @db.VarChar(120) @map("resource_id")
+  resourceType     String   @map("resource_type") @db.VarChar(80)
+  resourceId       String?  @map("resource_id") @db.VarChar(120)
   adminUserId      Int?     @map("admin_user_id")
   summary          String   @db.VarChar(300)
   metadata         Json?
-  ipHash           String?  @db.VarChar(128) @map("ip_hash")
-  userAgentSummary String?  @db.VarChar(200) @map("user_agent_summary")
+  ipHash           String?  @map("ip_hash") @db.VarChar(128)
+  userAgentSummary String?  @map("user_agent_summary") @db.VarChar(200)
   createdAt        DateTime @default(now()) @map("created_at")
 
   @@map("audit_logs")
@@ -228,12 +265,12 @@ model AuditLog {
 
 model AnalyticsEvent {
   id            BigInt   @id @default(autoincrement())
-  eventName     String   @db.VarChar(120) @map("event_name")
+  eventName     String   @map("event_name") @db.VarChar(120)
   route         String   @db.VarChar(300)
   referrer      String?  @db.VarChar(500)
   locale        String?  @db.VarChar(5)
   userId        Int?     @map("user_id")
-  sessionIdHash String?  @db.VarChar(128) @map("session_id_hash")
+  sessionIdHash String?  @map("session_id_hash") @db.VarChar(128)
   metadata      Json?
   createdAt     DateTime @default(now()) @map("created_at")
 
@@ -244,7 +281,7 @@ model DailyAnalyticsRollup {
   id             Int      @id @default(autoincrement())
   day            DateTime @db.Date
   route          String?  @db.VarChar(300)
-  eventName      String   @db.VarChar(120) @map("event_name")
+  eventName      String   @map("event_name") @db.VarChar(120)
   count          Int
   uniqueSessions Int      @map("unique_sessions")
   createdAt      DateTime @default(now()) @map("created_at")
@@ -256,11 +293,11 @@ model DailyAnalyticsRollup {
 model MediaDerivative {
   id             Int      @id @default(autoincrement())
   mediaId        Int      @map("media_id")
-  derivativeType String   @db.VarChar(80) @map("derivative_type")
-  fileUrl        String   @db.VarChar(500) @map("file_url")
+  derivativeType String   @map("derivative_type") @db.VarChar(80)
+  fileUrl        String   @map("file_url") @db.VarChar(500)
   width          Int?
   height         Int?
-  mimeType       String   @db.VarChar(120) @map("mime_type")
+  mimeType       String   @map("mime_type") @db.VarChar(120)
   fileSize       BigInt   @map("file_size")
   createdAt      DateTime @default(now()) @map("created_at")
 
@@ -272,14 +309,14 @@ model MediaDerivative {
 
 model BackupRun {
   id           Int       @id @default(autoincrement())
-  backupType   String    @db.VarChar(80) @map("backup_type")
+  backupType   String    @map("backup_type") @db.VarChar(80)
   status       String    @db.VarChar(40)
-  fileUrl      String?   @db.VarChar(500) @map("file_url")
+  fileUrl      String?   @map("file_url") @db.VarChar(500)
   checksum     String?   @db.VarChar(128)
   sizeBytes    BigInt?   @map("size_bytes")
   startedAt    DateTime  @map("started_at")
   finishedAt   DateTime? @map("finished_at")
-  errorMessage String?   @db.Text @map("error_message")
+  errorMessage String?   @map("error_message") @db.Text
 
   @@map("backup_runs")
 }

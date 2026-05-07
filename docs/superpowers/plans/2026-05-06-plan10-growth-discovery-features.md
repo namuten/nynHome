@@ -283,7 +283,7 @@ notificationService.create({ type, title, body, linkUrl, userId? })
 
 ### Steps
 
-- [ ] Step 1: `backend/src/modules/notifications/notifications.service.ts` 생성
+- [x] Step 1: `backend/src/modules/notifications/notifications.service.ts` 생성
 
 핵심 함수:
 ```typescript
@@ -295,11 +295,11 @@ getPreferences(adminUserId: number): Promise<NotificationPreference>
 updatePreferences(adminUserId: number, data: Partial<NotificationPreference>): Promise<NotificationPreference>
 ```
 
-- [ ] Step 2: `backend/src/modules/notifications/notifications.controller.ts` 생성
+- [x] Step 2: `backend/src/modules/notifications/notifications.controller.ts` 생성
 
 모든 엔드포인트 구현, `requireAuth` 미들웨어 적용 (관리자 전용).
 
-- [ ] Step 3: Plan 9 comment report 처리 시 알림 자동 생성 — `commentReports.service.ts`에 hook 추가
+- [x] Step 3: Plan 9 comment report 처리 시 알림 자동 생성 — `commentReports.service.ts`에 hook 추가
 
 ```typescript
 // 신고 처리(approve/dismiss) 완료 시
@@ -311,9 +311,9 @@ await notificationService.create({
 });
 ```
 
-- [ ] Step 4: `backend/src/modules/notifications/notifications.routes.ts` 등록
+- [x] Step 4: `backend/src/modules/notifications/notifications.routes.ts` 등록
 
-- [ ] Step 5: 테스트 파일 `notifications.service.test.ts`:
+- [x] Step 5: 테스트 파일 `notifications.service.test.ts`:
   - `createNotification stores record`
   - `markAsRead sets isRead=true and readAt`
   - `getUnreadCount returns correct number`

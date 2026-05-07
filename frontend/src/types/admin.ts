@@ -98,3 +98,24 @@ export interface PushSendRequest {
   url?: string;
 }
 
+export interface AuditLog {
+  id: number;
+  action: string;
+  resourceType: string;
+  resourceId?: string | null;
+  adminUserId?: number | null;
+  summary: string;
+  metadata?: any;
+  ipHash?: string | null;
+  userAgentSummary?: string | null;
+  createdAt: string;
+}
+
+export interface AuditLogListResponse {
+  data: AuditLog[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+

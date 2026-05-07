@@ -1,4 +1,4 @@
-import { Server, ShieldCheck, Database, RefreshCw, HardDrive, FileCheck, CheckCircle } from 'lucide-react';
+import { Server, Database, RefreshCw, HardDrive, CheckCircle } from 'lucide-react';
 
 export default function AdminOperationsPage() {
   const mockSystemStatus = [

@@ -1159,7 +1159,7 @@ git commit -m "feat(media): use optimized image derivatives"
 - Modify: `docker-compose.yml` if needed
 - Create/Modify: `docs/operations/production-checklist.md`
 
-- [ ] **Step 1: static asset cache 정책 정의**
+- [x] **Step 1: static asset cache 정책 정의**
 
 권장:
 
@@ -1172,19 +1172,19 @@ media original: public, max-age=86400
 media derivatives: public, max-age=31536000, immutable if key content-addressed
 ```
 
-- [ ] **Step 2: nginx headers 적용**
+- [x] **Step 2: nginx headers 적용**
 
 정적 asset location에 cache header 추가.
 
-- [ ] **Step 3: API cache 방지**
+- [x] **Step 3: API cache 방지**
 
 민감한 admin API에 `Cache-Control: no-store`를 적용한다.
 
-- [ ] **Step 4: R2/CDN cache 정책 문서화**
+- [x] **Step 4: R2/CDN cache 정책 문서화**
 
 Cloudflare R2 public URL/CDN 앞단에서 어떤 cache TTL을 기대하는지 문서화한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 docker compose up --build -d
@@ -1193,7 +1193,7 @@ curl -I http://localhost/api/health
 curl -I http://localhost/sitemap.xml
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add nginx/nginx.conf backend/src/lib/cacheHeaders.ts backend/src/app.ts docker-compose.yml docs/operations/production-checklist.md

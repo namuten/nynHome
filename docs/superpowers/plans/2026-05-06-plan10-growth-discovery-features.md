@@ -494,7 +494,7 @@ DELETE /api/admin/content-tags        # 콘텐츠에서 태그 제거
 
 ### Steps
 
-- [ ] Step 1: `backend/src/modules/tags/tags.service.ts`
+- [x] Step 1: `backend/src/modules/tags/tags.service.ts`
 
 ```typescript
 createTag(data: { name: string; slug: string; color?: string }): Promise<Tag>
@@ -506,11 +506,11 @@ detachTag(contentType: string, contentId: number, tagId: number): Promise<void>
 deleteTag(id: number): Promise<void>
 ```
 
-- [ ] Step 2: slug 자동 생성 — `name`을 소문자, 공백 → `-`, 특수문자 제거
+- [x] Step 2: slug 자동 생성 — `name`을 소문자, 공백 → `-`, 특수문자 제거
 
-- [ ] Step 3: `backend/src/modules/tags/tags.routes.ts` 등록, admin 엔드포인트에 `requireAuth` 적용
+- [x] Step 3: `backend/src/modules/tags/tags.routes.ts` 등록, admin 엔드포인트에 `requireAuth` 적용
 
-- [ ] Step 4: 테스트:
+- [x] Step 4: 테스트:
   - `createTag generates unique slug`
   - `attachTag creates content_tags row`
   - `getContentByTag returns only content with that tag`

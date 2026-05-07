@@ -195,7 +195,7 @@ MySQL 8.0 기본 설정에서는 한국어/중국어/일본어(CJK) 텍스트에
 
 ### Steps
 
-- [ ] Step 1: MySQL 설정 확인 및 `my.cnf` 업데이트
+- [x] Step 1: MySQL 설정 확인 및 `my.cnf` 업데이트
 
 ```ini
 # mysql/my.cnf (또는 docker-compose의 MySQL command args)
@@ -211,7 +211,7 @@ services:
     command: --ngram_token_size=2
 ```
 
-- [ ] Step 2: Prisma migration에서 FULLTEXT index 생성
+- [x] Step 2: Prisma migration에서 FULLTEXT index 생성
 
 Prisma는 `WITH PARSER ngram` 구문을 직접 지원하지 않으므로 raw SQL migration을 사용한다.
 
@@ -241,7 +241,7 @@ ALTER TABLE tags
 
 > **주의:** 이 migration은 `prisma/migrations/`에 수동 `.sql` 파일로 배치하고 `prisma migrate resolve --applied` 로 표시하거나, `prisma db execute`를 사용한다. Prisma schema DSL에는 이 syntax가 없다.
 
-- [ ] Step 3: 테스트 — 한국어 키워드 "크로코다일" 검색 시 결과 반환 확인
+- [x] Step 3: 테스트 — 한국어 키워드 "크로코다일" 검색 시 결과 반환 확인
 
 ```sql
 SELECT id, title, MATCH(title, content) AGAINST ('크로코' IN BOOLEAN MODE) AS score
@@ -251,7 +251,7 @@ ORDER BY score DESC
 LIMIT 10;
 ```
 
-- [ ] Step 4: `ngram_token_size=2` 로 index rebuild 필요 여부 확인
+- [x] Step 4: `ngram_token_size=2` 로 index rebuild 필요 여부 확인
 
 기존 FULLTEXT index가 있다면 `ngram_token_size` 변경 후 index를 DROP하고 재생성해야 한다.
 

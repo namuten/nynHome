@@ -701,7 +701,7 @@ git commit -m "feat(guestbook): add public guestbook experience"
 - Optional Create: `docs/policies/community-guidelines.md`
 - Optional Create: `docs/policies/privacy-safety.md`
 
-- [ ] **Step 1: community guidelines 초안 작성**
+- [x] **Step 1: community guidelines 초안 작성**
 
 포함:
 - 환영하는 행동
@@ -709,7 +709,7 @@ git commit -m "feat(guestbook): add public guestbook experience"
 - 신고 방법
 - 운영자 조치 기준
 
-- [ ] **Step 2: privacy/safety note 작성**
+- [x] **Step 2: privacy/safety note 작성**
 
 포함:
 - 수집하는 정보 요약 (Plan 8 analytics 포함)
@@ -717,29 +717,29 @@ git commit -m "feat(guestbook): add public guestbook experience"
 - 신고 처리 방식
 - 문의/삭제 요청 방식
 
-- [ ] **Step 3: public pages 구현**
+- [x] **Step 3: public pages 구현**
 
 디자인은 public profile/portfolio 톤을 유지하되 가독성을 우선한다.
 
-- [ ] **Step 4: footer link 추가**
+- [x] **Step 4: footer link 추가**
 
 ```text
 Community Guidelines
 Privacy & Safety
 ```
 
-- [ ] **Step 5: 신고/방명록 UI 연결**
+- [x] **Step 5: 신고/방명록 UI 연결**
 
 ReportDialog와 GuestbookPage에서 guidelines link를 제공한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/CommunityGuidelinesPage.tsx frontend/src/pages/PrivacySafetyPage.tsx frontend/src/components/layout docs/policies

@@ -389,11 +389,11 @@ git commit -m "feat(portfolio): prepare portfolio and branding routes"
 - Create: `backend/tests/profile.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: Prisma model 추가**
+- [x] **Step 1: Prisma model 추가**
 
 `profile_settings` 모델을 추가한다. locale별 1 row를 권장한다.
 
-- [ ] **Step 2: public profile endpoint 구현**
+- [x] **Step 2: public profile endpoint 구현**
 
 ```text
 GET /api/profile?locale=ko
@@ -404,7 +404,7 @@ GET /api/profile?locale=ko
 - 해당 locale 데이터 없으면 default profile fallback 반환
 - public endpoint
 
-- [ ] **Step 3: admin profile update endpoint 구현**
+- [x] **Step 3: admin profile update endpoint 구현**
 
 ```text
 PUT /api/admin/profile/:locale
@@ -418,11 +418,11 @@ Validation:
 - socialLinks: known keys만 허용하거나 string map으로 제한
 - interests/skills: string array, 각 항목 max 60
 
-- [ ] **Step 4: seed 기본값 추가**
+- [x] **Step 4: seed 기본값 추가**
 
 관리자 seed와 별개로 `ko`, `en` 기본 profile row를 생성한다.
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/profile -> 200 default ko
@@ -433,7 +433,7 @@ PUT /api/admin/profile/ko invalid url -> 400 VALIDATION_ERROR
 PUT /api/admin/profile/ko as admin -> 200
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -442,7 +442,7 @@ npm test -- tests/profile.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/profile backend/src/app.ts backend/tests/profile.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

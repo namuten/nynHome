@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import type { ReportListQueryDto, UpdateReportStatusDto, ModerationQueueQueryDto, ModerateCommentDto, ModerateGuestbookDto } from './moderation.types';
 import { recordAuditLog } from '../audit/audit.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { Prisma } from '@prisma/client';
 import { Request } from 'express';
 
@@ -118,6 +119,14 @@ export async function updateReportStatus(
       req,
     });
 
+    // 알림 자동 생성
+    await NotificationsService.createNotification({
+      type: 'report_resolved',
+      title: '신고 처리 완료',
+      body: `댓글 신고가 처리되었습니다. (${data.status})`,
+      linkUrl: `/admin/moderation`,
+    });
+
     return updated;
   } else {
     const report = await prisma.guestbookReport.findUnique({ where: { id } });
@@ -142,6 +151,14 @@ export async function updateReportStatus(
       summary: `Resolved guestbook report ${id} with status ${data.status}`,
       metadata: { status: data.status, resolutionNote: data.resolutionNote },
       req,
+    });
+
+    // 알림 자동 생성
+    await NotificationsService.createNotification({
+      type: 'report_resolved',
+      title: '신고 처리 완료',
+      body: `방명록 신고가 처리되었습니다. (${data.status})`,
+      linkUrl: `/admin/moderation`,
     });
 
     return updated;

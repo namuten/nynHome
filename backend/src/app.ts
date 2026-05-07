@@ -23,6 +23,7 @@ import operationsRouter from './modules/operations/operations.router';
 import reportsRouter from './modules/reports/reports.router';
 import moderationRouter from './modules/moderation/moderation.router';
 import guestbookRouter from './modules/guestbook/guestbook.router';
+import notificationsRouter from './modules/notifications/notifications.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -82,6 +83,7 @@ app.use('/api/admin', auditRouter);
 app.use('/api/admin', operationsRouter);
 app.use('/api/admin', moderationRouter);
 app.use('/api/guestbook', guestbookRouter);
+app.use('/api/notifications', notificationsRouter);
 app.use('/api', analyticsRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);

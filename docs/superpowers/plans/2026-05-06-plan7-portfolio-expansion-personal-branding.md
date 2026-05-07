@@ -853,14 +853,14 @@ git commit -m "feat(showcase): add portfolio showcase API"
 - Create: `frontend/src/components/showcase/GallerySlideshow.tsx`
 - Modify: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: showcase API client 작성**
+- [x] **Step 1: showcase API client 작성**
 
 ```typescript
 getShowcaseList(params): Promise<ShowcaseItem[]>
 getShowcaseDetail(slug): Promise<ShowcaseDetail>
 ```
 
-- [ ] **Step 2: showcase grid 구현**
+- [x] **Step 2: showcase grid 구현**
 
 기능:
 - category filter
@@ -868,7 +868,7 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - responsive masonry 또는 simple grid
 - empty state
 
-- [ ] **Step 3: showcase detail 구현**
+- [x] **Step 3: showcase detail 구현**
 
 구성:
 - title/category/tags
@@ -877,7 +877,7 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - media gallery
 - linked post CTA
 
-- [ ] **Step 4: GallerySlideshow 구현**
+- [x] **Step 4: GallerySlideshow 구현**
 
 기능:
 - previous/next
@@ -886,20 +886,20 @@ getShowcaseDetail(slug): Promise<ShowcaseDetail>
 - image/video/document fallback
 - mobile swipe는 선택
 
-- [ ] **Step 5: 접근성 확인**
+- [x] **Step 5: 접근성 확인**
 
 - slideshow button aria-label
 - modal focus 처리
 - 이미지 alt fallback
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/portfolio frontend/src/lib/showcaseApi.ts frontend/src/hooks/useShowcase.ts frontend/src/components/showcase frontend/src/types/showcase.ts

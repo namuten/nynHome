@@ -563,11 +563,11 @@ git commit -m "feat(admin): implement moderation queue and reports management UI
 - Create: `backend/tests/guestbook.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: guestbook_entries / guestbook_reports model 추가**
+- [x] **Step 1: guestbook_entries / guestbook_reports model 추가**
 
 초기 정책: `POST /api/guestbook` user+ 전용.
 
-- [ ] **Step 2: public list endpoint 구현**
+- [x] **Step 2: public list endpoint 구현**
 
 ```text
 GET /api/guestbook?page=&limit=
@@ -575,7 +575,7 @@ GET /api/guestbook?page=&limit=
 
 정책: `isHidden=true` 항목은 public 응답에서 완전 제외. 관리자 화면에서만 표시.
 
-- [ ] **Step 3: create endpoint 구현**
+- [x] **Step 3: create endpoint 구현**
 
 ```text
 POST /api/guestbook  user+
@@ -594,13 +594,13 @@ Validation:
 - URL 과다 포함 방지 (Plan 8 spam guard 패턴 재사용)
 - 동일 body 짧은 시간 반복 방지
 
-- [ ] **Step 4: guestbook report endpoint 구현**
+- [x] **Step 4: guestbook report endpoint 구현**
 
 ```text
 POST /api/guestbook/:id/reports  user+
 ```
 
-- [ ] **Step 5: admin guestbook moderation 연결**
+- [x] **Step 5: admin guestbook moderation 연결**
 
 ```text
 PATCH /api/admin/guestbook/:id/moderation
@@ -608,7 +608,7 @@ PATCH /api/admin/guestbook/:id/moderation
 
 hidden 처리 및 Plan 8 audit log 기록.
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/guestbook -> 200
@@ -619,7 +619,7 @@ POST /api/guestbook/:id/reports duplicate -> 409 ALREADY_REPORTED
 GET /api/guestbook excludes hidden entries
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd backend
@@ -628,7 +628,7 @@ npm test -- tests/guestbook.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/guestbook backend/src/modules/moderation backend/src/app.ts backend/tests/guestbook.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

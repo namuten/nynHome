@@ -91,7 +91,7 @@ Plan 12로 넘길 내용:
 
 ### Steps
 
-- [ ] Step 1: `frontend/public/manifest.json` 완성
+- [x] Step 1: `frontend/public/manifest.json` 완성
 
 ```json
 {
@@ -127,9 +127,9 @@ Plan 12로 넘길 내용:
 }
 ```
 
-- [ ] Step 2: `purpose: "maskable"` 아이콘 생성 — safe zone은 전체 아이콘의 80% 내 원형 영역에 핵심 그래픽 배치
+- [x] Step 2: `purpose: "maskable"` 아이콘 생성 — safe zone은 전체 아이콘의 80% 내 원형 영역에 핵심 그래픽 배치
 
-- [ ] Step 3: `<meta name="apple-mobile-web-app-*">` 태그를 `index.html`에 추가
+- [x] Step 3: `<meta name="apple-mobile-web-app-*">` 태그를 `index.html`에 추가
 
 ```html
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -139,7 +139,7 @@ Plan 12로 넘길 내용:
 <link rel="apple-touch-startup-image" href="/splash/splash-390x844.png" media="...">
 ```
 
-- [ ] Step 4: Lighthouse PWA 점수 90+ 달성 확인 (manifest, icons, theme_color 항목 통과)
+- [x] Step 4: Lighthouse PWA 점수 90+ 달성 확인 (manifest, icons, theme_color 항목 통과)
 
 **Commit:** `feat(pwa): complete web app manifest with maskable icons and shortcuts`
 
@@ -163,13 +163,13 @@ Push notification SW            → 기존 Plan 6 로직 유지 (통합)
 
 ### Steps
 
-- [ ] Step 1: `vite-plugin-pwa` 설치
+- [x] Step 1: `vite-plugin-pwa` 설치
 
 ```bash
 npm install -D vite-plugin-pwa workbox-window
 ```
 
-- [ ] Step 2: `vite.config.ts`에 플러그인 추가
+- [x] Step 2: `vite.config.ts`에 플러그인 추가
 
 ```typescript
 import { VitePWA } from 'vite-plugin-pwa'
@@ -190,7 +190,7 @@ export default defineConfig({
 })
 ```
 
-- [ ] Step 3: `frontend/src/sw.ts` (커스텀 Service Worker) 작성
+- [x] Step 3: `frontend/src/sw.ts` (커스텀 Service Worker) 작성
 
 ```typescript
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching'
@@ -232,16 +232,16 @@ registerRoute(
 // ...
 ```
 
-- [ ] Step 4: SW 업데이트 프롬프트 UI 컴포넌트 (`UpdatePrompt.tsx`) 추가
+- [x] Step 4: SW 업데이트 프롬프트 UI 컴포넌트 (`UpdatePrompt.tsx`) 추가
 
 ```tsx
 // "새 버전이 있습니다. 지금 업데이트하시겠어요?" 토스트 배너
 // workbox-window의 updatefound 이벤트 수신
 ```
 
-- [ ] Step 5: Plan 6에서 작성한 push notification SW 코드가 `sw.ts`에 통합되었는지 확인. 중복 이벤트 핸들러 제거.
+- [x] Step 5: Plan 6에서 작성한 push notification SW 코드가 `sw.ts`에 통합되었는지 확인. 중복 이벤트 핸들러 제거.
 
-- [ ] Step 6: 테스트 — Chrome DevTools → Application → Service Workers → "Offline" 체크 후 홈 피드 로드 확인
+- [x] Step 6: 테스트 — Chrome DevTools → Application → Service Workers → "Offline" 체크 후 홈 피드 로드 확인
 
 **Commit:** `feat(pwa): integrate workbox caching strategies with injectManifest`
 
@@ -254,7 +254,7 @@ registerRoute(
 
 ### Steps
 
-- [ ] Step 1: `frontend/src/pages/OfflinePage.tsx` 생성
+- [x] Step 1: `frontend/src/pages/OfflinePage.tsx` 생성
 
 ```text
 - 크로코다일 일러스트 (offline 테마)
@@ -263,7 +263,7 @@ registerRoute(
 - 재시도 버튼 (window.location.reload)
 ```
 
-- [ ] Step 2: `sw.ts`에 navigation fallback 등록
+- [x] Step 2: `sw.ts`에 navigation fallback 등록
 
 ```typescript
 import { NavigationRoute, registerRoute } from 'workbox-routing'
@@ -278,9 +278,9 @@ registerRoute(
 )
 ```
 
-- [ ] Step 3: `frontend/public/offline.html` — SW install 전에도 작동하는 정적 fallback (CSS 인라인)
+- [x] Step 3: `frontend/public/offline.html` — SW install 전에도 작동하는 정적 fallback (CSS 인라인)
 
-- [ ] Step 4: 테스트 — DevTools Offline 모드에서 `/about` 접근 시 OfflinePage 표시 확인
+- [x] Step 4: 테스트 — DevTools Offline 모드에서 `/about` 접근 시 OfflinePage 표시 확인
 
 **Commit:** `feat(pwa): add offline fallback page`
 

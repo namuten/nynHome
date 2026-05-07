@@ -1042,11 +1042,11 @@ git commit -m "feat(showcase): add audio player experience"
 - Create: `backend/tests/seo.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: seo_settings model 추가**
+- [x] **Step 1: seo_settings model 추가**
 
 routeKey별 title/description/ogImageUrl/keywords/locale를 저장한다.
 
-- [ ] **Step 2: public SEO endpoint 구현**
+- [x] **Step 2: public SEO endpoint 구현**
 
 ```text
 GET /api/seo?routeKey=portfolio&locale=ko
@@ -1056,7 +1056,7 @@ fallback:
 - routeKey 데이터 없음 → default
 - locale 데이터 없음 → ko 또는 default
 
-- [ ] **Step 3: admin SEO update endpoint 구현**
+- [x] **Step 3: admin SEO update endpoint 구현**
 
 ```text
 PUT /api/admin/seo/:routeKey
@@ -1068,7 +1068,7 @@ Validation:
 - ogImageUrl: optional URL
 - keywords: string array
 
-- [ ] **Step 4: 테스트 작성**
+- [x] **Step 4: 테스트 작성**
 
 ```text
 GET /api/seo?routeKey=missing -> 200 default fallback
@@ -1077,7 +1077,7 @@ PUT /api/admin/seo/default invalid ogImageUrl -> 400
 PUT /api/admin/seo/default as admin -> 200
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -1086,7 +1086,7 @@ npm test -- tests/seo.test.ts
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/seo backend/src/app.ts backend/tests/seo.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

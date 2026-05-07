@@ -36,6 +36,9 @@ import AdminShowcasePage from '../pages/admin/AdminShowcasePage';
 import AdminShowcaseNewPage from '../pages/admin/AdminShowcaseNewPage';
 import AdminShowcaseEditPage from '../pages/admin/AdminShowcaseEditPage';
 import AdminSeoPage from '../pages/admin/AdminSeoPage';
+import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage';
+import AdminAuditLogsPage from '../pages/admin/AdminAuditLogsPage';
+import AdminOperationsPage from '../pages/admin/AdminOperationsPage';
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +81,9 @@ export const router = createBrowserRouter([
               { path: 'showcase/new', element: <AdminShowcaseNewPage /> },
               { path: 'showcase/:id/edit', element: <AdminShowcaseEditPage /> },
               { path: 'seo', element: <AdminSeoPage /> },
+              { path: 'analytics', element: <AdminAnalyticsPage /> },
+              { path: 'audit-logs', element: <AdminAuditLogsPage /> },
+              { path: 'operations', element: <AdminOperationsPage /> },
             ],
           },
         ],

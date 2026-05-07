@@ -14,6 +14,9 @@ import {
   Briefcase,
   Palette,
   Globe,
+  BarChart3,
+  History,
+  Server,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -40,6 +43,9 @@ export default function AdminNav() {
     { to: '/admin/schedule', label: '캘린더 일정 관리', icon: Calendar },
     { to: '/admin/settings', label: '어드민 환경 설정', icon: Settings },
     { to: '/admin/push', label: '푸시 알림 발송', icon: Send },
+    { to: '/admin/analytics', label: '서비스 통계', icon: BarChart3 },
+    { to: '/admin/audit-logs', label: '감사 로그', icon: History },
+    { to: '/admin/operations', label: '시스템 운영', icon: Server },
   ];
 
   return (

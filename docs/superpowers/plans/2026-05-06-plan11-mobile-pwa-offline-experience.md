@@ -550,7 +550,7 @@ if (connection?.effectiveType === '2g' || connection?.saveData === true) {
 
 ### Steps
 
-- [ ] Step 1: Capacitor 설치
+- [x] Step 1: Capacitor 설치
 
 ```bash
 npm install @capacitor/core @capacitor/cli
@@ -558,7 +558,7 @@ npm install @capacitor/ios @capacitor/android
 npx cap init CrocHub com.crochub.app --web-dir dist
 ```
 
-- [ ] Step 2: `capacitor.config.ts` 생성
+- [x] Step 2: `capacitor.config.ts` 생성
 
 ```typescript
 import type { CapacitorConfig } from '@capacitor/cli'

@@ -461,13 +461,13 @@ git commit -m "feat(profile): add branding profile API"
 - Create: `frontend/src/components/portfolio/AchievementCards.tsx`
 - Modify: `frontend/src/types/profile.ts`
 
-- [ ] **Step 1: profile API client 작성**
+- [x] **Step 1: profile API client 작성**
 
 ```typescript
 getProfile(locale: LocaleCode): Promise<ProfileSettings>
 ```
 
-- [ ] **Step 2: profile page 레이아웃 개선**
+- [x] **Step 2: profile page 레이아웃 개선**
 
 섹션:
 - hero: avatar, displayName, tagline
@@ -478,22 +478,22 @@ getProfile(locale: LocaleCode): Promise<ProfileSettings>
 - social links
 - portfolio CTA
 
-- [ ] **Step 3: fallback UX 구현**
+- [x] **Step 3: fallback UX 구현**
 
 profile API 실패 시 정적 fallback 또는 empty state를 제공한다.
 
-- [ ] **Step 4: 반응형 확인**
+- [x] **Step 4: 반응형 확인**
 
 모바일에서 avatar/cover/social link가 깨지지 않아야 한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/pages/ProfilePage.tsx frontend/src/lib/profileApi.ts frontend/src/hooks/useProfile.ts frontend/src/components/portfolio frontend/src/types/profile.ts

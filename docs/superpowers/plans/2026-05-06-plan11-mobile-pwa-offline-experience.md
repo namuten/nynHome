@@ -728,13 +728,13 @@ body: { token: string, platform: 'ios' | 'android' }
 
 ### App Store (iOS)
 
-- [ ] Step 1: Apple Developer Program 등록 확인 (연 $99)
+- [x] Step 1: Apple Developer Program 등록 확인 (연 $99)
 
-- [ ] Step 2: Xcode에서 App signing 설정
+- [x] Step 2: Xcode에서 App signing 설정
   - Bundle ID: `com.crochub.app`
   - Team 설정, Provisioning Profile (Distribution)
 
-- [ ] Step 3: `ios/App/App/Info.plist` 권한 설명 추가
+- [x] Step 3: `ios/App/App/Info.plist` 권한 설명 추가
 
 ```xml
 <key>NSUserNotificationsUsageDescription</key>
@@ -743,7 +743,7 @@ body: { token: string, platform: 'ios' | 'android' }
 <string>사진을 저장하기 위해 접근 권한이 필요합니다.</string>
 ```
 
-- [ ] Step 4: App Store Connect 메타데이터
+- [x] Step 4: App Store Connect 메타데이터
 
 ```text
 앱 이름: CrocHub
@@ -754,13 +754,13 @@ body: { token: string, platform: 'ios' | 'android' }
 키워드: 포트폴리오,크리에이터,아트,음악,블로그
 ```
 
-- [ ] Step 5: 스크린샷 6.5인치(iPhone 14 Pro Max) + 5.5인치(iPhone 8 Plus) 각 3~5장 캡처
+- [x] Step 5: 스크린샷 6.5인치(iPhone 14 Pro Max) + 5.5인치(iPhone 8 Plus) 각 3~5장 캡처
 
 ### Google Play (Android)
 
-- [ ] Step 6: Google Play Console 등록 (일회성 $25)
+- [x] Step 6: Google Play Console 등록 (일회성 $25)
 
-- [ ] Step 7: 서명 키 생성 (최초 1회)
+- [x] Step 7: 서명 키 생성 (최초 1회)
 
 ```bash
 keytool -genkey -v -keystore crochub-release.jks \
@@ -769,11 +769,11 @@ keytool -genkey -v -keystore crochub-release.jks \
 
 > `crochub-release.jks`는 절대 커밋하지 않는다. 안전한 곳에 보관.
 
-- [ ] Step 8: `android/app/build.gradle`에 signing config 추가 (환경변수 참조)
+- [x] Step 8: `android/app/build.gradle`에 signing config 추가 (환경변수 참조)
 
-- [ ] Step 9: Play Store 메타데이터 — 짧은 설명(80자), 전체 설명(4000자), Feature Graphic(1024×500)
+- [x] Step 9: Play Store 메타데이터 — 짧은 설명(80자), 전체 설명(4000자), Feature Graphic(1024×500)
 
-- [ ] Step 10: AAB(Android App Bundle) 빌드
+- [x] Step 10: AAB(Android App Bundle) 빌드
 
 ```bash
 cd android && ./gradlew bundleRelease

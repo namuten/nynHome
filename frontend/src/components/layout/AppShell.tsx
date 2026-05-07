@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import SiteHeader from './SiteHeader';
+import Footer from './Footer';
 import MobileNav from './MobileNav';
 import PageContainer from './PageContainer';
 import PwaInstallBanner from '../common/PwaInstallBanner';
@@ -14,6 +15,7 @@ export default function AppShell() {
         <PageContainer>
           <Outlet />
         </PageContainer>
+        <Footer />
         <MobileNav />
       </div>
     </AnalyticsProvider>

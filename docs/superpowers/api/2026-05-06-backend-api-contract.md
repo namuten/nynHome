@@ -546,6 +546,11 @@
 - **Response (409)**: 중복 슬러그인 경우 (`SLUG_DUPLICATE`)
 - **Response (400)**: 유효하지 않은 미디어 ID이거나 잘못된 검증 스펙인 경우 (`VALIDATION_ERROR`)
 
+### GET /api/admin/showcase/:id
+- **Auth**: Admin
+- **Response (200)**: 단일 ShowcaseItem 객체
+- **Response (404)**: 존재하지 않는 경우
+
 ### PUT /api/admin/showcase/:id
 - **Auth**: Admin
 - **Request Body**: POST와 동일 (모든 필드 optional, locale 필드는 제외)

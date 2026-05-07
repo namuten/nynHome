@@ -38,6 +38,17 @@ export async function createShowcaseItem(item: Partial<ShowcaseItem>): Promise<S
 }
 
 /**
+ * 어드민 쇼케이스 단건 조회 (ID 기준)
+ */
+export async function getAdminShowcaseItem(id: number): Promise<ShowcaseItem> {
+  const token = localStorage.getItem('token');
+  const response = await axios.get<ShowcaseItem>(`${API_URL}/admin/showcase/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+/**
  * 어드민 쇼케이스 수정
  */
 export async function updateShowcaseItem(id: number, item: Partial<ShowcaseItem>): Promise<ShowcaseItem> {

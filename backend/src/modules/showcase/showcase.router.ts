@@ -124,6 +124,31 @@ router.put(
 );
 
 /**
+ * 어드민 쇼케이스 단건 조회 (ID 기준)
+ * GET /api/admin/showcase/:id
+ */
+router.get(
+  '/admin/showcase/:id',
+  requireAuth,
+  requireAdmin,
+  async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: 'VALIDATION_ERROR', message: '유효한 ID가 아닙니다.' });
+      }
+      const item = await showcaseService.getShowcaseItemById(id);
+      if (!item) {
+        return res.status(404).json({ error: 'NOT_FOUND', message: '해당 쇼케이스 작품을 찾을 수 없습니다.' });
+      }
+      res.json(item);
+    } catch (err: any) {
+      res.status(500).json({ error: 'INTERNAL_ERROR', message: err.message });
+    }
+  }
+);
+
+/**
  * 어드민 쇼케이스 삭제
  * DELETE /api/admin/showcase/:id
  */

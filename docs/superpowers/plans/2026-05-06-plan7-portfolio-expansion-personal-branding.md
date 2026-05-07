@@ -316,7 +316,7 @@ backend/
 - Create: `frontend/src/types/profile.ts`
 - Create: `frontend/src/types/showcase.ts`
 
-- [ ] **Step 1: Plan 6 완료 상태 확인**
+- [x] **Step 1: Plan 6 완료 상태 확인**
 
 ```bash
 find frontend/src -maxdepth 4 -type f | sort
@@ -328,7 +328,7 @@ Expected:
 - admin shell/nav 존재
 - media library와 layout/schedule/settings 기능이 존재
 
-- [ ] **Step 2: public route placeholder 추가**
+- [x] **Step 2: public route placeholder 추가**
 
 ```text
 /profile
@@ -338,7 +338,7 @@ Expected:
 /portfolio/showcase/:slug
 ```
 
-- [ ] **Step 3: admin route placeholder 추가**
+- [x] **Step 3: admin route placeholder 추가**
 
 ```text
 /admin/profile
@@ -349,7 +349,7 @@ Expected:
 /admin/seo
 ```
 
-- [ ] **Step 4: API 타입 baseline 작성**
+- [x] **Step 4: API 타입 baseline 작성**
 
 최소 타입:
 
@@ -362,14 +362,14 @@ SeoSettings
 LocaleCode = 'ko' | 'en'
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src

@@ -452,19 +452,19 @@ frontend/src/components/search/
 
 ### Steps
 
-- [ ] Step 1: `SearchBar.tsx` — debounce 300ms, Enter 키로 `/search` 페이지 이동
+- [x] Step 1: `SearchBar.tsx` — debounce 300ms, Enter 키로 `/search` 페이지 이동
 
-- [ ] Step 2: `SearchResultPage.tsx` — URL query param `q` 읽어 API 호출, loading/empty/error state
+- [x] Step 2: `SearchResultPage.tsx` — URL query param `q` 읽어 API 호출, loading/empty/error state
 
-- [ ] Step 3: `SearchResultCard.tsx` — type 아이콘, title, excerpt, 날짜, 링크
+- [x] Step 3: `SearchResultCard.tsx` — type 아이콘, title, excerpt, 날짜, 링크
 
-- [ ] Step 4: type 필터 탭 (전체 / 게시글 / 이미지 / 영상 / 포트폴리오)
+- [x] Step 4: type 필터 탭 (전체 / 게시글 / 이미지 / 영상 / 포트폴리오)
 
-- [ ] Step 5: 페이지네이션 (결과 20건 단위)
+- [x] Step 5: 페이지네이션 (결과 20건 단위)
 
-- [ ] Step 6: 검색어 2자 미만 시 "2자 이상 입력해주세요" 안내 메시지
+- [x] Step 6: 검색어 2자 미만 시 "2자 이상 입력해주세요" 안내 메시지
 
-- [ ] Step 7: Public 헤더에 `SearchBar` 삽입
+- [x] Step 7: Public 헤더에 `SearchBar` 삽입
 
 **Commit:** `feat(search): add search bar and result page`
 

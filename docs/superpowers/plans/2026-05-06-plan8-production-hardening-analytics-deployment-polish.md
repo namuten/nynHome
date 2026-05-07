@@ -647,13 +647,13 @@ git commit -m "feat(audit): record admin mutations"
 - Modify: `frontend/src/lib/operationsApi.ts`
 - Modify: `frontend/src/types/admin.ts`
 
-- [ ] **Step 1: API client 작성**
+- [x] **Step 1: API client 작성**
 
 ```typescript
 getAuditLogs({ page, limit, action, resourceType })
 ```
 
-- [ ] **Step 2: table UI 구현**
+- [x] **Step 2: table UI 구현**
 
 컬럼:
 - createdAt
@@ -663,25 +663,25 @@ getAuditLogs({ page, limit, action, resourceType })
 - summary
 - request id
 
-- [ ] **Step 3: filter UI 구현**
+- [x] **Step 3: filter UI 구현**
 
 - action select/search
 - resourceType select
 - date range는 analytics와 같이 후속도 가능
 - pagination
 
-- [ ] **Step 4: metadata details disclosure**
+- [x] **Step 4: metadata details disclosure**
 
 각 row에서 metadata JSON 요약을 펼쳐 볼 수 있게 한다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminAuditLogsPage.tsx frontend/src/components/admin/AuditLogTable.tsx frontend/src/hooks/useAuditLogs.ts frontend/src/lib/operationsApi.ts frontend/src/types/admin.ts

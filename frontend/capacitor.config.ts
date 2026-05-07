@@ -11,6 +11,15 @@ const config: CapacitorConfig = {
     contentInset: 'automatic',
     preferredContentMode: 'mobile',
   },
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 2000,
+      backgroundColor: '#0f0f1a',
+      androidSplashResourceName: 'splash',
+      showSpinner: false,
+      launchAutoHide: true,
+    },
+  },
 };
 
 export default config;

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
@@ -19,6 +21,22 @@ export default function CommentForm({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [offlineSuccess, setOfflineSuccess] = useState(false);
 
+  // 모바일 앱 네이티브 물리적 햅틱 반응 트리거
+  const triggerHaptics = async (type: 'success' | 'warning' | 'error') => {
+    if (!Capacitor.isNativePlatform()) return;
+    try {
+      if (type === 'success') {
+        await Haptics.impact({ style: ImpactStyle.Light });
+      } else if (type === 'warning') {
+        await Haptics.notification({ type: NotificationType.Warning });
+      } else {
+        await Haptics.notification({ type: NotificationType.Error });
+      }
+    } catch (err) {
+      console.warn('Haptics failed to trigger:', err);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!body.trim()) return;
@@ -27,13 +45,16 @@ export default function CommentForm({
       setOfflineSuccess(false);
       await onSubmit(body);
       setBody('');
+      triggerHaptics('success'); // 성공 진동 발포
     } catch (err: unknown) {
       if (err instanceof Error && err.message === 'OFFLINE_SAVED') {
         setOfflineSuccess(true);
         setBody('');
+        triggerHaptics('warning'); // 오프라인 세이브 진동 발포
       } else {
         const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
         setErrorMsg(message);
+        triggerHaptics('error'); // 서버 실패 무거운 진동 발포
       }
     }
   };

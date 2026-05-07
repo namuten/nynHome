@@ -755,7 +755,7 @@ git commit -m "docs(safety): add community guidelines pages"
 - Modify: `README.md`
 - Modify: `docs/superpowers/plans/2026-05-06-plan9-community-safety-growth-features.md`
 
-- [ ] **Step 1: API contract 업데이트 확인**
+- [x] **Step 1: API contract 업데이트 확인**
 
 반드시 포함:
 - comment report endpoints
@@ -763,23 +763,23 @@ git commit -m "docs(safety): add community guidelines pages"
 - guestbook endpoints
 - 새 error code: `ALREADY_REPORTED`
 
-- [ ] **Step 2: README 커뮤니티 Safety 섹션 추가**
+- [x] **Step 2: README 커뮤니티 Safety 섹션 추가**
 
 포함:
 - 방명록/신고/처리 흐름
 - moderation 운영 주의사항
 
-- [ ] **Step 3: Plan 9 체크박스 상태 반영**
+- [x] **Step 3: Plan 9 체크박스 상태 반영**
 
 구현 완료된 Task/Step은 `[x]`로 업데이트한다.
 
-- [ ] **Step 4: 확인**
+- [x] **Step 4: 확인**
 
 ```bash
 git diff --check
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/superpowers/api/2026-05-06-backend-api-contract.md README.md docs/superpowers/plans/2026-05-06-plan9-community-safety-growth-features.md docs/policies

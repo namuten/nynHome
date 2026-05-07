@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useLocale } from '../../hooks/useLocale';
 import LocaleToggle from '../LocaleToggle';
 import NotificationBell from '../notifications/NotificationBell';
+import SearchBar from '../search/SearchBar';
 
 export default function SiteHeader() {
   const location = useLocation();
@@ -52,6 +53,9 @@ export default function SiteHeader() {
 
         {/* Auth / Right menu */}
         <div className="flex items-center space-x-2">
+          <div className="hidden sm:block">
+            <SearchBar />
+          </div>
           <LocaleToggle />
 
           {isAuthenticated && (

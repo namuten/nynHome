@@ -12,6 +12,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import GuestbookPage from '../pages/GuestbookPage';
 import CommunityGuidelinesPage from '../pages/CommunityGuidelinesPage';
 import PrivacySafetyPage from '../pages/PrivacySafetyPage';
+import SearchPage from '../pages/SearchPage';
 
 // Portfolio imports
 import PortfolioPage from '../pages/portfolio/PortfolioPage';
@@ -66,6 +67,7 @@ export const router = createBrowserRouter([
       { path: 'guestbook', element: <GuestbookPage /> },
       { path: 'community-guidelines', element: <CommunityGuidelinesPage /> },
       { path: 'privacy-safety', element: <PrivacySafetyPage /> },
+      { path: 'search', element: <SearchPage /> },
       {
         element: <AdminRouteGuard />,
         children: [

@@ -410,13 +410,13 @@ git commit -m "feat(safety): add comment report dialog"
 - Create: `backend/tests/moderation.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: admin reports list 구현**
+- [x] **Step 1: admin reports list 구현**
 
 ```text
 GET /api/admin/reports?type=comment&status=open&page=1&limit=20
 ```
 
-- [ ] **Step 2: report status update 구현**
+- [x] **Step 2: report status update 구현**
 
 ```text
 PATCH /api/admin/reports/comment/:id/status
@@ -431,7 +431,7 @@ Request:
 }
 ```
 
-- [ ] **Step 3: moderation queue 구현**
+- [x] **Step 3: moderation queue 구현**
 
 ```text
 GET /api/admin/moderation/queue?status=open&kind=comment
@@ -442,7 +442,7 @@ Queue 포함 대상:
 - 신고된 방명록
 - spam guard에 걸린 항목 (Plan 8 spam protection 재사용)
 
-- [ ] **Step 4: comment moderation endpoint 구현**
+- [x] **Step 4: comment moderation endpoint 구현**
 
 ```text
 PATCH /api/admin/comments/:id/moderation
@@ -457,7 +457,7 @@ Request:
 }
 ```
 
-- [ ] **Step 5: Plan 8 audit log 연결**
+- [x] **Step 5: Plan 8 audit log 연결**
 
 다음 action을 기록한다:
 
@@ -467,7 +467,7 @@ comment.moderate
 guestbook.moderate
 ```
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/admin/reports as user -> 403
@@ -477,7 +477,7 @@ PATCH comment moderation hidden -> 200
 moderation action creates audit log
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd backend
@@ -485,7 +485,7 @@ npm test -- tests/moderation.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add backend/src/modules/moderation backend/src/modules/reports backend/src/modules/comments backend/src/app.ts backend/tests/moderation.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

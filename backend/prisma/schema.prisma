@@ -157,3 +157,18 @@ model ProfileSettings {
 
   @@map("profile_settings")
 }
+
+model PortfolioSection {
+  id         Int      @id @default(autoincrement())
+  locale     String   // "ko" | "en"
+  sectionKey String   // 예: "education", "experience"
+  title      String
+  body       String?  @db.Text
+  items      Json?    // 예: [{"title": "...", "subtitle": "...", "date": "...", "desc": "..."}]
+  order      Int      @default(0)
+  isVisible  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("portfolio_sections")
+}

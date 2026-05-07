@@ -413,3 +413,78 @@
   ```
 - **Response (200)**: 업데이트된 Profile Settings 객체
 
+---
+
+## 10. Portfolio Sections
+
+### GET /api/portfolio
+- **Auth**: Public
+- **Query Parameters**:
+  - `locale` (optional): `ko | en` (기본값 `ko`)
+- **Response (200)**:
+  ```json
+  {
+    "locale": "ko",
+    "sections": [
+      {
+        "id": 1,
+        "locale": "ko",
+        "sectionKey": "education",
+        "title": "학력 사항",
+        "body": "학력에 대한 간단 설명",
+        "items": [
+          {
+            "title": "한국대학교",
+            "subtitle": "컴퓨터공학과",
+            "date": "2022 ~ 2026",
+            "desc": "학점 4.0/4.5"
+          }
+        ],
+        "order": 0,
+        "isVisible": true,
+        "createdAt": "2026-05-06T00:00:00.000Z",
+        "updatedAt": "2026-05-06T00:00:00.000Z"
+      }
+    ]
+  }
+  ```
+
+### POST /api/admin/portfolio/sections
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "locale": "ko",
+    "sectionKey": "education",
+    "title": "학력 사항",
+    "body": "학력 설명",
+    "items": [
+      {
+        "title": "한국대학교"
+      }
+    ],
+    "order": 0,
+    "isVisible": true
+  }
+  ```
+- **Response (201)**: 생성된 PortfolioSection 객체
+
+### PUT /api/admin/portfolio/sections/:id
+- **Auth**: Admin
+- **Request Body**: POST와 같음 (모든 필드 optional, locale 필드는 제외)
+- **Response (200)**: 수정된 PortfolioSection 객체
+
+### DELETE /api/admin/portfolio/sections/:id
+- **Auth**: Admin
+- **Response (204)**: No Content
+
+### PUT /api/admin/portfolio/sections/reorder
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "ids": [2, 1, 3]
+  }
+  ```
+- **Response (200)**: `{ "success": true }`
+

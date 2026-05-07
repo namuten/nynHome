@@ -764,7 +764,7 @@ git commit -m "feat(admin): add portfolio section editor"
 - Create: `backend/tests/showcase.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: showcase_items model 추가**
+- [x] **Step 1: showcase_items model 추가**
 
 필수 필드:
 - title
@@ -780,7 +780,7 @@ git commit -m "feat(admin): add portfolio section editor"
 - isPublished
 - publishedAt
 
-- [ ] **Step 2: public showcase list/detail 구현**
+- [x] **Step 2: public showcase list/detail 구현**
 
 ```text
 GET /api/showcase?category=&featured=&locale=ko
@@ -791,7 +791,7 @@ GET /api/showcase/:slug
 - public은 `isPublished=true`만 반환
 - detail도 unpublished면 404
 
-- [ ] **Step 3: admin showcase CRUD 구현**
+- [x] **Step 3: admin showcase CRUD 구현**
 
 ```text
 POST   /api/admin/showcase
@@ -800,18 +800,18 @@ DELETE /api/admin/showcase/:id
 PUT    /api/admin/showcase/reorder
 ```
 
-- [ ] **Step 4: slug 정책 구현**
+- [x] **Step 4: slug 정책 구현**
 
 - title 기반 자동 slug 생성 가능
 - slug 직접 수정 가능
 - unique validation
 - lowercase/kebab-case 권장
 
-- [ ] **Step 5: media id validation**
+- [x] **Step 5: media id validation**
 
 coverMediaId/mediaIds가 존재하는 media인지 확인한다.
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/showcase returns published only
@@ -822,7 +822,7 @@ PUT as admin -> 200
 DELETE as admin -> 204
 ```
 
-- [ ] **Step 7: 확인**
+- [x] **Step 7: 확인**
 
 ```bash
 cd backend
@@ -831,7 +831,7 @@ npm test -- tests/showcase.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/showcase backend/src/app.ts backend/tests/showcase.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

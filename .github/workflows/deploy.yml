@@ -1,0 +1,40 @@
+name: Production Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-to-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to IP Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            # 서버 상의 nynHome 프로젝트 루트 디렉토리 탐색 및 진입
+            if [ -d "$HOME/git/nynHome" ]; then
+              cd "$HOME/git/nynHome"
+            elif [ -d "$HOME/nagee/nynHome" ]; then
+              cd "$HOME/nagee/nynHome"
+            elif [ -d "$HOME/nynHome" ]; then
+              cd "$HOME/nynHome"
+            else
+              echo "Error: nynHome directory not found."
+              exit 1
+            fi
+
+            echo "Current working directory: $(pwd)"
+
+            # Git 최신화 및 강제 리셋 (main 브랜치 타겟)
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Docker Compose 빌드 및 강제 컨테이너 교체 재기동
+            docker compose up -d --build --force-recreate

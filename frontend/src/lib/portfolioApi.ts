@@ -1,92 +1,61 @@
-import api from './api';
-import type { LocaleCode, ProfileSettings } from '../types/profile';
+import axios from 'axios';
+import type { LocaleCode } from '../types/profile';
 import type { PortfolioResponse, PortfolioSection } from '../types/portfolio';
-import type { ShowcaseItem, ShowcaseDetail, ShowcaseCategory } from '../types/showcase';
-import type { SeoSettings } from '../types/seo';
+
+const API_URL = '/api';
 
 /**
- * 1. Profile / Branding API
+ * 퍼블릭 포트폴리오 섹션 목록 가져오기
  */
-export async function getProfile(locale: LocaleCode = 'ko'): Promise<ProfileSettings> {
-  const response = await api.get<ProfileSettings>(`/profile`, { params: { locale } });
-  return response.data;
-}
-
-export async function updateAdminProfile(locale: LocaleCode, payload: Partial<ProfileSettings>): Promise<ProfileSettings> {
-  const response = await api.put<ProfileSettings>(`/admin/profile/${locale}`, payload);
+export async function getPortfolio(locale: LocaleCode): Promise<PortfolioResponse> {
+  const response = await axios.get<PortfolioResponse>(`${API_URL}/portfolio`, {
+    params: { locale },
+  });
   return response.data;
 }
 
 /**
- * 2. Portfolio API
+ * 어드민 포트폴리오 섹션 생성
  */
-export async function getPortfolio(locale: LocaleCode = 'ko'): Promise<PortfolioResponse> {
-  const response = await api.get<PortfolioResponse>(`/portfolio`, { params: { locale } });
+export async function createPortfolioSection(section: Partial<PortfolioSection>): Promise<PortfolioSection> {
+  const token = localStorage.getItem('token');
+  const response = await axios.post<PortfolioSection>(`${API_URL}/admin/portfolio/sections`, section, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
-}
-
-export async function createAdminPortfolioSection(payload: Partial<PortfolioSection>): Promise<PortfolioSection> {
-  const response = await api.post<PortfolioSection>(`/admin/portfolio/sections`, payload);
-  return response.data;
-}
-
-export async function updateAdminPortfolioSection(id: number, payload: Partial<PortfolioSection>): Promise<PortfolioSection> {
-  const response = await api.put<PortfolioSection>(`/admin/portfolio/sections/${id}`, payload);
-  return response.data;
-}
-
-export async function deleteAdminPortfolioSection(id: number): Promise<void> {
-  await api.delete(`/admin/portfolio/sections/${id}`);
-}
-
-export async function reorderAdminPortfolioSections(sectionIds: number[]): Promise<void> {
-  await api.put(`/admin/portfolio/sections/reorder`, { sectionIds });
 }
 
 /**
- * 3. Showcase API
+ * 어드민 포트폴리오 섹션 수정
  */
-export async function getShowcaseList(params?: {
-  category?: ShowcaseCategory;
-  featured?: boolean;
-  locale?: LocaleCode;
-}): Promise<ShowcaseItem[]> {
-  const response = await api.get<ShowcaseItem[]>(`/showcase`, { params });
+export async function updatePortfolioSection(id: number, section: Partial<PortfolioSection>): Promise<PortfolioSection> {
+  const token = localStorage.getItem('token');
+  const response = await axios.put<PortfolioSection>(`${API_URL}/admin/portfolio/sections/${id}`, section, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
-}
-
-export async function getShowcaseDetail(slug: string): Promise<ShowcaseDetail> {
-  const response = await api.get<ShowcaseDetail>(`/showcase/${slug}`);
-  return response.data;
-}
-
-export async function createAdminShowcase(payload: Partial<ShowcaseItem>): Promise<ShowcaseItem> {
-  const response = await api.post<ShowcaseItem>(`/admin/showcase`, payload);
-  return response.data;
-}
-
-export async function updateAdminShowcase(id: number, payload: Partial<ShowcaseItem>): Promise<ShowcaseItem> {
-  const response = await api.put<ShowcaseItem>(`/admin/showcase/${id}`, payload);
-  return response.data;
-}
-
-export async function deleteAdminShowcase(id: number): Promise<void> {
-  await api.delete(`/admin/showcase/${id}`);
-}
-
-export async function reorderAdminShowcase(showcaseIds: number[]): Promise<void> {
-  await api.put(`/admin/showcase/reorder`, { showcaseIds });
 }
 
 /**
- * 4. SEO API
+ * 어드민 포트폴리오 섹션 삭제
  */
-export async function getSeoSettings(routeKey: string, locale: LocaleCode = 'ko'): Promise<SeoSettings> {
-  const response = await api.get<SeoSettings>(`/seo`, { params: { routeKey, locale } });
-  return response.data;
+export async function deletePortfolioSection(id: number): Promise<void> {
+  const token = localStorage.getItem('token');
+  await axios.delete(`${API_URL}/admin/portfolio/sections/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
 
-export async function updateAdminSeoSettings(routeKey: string, payload: Partial<SeoSettings>): Promise<SeoSettings> {
-  const response = await api.put<SeoSettings>(`/admin/seo/${routeKey}`, payload);
-  return response.data;
+/**
+ * 어드민 포트폴리오 섹션 정렬 재조정
+ */
+export async function reorderPortfolioSections(ids: number[]): Promise<void> {
+  const token = localStorage.getItem('token');
+  await axios.put(
+    `${API_URL}/admin/portfolio/sections/reorder`,
+    { ids },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 }

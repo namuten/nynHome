@@ -25,6 +25,11 @@ export default function SiteHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link to="/" className="flex items-center space-x-2">
+          <img 
+            src="/branding/crochub-logo.svg" 
+            alt="CrocHub Logo" 
+            className="w-8 h-8 rounded-lg object-contain bg-primary/10 p-0.5" 
+          />
           <span className="text-xl font-display font-extrabold tracking-wider text-primary">
             Croc<span className="text-secondary">Hub</span>
           </span>

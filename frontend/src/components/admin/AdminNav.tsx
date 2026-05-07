@@ -63,9 +63,11 @@ export default function AdminNav() {
     <div className="flex flex-col h-full bg-white/80 backdrop-blur-md border-r border-surface-container font-body">
       {/* Brand Header */}
       <div className="p-6 border-b border-surface-container flex items-center gap-3">
-        <div className="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-inner">
-          <span className="text-xl">🐊</span>
-        </div>
+        <img 
+          src="/branding/crochub-logo.svg" 
+          alt="CrocHub Admin Logo" 
+          className="w-10 h-10 rounded-2xl object-contain bg-primary/10 border border-primary/20 p-1 shadow-inner animate-pulse-slow" 
+        />
         <div>
           <h2 className="text-sm font-display font-black text-primary tracking-wider uppercase">CrocHub Admin</h2>
           <p className="text-[10px] text-on-surface-variant font-medium">크록허브 어드민 콘솔</p>

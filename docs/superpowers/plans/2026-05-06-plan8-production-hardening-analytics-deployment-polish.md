@@ -564,7 +564,7 @@ git commit -m "feat(audit): add admin mutation audit log service"
 - Modify: `backend/src/modules/seo/*` if exists
 - Modify: `backend/tests/audit.test.ts`
 
-- [ ] **Step 1: audit 대상 action 목록 정의**
+- [x] **Step 1: audit 대상 action 목록 정의**
 
 ```text
 post.create / post.update / post.delete
@@ -581,13 +581,13 @@ seo.update
 push.send
 ```
 
-- [ ] **Step 2: service layer 또는 router layer 연결 결정**
+- [x] **Step 2: service layer 또는 router layer 연결 결정**
 
 권장:
 - mutation 성공 후 router에서 명시적으로 `recordAuditLog` 호출
 - 비즈니스 데이터 변경과 audit log를 같은 transaction에 묶을 수 있으면 service에서 처리
 
-- [ ] **Step 3: metadata 최소화**
+- [x] **Step 3: metadata 최소화**
 
 metadata에는 민감정보를 넣지 않는다.
 
@@ -609,7 +609,7 @@ R2 secret
 개인 이메일 대량 dump
 ```
 
-- [ ] **Step 4: 테스트 보강**
+- [x] **Step 4: 테스트 보강**
 
 대표 mutation 몇 개만 우선 검증한다.
 
@@ -620,7 +620,7 @@ PUT /api/admin/media-types/:id creates audit log settings.mediaType.update
 POST /api/push/send creates audit log push.send
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd backend
@@ -629,7 +629,7 @@ npm test
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add backend/src backend/tests/audit.test.ts

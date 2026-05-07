@@ -1105,11 +1105,11 @@ git commit -m "feat(seo): add Open Graph settings API"
 - Modify: public route pages as needed
 - Modify: `frontend/src/types/seo.ts`
 
-- [ ] **Step 1: meta helper 구현**
+- [x] **Step 1: meta helper 구현**
 
 Vite SPA 환경에서 최소 `document.title`, `meta[name=description]`, `og:*` meta tag를 runtime에 업데이트한다.
 
-- [ ] **Step 2: public pages에 SEO 적용**
+- [x] **Step 2: public pages에 SEO 적용**
 
 적용 대상:
 - home
@@ -1120,7 +1120,7 @@ Vite SPA 환경에서 최소 `document.title`, `meta[name=description]`, `og:*` 
 - showcase detail
 - post detail
 
-- [ ] **Step 3: Admin SEO form 구현**
+- [x] **Step 3: Admin SEO form 구현**
 
 routeKey 선택:
 - default
@@ -1138,18 +1138,18 @@ routeKey 선택:
 - keywords
 - locale
 
-- [ ] **Step 4: fallback preview 구현**
+- [x] **Step 4: fallback preview 구현**
 
 카카오/Discord/X 스타일의 간단한 link preview card를 보여준다.
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/lib/seo.ts frontend/src/hooks/useSeoMeta.ts frontend/src/pages/admin/AdminSeoPage.tsx frontend/src/components/admin/SeoSettingsForm.tsx frontend/src/types/seo.ts frontend/src/pages

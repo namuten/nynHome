@@ -39,3 +39,22 @@ export function getOptimizedImageUrl(
 
   return originalUrl;
 }
+
+/**
+ * Generates responsive srcset string based on media derivatives for mobile performance
+ */
+export function getMediaSrcSet(media: GenericMedia | null | undefined): string {
+  if (!media || !media.derivatives || media.derivatives.length === 0) return '';
+  
+  // Map derivative types to pixel width identifiers
+  const widthMap: Record<string, string> = {
+    thumb_small: '200w',
+    thumb_medium: '500w',
+    web_optimized: '1000w',
+  };
+
+  return media.derivatives
+    .map((d) => `${d.fileUrl} ${widthMap[d.derivativeType] || '1000w'}`)
+    .join(', ');
+}
+

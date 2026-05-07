@@ -8,7 +8,7 @@ import CommentList from '../components/comments/CommentList';
 import PendingCommentsBanner from '../components/comments/PendingCommentsBanner';
 import { ArrowLeft, Clock, Eye, AlertTriangle } from 'lucide-react';
 
-import { getOptimizedImageUrl } from '../lib/media';
+import OptimizedImage from '../components/common/OptimizedImage';
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -114,10 +114,9 @@ export default function PostDetailPage() {
             {post.media.map((item) => (
               <div key={item.id} className="rounded-2xl overflow-hidden border border-surface-container bg-surface-container/25">
                 {item.type.startsWith('image/') ? (
-                  <img
-                    src={getOptimizedImageUrl(item, 'web_optimized')}
+                  <OptimizedImage
+                    media={item}
                     alt={item.filename}
-                    loading="lazy"
                     className="w-full h-auto object-cover aspect-video"
                   />
                 ) : (

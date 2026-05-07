@@ -1,16 +1,21 @@
+import { useEffect } from 'react';
 import { useProfile } from '../../hooks/useProfile';
 import { usePortfolio } from '../../hooks/usePortfolio';
 import { RefreshCw, Printer, Mail, MapPin, GraduationCap, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLocale } from '../../hooks/useLocale';
 
 export default function ResumePage() {
-  const { profile, locale: profileLocale, changeLocale: changeProfileLocale, loading: profileLoading } = useProfile('ko');
-  const { sections, changeLocale: changePortLocale, loading: portLoading } = usePortfolio('ko');
+  const { locale, setLocale } = useLocale();
 
-  const handleLocaleChange = (targetLocale: 'ko' | 'en') => {
-    changeProfileLocale(targetLocale);
-    changePortLocale(targetLocale);
-  };
+  const { profile, locale: profileLocale, changeLocale: changeProfileLocale, loading: profileLoading } = useProfile(locale);
+  const { sections, changeLocale: changePortLocale, loading: portLoading } = usePortfolio(locale);
+
+  // 글로벌 로케일과 프로필/포트폴리오 훅의 로컬 상태 싱크
+  useEffect(() => {
+    changeProfileLocale(locale);
+    changePortLocale(locale);
+  }, [locale, changeProfileLocale, changePortLocale]);
 
   const loading = profileLoading || portLoading;
 
@@ -34,18 +39,18 @@ export default function ResumePage() {
           <div className="flex bg-surface-container rounded-lg p-0.5 border border-outline-variant/30 text-xs">
             <button
               type="button"
-              onClick={() => handleLocaleChange('ko')}
+              onClick={() => setLocale('ko')}
               className={`px-3 py-1 font-bold rounded-md transition-all ${
-                profileLocale === 'ko' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'
+                locale === 'ko' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
               한국어 이력서
             </button>
             <button
               type="button"
-              onClick={() => handleLocaleChange('en')}
+              onClick={() => setLocale('en')}
               className={`px-3 py-1 font-bold rounded-md transition-all ${
-                profileLocale === 'en' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'
+                locale === 'en' ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
               English CV

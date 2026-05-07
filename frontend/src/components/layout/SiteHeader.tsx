@@ -1,18 +1,21 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Image, BookOpen, GraduationCap, User as UserIcon, ShieldAlert, LogIn, LogOut } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { useLocale } from '../../hooks/useLocale';
+import LocaleToggle from '../LocaleToggle';
 
 export default function SiteHeader() {
   const location = useLocation();
   const { isAuthenticated, user, isAdmin, logout } = useAuth();
+  const { t } = useLocale();
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: 'Home', path: '/', icon: Home },
-    { label: 'Gallery', path: '/gallery', icon: Image },
-    { label: 'Blog', path: '/blog', icon: BookOpen },
-    { label: 'Study', path: '/study', icon: GraduationCap },
-    { label: 'Profile', path: '/profile', icon: UserIcon },
+    { label: t('navHome'), path: '/', icon: Home },
+    { label: t('navGallery'), path: '/gallery', icon: Image },
+    { label: t('navBlog'), path: '/blog', icon: BookOpen },
+    { label: t('navStudy'), path: '/study', icon: GraduationCap },
+    { label: t('navProfile'), path: '/profile', icon: UserIcon },
   ];
 
   return (
@@ -48,6 +51,8 @@ export default function SiteHeader() {
 
         {/* Auth / Right menu */}
         <div className="flex items-center space-x-2">
+          <LocaleToggle />
+
           {isAdmin && (
             <Link
               to="/admin"

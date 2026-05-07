@@ -1,20 +1,24 @@
+import { useEffect } from 'react';
 import { useProfile } from '../../hooks/useProfile';
 import { usePortfolio } from '../../hooks/usePortfolio';
 import { PortfolioHero } from '../../components/portfolio/PortfolioHero';
 import { PortfolioSectionRenderer } from '../../components/portfolio/PortfolioSectionRenderer';
 import { RefreshCw, Globe, ArrowRight, Grid, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLocale } from '../../hooks/useLocale';
 
 export default function PortfolioPage() {
-  // 프로필과 포트폴리오를 'ko' (한국어) 기본값으로 로드
-  const { profile, locale: profileLocale, changeLocale: changeProfileLocale, loading: profileLoading } = useProfile('ko');
-  const { sections, changeLocale: changePortLocale, loading: portLoading } = usePortfolio('ko');
+  const { locale, setLocale } = useLocale();
 
-  // 다국어 토글 연계
-  const handleLocaleChange = (targetLocale: 'ko' | 'en') => {
-    changeProfileLocale(targetLocale);
-    changePortLocale(targetLocale);
-  };
+  // 프로필과 포트폴리오를 글로벌 로케일 기저로 로드
+  const { profile, locale: profileLocale, changeLocale: changeProfileLocale, loading: profileLoading } = useProfile(locale);
+  const { sections, changeLocale: changePortLocale, loading: portLoading } = usePortfolio(locale);
+
+  // 글로벌 로케일과 프로필/포트폴리오 훅의 로컬 상태 싱크
+  useEffect(() => {
+    changeProfileLocale(locale);
+    changePortLocale(locale);
+  }, [locale, changeProfileLocale, changePortLocale]);
 
   const loading = profileLoading || portLoading;
 
@@ -28,9 +32,9 @@ export default function PortfolioPage() {
           <div className="flex bg-surface-container rounded-lg p-0.5 border border-outline-variant/30">
             <button
               type="button"
-              onClick={() => handleLocaleChange('ko')}
+              onClick={() => setLocale('ko')}
               className={`px-3 py-1 text-[10px] font-extrabold rounded-md transition-all ${
-                profileLocale === 'ko'
+                locale === 'ko'
                   ? 'bg-primary text-on-primary shadow-sm'
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
@@ -39,9 +43,9 @@ export default function PortfolioPage() {
             </button>
             <button
               type="button"
-              onClick={() => handleLocaleChange('en')}
+              onClick={() => setLocale('en')}
               className={`px-3 py-1 text-[10px] font-extrabold rounded-md transition-all ${
-                profileLocale === 'en'
+                locale === 'en'
                   ? 'bg-primary text-on-primary shadow-sm'
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}

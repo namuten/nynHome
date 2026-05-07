@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { RefreshCw, ArrowLeft, HeartCrack } from 'lucide-react';
 import { useShowcaseDetail } from '../../hooks/useShowcase';
 import { ShowcaseDetail } from '../../components/showcase/ShowcaseDetail';
-import type { LocaleCode } from '../../types/profile';
+import { useLocale } from '../../hooks/useLocale';
 
 export default function ShowcaseDetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const [locale, setLocale] = useState<LocaleCode>('ko');
+  const { locale, setLocale } = useLocale();
 
   // 슬러그 기준 상세 리스트 가져오기 (다국어 매칭 적용)
   const { item, loading, error, refetch } = useShowcaseDetail(slug, locale);

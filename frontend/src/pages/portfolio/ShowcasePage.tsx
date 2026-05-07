@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FolderGit2, RefreshCw, AlertCircle, FileText, ArrowLeft } from 'lucide-react';
 import { useShowcaseList } from '../../hooks/useShowcase';
 import { ShowcaseGrid } from '../../components/showcase/ShowcaseGrid';
-import type { LocaleCode } from '../../types/profile';
+import { useLocale } from '../../hooks/useLocale';
 
 export default function ShowcasePage() {
-  const [locale, setLocale] = useState<LocaleCode>('ko');
+  const { locale, setLocale } = useLocale();
 
   // 쇼케이스 프로젝트 전체 리스트 가져오기 (다국어 연동)
   const { items, loading, error, refetch } = useShowcaseList(locale);

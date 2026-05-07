@@ -647,7 +647,7 @@ git commit -m "feat(guestbook): add moderated guestbook API"
 - Create: `frontend/src/components/guestbook/GuestbookEntryForm.tsx`
 - Modify: `frontend/src/components/safety/ReportDialog.tsx`
 
-- [ ] **Step 1: guestbook API client 작성**
+- [x] **Step 1: guestbook API client 작성**
 
 ```typescript
 getGuestbookEntries(params)
@@ -655,7 +655,7 @@ createGuestbookEntry(payload)
 reportGuestbookEntry(id, payload)
 ```
 
-- [ ] **Step 2: GuestbookPage 구현**
+- [x] **Step 2: GuestbookPage 구현**
 
 구성:
 - intro card
@@ -664,26 +664,26 @@ reportGuestbookEntry(id, payload)
 - entry list
 - pagination
 
-- [ ] **Step 3: 미로그인 UX**
+- [x] **Step 3: 미로그인 UX**
 
 미로그인 사용자는 "로그인하고 방명록 남기기" CTA를 본다.
 
-- [ ] **Step 4: 신고 연동**
+- [x] **Step 4: 신고 연동**
 
 방명록 entry에도 ReportDialog를 재사용한다.
 
-- [ ] **Step 5: empty/error state**
+- [x] **Step 5: empty/error state**
 
 첫 방명록을 유도하는 empty state를 제공한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/GuestbookPage.tsx frontend/src/lib/guestbookApi.ts frontend/src/hooks/useGuestbook.ts frontend/src/components/guestbook frontend/src/components/safety/ReportDialog.tsx

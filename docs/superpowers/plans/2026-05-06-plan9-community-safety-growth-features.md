@@ -497,62 +497,57 @@ git commit -m "feat(moderation): add admin reports queue"
 ## Task 5: Admin Moderation UI 구현
 
 **Files:**
-- Create: `frontend/src/pages/admin/AdminModerationPage.tsx`
-- Create: `frontend/src/pages/admin/AdminReportsPage.tsx`
-- Create: `frontend/src/components/admin/ModerationQueueTable.tsx`
-- Create: `frontend/src/components/admin/ReportReviewPanel.tsx`
-- Create: `frontend/src/components/safety/ModerationStatusBadge.tsx`
-- Modify: `frontend/src/lib/reportsApi.ts`
-- Modify: `frontend/src/types/admin.ts`
+- Modify: `frontend/src/pages/admin/AdminModerationPage.tsx`
+- Modify: `frontend/src/pages/admin/AdminReportsPage.tsx`
+- Create: `frontend/src/components/admin/ModerationQueueList.tsx`
+- Create: `frontend/src/components/admin/ReportsTable.tsx`
+- Create: `frontend/src/lib/moderationApi.ts`
 
-- [ ] **Step 1: moderation API client 작성**
+- [x] **Step 1: moderation API client 작성**
 
 ```typescript
-getAdminReports(params)
+fetchReports(params)
 updateReportStatus(type, id, payload)
-getModerationQueue(params)
+fetchModerationQueue(params)
 moderateComment(id, payload)
-moderateGuestbook(id, payload)
 ```
 
-- [ ] **Step 2: moderation queue table 구현**
+- [x] **Step 2: moderation queue table 구현**
 
 컬럼:
 - kind (comment/guestbook)
 - target summary
-- report count
 - latest reason
 - status
-- createdAt
-- actions
+- actions (숨김 처리, 복구)
 
-- [ ] **Step 3: report review panel 구현**
+- [x] **Step 3: report review panel 구현**
 
 관리자가 신고 상세와 원문 댓글/방명록을 보고 처리할 수 있게 한다.
 
-- [ ] **Step 4: quick actions 구현**
+- [x] **Step 4: quick actions 구현**
 
 - hide target
 - unhide target
 - resolve report
 - reject report
 
-- [ ] **Step 5: loading/error/empty state**
+- [x] **Step 5: loading/error/empty state**
 
 신고가 없는 상태는 "현재 검토할 신고가 없습니다."로 표시한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add frontend/src/pages/admin/AdminModerationPage.tsx frontend/src/pages/admin/AdminReportsPage.tsx frontend/src/components/admin/ModerationQueueTable.tsx frontend/src/components/admin/ReportReviewPanel.tsx frontend/src/components/safety/ModerationStatusBadge.tsx frontend/src/lib/reportsApi.ts frontend/src/types/admin.ts
-git commit -m "feat(admin): add moderation queue UI"
+git add frontend/src/lib/moderationApi.ts frontend/src/components/admin/ReportsTable.tsx frontend/src/components/admin/ModerationQueueList.tsx frontend/src/pages/admin/AdminReportsPage.tsx frontend/src/pages/admin/AdminModerationPage.tsx
+git commit -m "feat(admin): implement moderation queue and reports management UI"
 ```
 
 ---

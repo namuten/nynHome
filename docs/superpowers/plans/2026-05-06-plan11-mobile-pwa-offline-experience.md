@@ -470,7 +470,7 @@ padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
 
 ### Steps
 
-- [ ] Step 1: `usePullToRefresh.ts` 훅
+- [x] Step 1: `usePullToRefresh.ts` 훅
 
 ```typescript
 // touchstart / touchmove / touchend 이벤트로 당김 감지
@@ -479,19 +479,19 @@ padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
 export function usePullToRefresh(onRefresh: () => Promise<void>, options?: { threshold?: number })
 ```
 
-- [ ] Step 2: 홈 피드 / 검색 결과 페이지에 `usePullToRefresh` 적용
+- [x] Step 2: 홈 피드 / 검색 결과 페이지에 `usePullToRefresh` 적용
 
-- [ ] Step 3: 이미지 갤러리 페이지 — swipe left/right로 다음/이전 이미지 탐색
+- [x] Step 3: 이미지 갤러리 페이지 — swipe left/right로 다음/이전 이미지 탐색
 
 ```typescript
 // useSwiperNavigation(onNext, onPrev) — touch delta > 50px on x-axis
 ```
 
-- [ ] Step 4: 댓글 아이템 — swipe left로 "신고" 버튼 노출 (모바일에서 context menu 대체)
+- [x] Step 4: 댓글 아이템 — swipe left로 "신고" 버튼 노출 (모바일에서 context menu 대체)
 
-- [ ] Step 5: 모든 터치 이벤트에 `passive: true` 옵션 사용 (스크롤 성능)
+- [x] Step 5: 모든 터치 이벤트에 `passive: true` 옵션 사용 (스크롤 성능)
 
-- [ ] Step 6: 테스트 — iPhone SE (375px) 시뮬레이터에서 pull-to-refresh 동작, swipe navigation 확인
+- [x] Step 6: 테스트 — iPhone SE (375px) 시뮬레이터에서 pull-to-refresh 동작, swipe navigation 확인
 
 **Commit:** `feat(mobile): add pull-to-refresh and swipe navigation`
 

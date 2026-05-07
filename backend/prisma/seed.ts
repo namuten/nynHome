@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { seedDefaultProfiles } from '../src/modules/profile/profile.service';
 
 const prisma = new PrismaClient();
 
@@ -14,6 +15,9 @@ async function main() {
     update: {},
     create: { email, passwordHash, nickname: 'Admin', role: 'admin' },
   });
+
+  // 기본 프로필 씨드 추가
+  await seedDefaultProfiles();
 
   const defaultTypes = [
     { mimeType: 'image/jpeg', fileCategory: 'image', maxSizeMb: 20 },

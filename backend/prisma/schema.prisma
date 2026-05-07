@@ -137,3 +137,23 @@ model PushSubscription {
 
   @@map("push_subscriptions")
 }
+
+model ProfileSettings {
+  id             Int      @id @default(autoincrement())
+  locale         String   @unique
+  displayName    String
+  tagline        String?
+  bio            String?  @db.Text
+  avatarUrl      String?
+  coverImageUrl  String?
+  school         String?
+  location       String?
+  emailPublic    String?
+  socialLinks    Json?    // 예: { "github": "...", "instagram": "..." }
+  interests      Json?    // 예: ["웹개발", "디자인"]
+  skills         Json?    // 예: ["React", "TypeScript", "Node.js"]
+  achievements   Json?    // 예: [{"title": "우수상", "date": "2026-01-01"}]
+  updatedAt      DateTime @updatedAt
+
+  @@map("profile_settings")
+}

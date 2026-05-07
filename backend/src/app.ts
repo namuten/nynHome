@@ -9,6 +9,7 @@ import scheduleRouter from './modules/schedule/schedule.router';
 import layoutRouter from './modules/layout/layout.router';
 import pushRouter from './modules/push/push.router';
 import adminRouter from './modules/admin/admin.router';
+import profileRouter from './modules/profile/profile.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -31,6 +32,7 @@ app.use('/api/schedules', scheduleRouter);
 app.use('/api/layout', layoutRouter);
 app.use('/api/push', pushRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api', profileRouter);
 
 app.use(errorMiddleware);
 

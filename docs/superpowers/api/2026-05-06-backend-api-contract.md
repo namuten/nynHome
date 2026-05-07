@@ -346,3 +346,70 @@
 ### DELETE /api/admin/users/:id
 - **Auth**: Admin
 - **Response (204)**: No Content
+
+---
+
+## 9. Profile / Branding
+
+### GET /api/profile
+- **Auth**: Public
+- **Query Parameters**:
+  - `locale` (optional): `ko | en` (기본값 `ko`)
+- **Response (200)**:
+  ```json
+  {
+    "id": 1,
+    "locale": "ko",
+    "displayName": "홍길동",
+    "tagline": "세상을 이롭게 하는 풀스택 개발자",
+    "bio": "안녕하세요! 예술과 기술의 조화를 사랑하는 개발자 홍길동입니다.",
+    "avatarUrl": "https://example.com/avatar.png",
+    "coverImageUrl": "https://example.com/cover.png",
+    "school": "한국대학교",
+    "location": "서울, 대한민국",
+    "emailPublic": "gildong@example.com",
+    "socialLinks": {
+      "github": "https://github.com",
+      "instagram": "https://instagram.com"
+    },
+    "interests": ["프로그래밍", "디자인", "사진"],
+    "skills": ["React", "TypeScript", "Node.js"],
+    "achievements": [
+      {
+        "title": "우수상",
+        "description": "공모전 수상",
+        "date": "2026-02-20"
+      }
+    ],
+    "updatedAt": "2026-05-06T00:00:00.000Z"
+  }
+  ```
+
+### PUT /api/admin/profile/:locale
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "displayName": "홍길동",
+    "tagline": "세상을 이롭게 하는 풀스택 개발자",
+    "bio": "안녕하세요! 예술과 기술의 조화를 사랑하는 개발자 홍길동입니다.",
+    "avatarUrl": "https://example.com/avatar.png",
+    "coverImageUrl": "https://example.com/cover.png",
+    "school": "한국대학교",
+    "location": "서울, 대한민국",
+    "emailPublic": "gildong@example.com",
+    "socialLinks": {
+      "github": "https://github.com"
+    },
+    "interests": ["프로그래밍"],
+    "skills": ["React"],
+    "achievements": [
+      {
+        "title": "우수상",
+        "date": "2026-02-20"
+      }
+    ]
+  }
+  ```
+- **Response (200)**: 업데이트된 Profile Settings 객체
+

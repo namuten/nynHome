@@ -435,7 +435,7 @@ export function usePWAInstall() {
 
 ### Steps
 
-- [ ] Step 1: `BottomNav.tsx`
+- [x] Step 1: `BottomNav.tsx`
 
 ```tsx
 const navItems = [
@@ -447,17 +447,17 @@ const navItems = [
 ]
 ```
 
-- [ ] Step 2: Tailwind `sm:hidden` 클래스로 768px 이하에서만 표시, 고정 `bottom-0 left-0 right-0`
+- [x] Step 2: Tailwind `sm:hidden` 클래스로 768px 이하에서만 표시, 고정 `bottom-0 left-0 right-0`
 
-- [ ] Step 3: Safe area 대응 — `pb-safe` 또는 `env(safe-area-inset-bottom)` padding 적용 (iPhone notch/home bar)
+- [x] Step 3: Safe area 대응 — `pb-safe` 또는 `env(safe-area-inset-bottom)` padding 적용 (iPhone notch/home bar)
 
 ```css
 padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
 ```
 
-- [ ] Step 4: 페이지 콘텐츠 하단에 bottom nav 높이만큼 패딩 추가 (`pb-[64px] sm:pb-0`)
+- [x] Step 4: 페이지 콘텐츠 하단에 bottom nav 높이만큼 패딩 추가 (`pb-[64px] sm:pb-0`)
 
-- [ ] Step 5: 현재 route active 스타일 (라벤더 퍼플 하이라이트)
+- [x] Step 5: 현재 route active 스타일 (라벤더 퍼플 하이라이트)
 
 **Commit:** `feat(mobile): add bottom navigation bar for mobile`
 

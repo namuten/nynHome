@@ -26,6 +26,7 @@ export default function PwaInstallBanner() {
   // PWA 관련 상태
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
 
   // 푸시 알림 수신 동의 관련 상태
   const [showNotificationBanner, setShowNotificationBanner] = useState(false);
@@ -35,12 +36,30 @@ export default function PwaInstallBanner() {
   const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
-    // 1. PWA 설치 이벤트 감지 리스너 바인딩
+    // 1. iOS 기기 여부 감지
+    const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    setIsIOS(isIosDevice);
+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isDismissed = localStorage.getItem('pwa-install-dismissed') === '1';
+
+    // 2. 방문 횟수(sessionStorage 기반) 및 체류 시간 제어부
+    let visitCount = Number(sessionStorage.getItem('pwa-visit-count') || '0');
+    visitCount += 1;
+    sessionStorage.setItem('pwa-visit-count', String(visitCount));
+
+    const checkAndTriggerPrompt = () => {
+      if (isStandalone || isDismissed) return false;
+      // 방문 3회 이상이거나, 혹은 30초 이상 체류 시 노출 조건 충족
+      return visitCount >= 3;
+    };
+
+    // 3. PWA 설치 이벤트 감지 리스너 바인딩 (Android/Desktop)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      // 이미 설치된 상태라면 굳이 제안하지 않음
-      if (!window.matchMedia('(display-mode: standalone)').matches) {
+      
+      if (checkAndTriggerPrompt()) {
         setShowInstallBanner(true);
       }
     };
@@ -55,24 +74,42 @@ export default function PwaInstallBanner() {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // 2. 브라우저 알림 동의 권한 체크
+    // 30초 콘텐츠 체류 타이머 (방문 횟수가 미달되어도 30초 체류하면 설치 제안)
+    const dwellTimer = setTimeout(() => {
+      if (!isStandalone && !isDismissed) {
+        if (isIosDevice) {
+          setShowInstallBanner(true);
+        } else if (deferredPrompt) {
+          setShowInstallBanner(true);
+        }
+      }
+    }, 30000);
+
+    // iOS 최초 접속 시 방문 횟수 기반 수동 검사 노출
+    if (isIosDevice && visitCount >= 3 && !isStandalone && !isDismissed) {
+      setShowInstallBanner(true);
+    }
+
+    // 4. 브라우저 알림 동의 권한 체크
     if ('Notification' in window) {
       setNotificationPermission(Notification.permission);
-      // 이미 알림 동의를 했거나, 거절한 상태가 아니라면 은은하게 유도 제안 배너 활성화
       if (Notification.permission === 'default') {
-        // 사이트 진입 후 4초 뒤 부드럽게 노출 (사용자 방해 최소화 고도화 UX)
-        const timer = setTimeout(() => {
+        const notifyTimer = setTimeout(() => {
           setShowNotificationBanner(true);
-        }, 4000);
-        return () => clearTimeout(timer);
+        }, 5000);
+        return () => {
+          clearTimeout(notifyTimer);
+          clearTimeout(dwellTimer);
+        };
       }
     }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      clearTimeout(dwellTimer);
     };
-  }, []);
+  }, [deferredPrompt]);
 
   // 토스트 트리거 헬퍼
   const triggerToast = (msg: string) => {
@@ -91,6 +128,12 @@ export default function PwaInstallBanner() {
     setShowInstallBanner(false);
   };
 
+  // 닫기 + localStorage에 '다시 보지 않기' 기록 수렴
+  const handleDismissInstall = () => {
+    localStorage.setItem('pwa-install-dismissed', '1');
+    setShowInstallBanner(false);
+  };
+
   // 2) 브라우저 백그라운드 푸시 알림 신청 및 허용 절차
   const handleSubscribeNotifications = async () => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
@@ -100,7 +143,6 @@ export default function PwaInstallBanner() {
 
     try {
       setSubscribing(true);
-      // 브라우저 권한 팝업 띄우기
       const permission = await Notification.requestPermission();
       setNotificationPermission(permission);
       
@@ -112,18 +154,13 @@ export default function PwaInstallBanner() {
       }
 
       if (permission === 'granted') {
-        // 서비스 워커 구동 준비 확인
         const registration = await navigator.serviceWorker.ready;
-        
-        // VAPID 퍼블릭 키 기반 브라우저 푸시 토큰 생성
         const subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
         });
 
-        // 백엔드 엔드포인트 전송 (로그인 토큰 헤더는 API 인스턴스에 의해 자동 주입)
         await api.post('/push/subscribe', subscription);
-
         triggerToast('🔔 푸시 알림 수신 동의 완료! 중요한 실시간 소식을 가장 빠르게 배달해 드릴게요.');
         setShowNotificationBanner(false);
       }
@@ -137,35 +174,41 @@ export default function PwaInstallBanner() {
 
   return (
     <>
-      {/* 1. 수려한 하단 플로팅 PWA 설치 제안 카드 */}
+      {/* 1. 수려한 하단 플로팅 PWA 설치 제안 카드 (Android, iOS 및 Desktop 대응) */}
       {showInstallBanner && (
-        <div className="fixed bottom-6 left-6 z-40 max-w-sm bg-white/90 backdrop-blur-xl border border-surface-container rounded-3xl p-4 shadow-xl animate-scale-up flex items-center justify-between gap-4 font-body">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
-              <Download className="w-5 h-5 animate-bounce" />
+        <div className="fixed bottom-20 sm:bottom-6 left-4 right-4 sm:right-auto z-40 max-w-sm bg-slate-900/90 border border-violet-500/20 rounded-3xl p-4 shadow-2xl backdrop-blur-xl animate-fade-in-up flex items-start justify-between gap-4 font-body text-white">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-violet-600/20 border border-violet-500/30 text-violet-400 flex items-center justify-center shrink-0 mt-0.5 animate-pulse">
+              <Download className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-black text-on-surface">앱으로 홈 화면에 설치</h4>
-              <p className="text-[10px] text-on-surface-variant font-bold mt-0.5 leading-tight">
-                크록허브를 데스크톱 및 모바일 앱으로 쾌적하게 사용해보세요.
+              <h4 className="text-xs sm:text-sm font-bold text-slate-100">
+                {isIOS ? '🐊 CrocHub를 홈 화면에 추가' : '🐊 CrocHub 앱으로 쾌적한 감상'}
+              </h4>
+              <p className="text-[10px] sm:text-xs text-slate-400 mt-1 leading-normal">
+                {isIOS 
+                  ? 'Safari 브라우저 하단의 [공유] 버튼(네모 모양에 위 화살표)을 클릭한 후, [홈 화면에 추가]를 선택하시면 오프라인 상태에서도 간편하게 감상할 수 있습니다.' 
+                  : '크록허브를 데스크톱 및 모바일 앱으로 홈 화면에 즉시 설치하여 보다 빠르고 쾌적하게 사용해보세요!'}
               </p>
             </div>
           </div>
-
-          <div className="flex items-center gap-1.5 shrink-0">
+ 
+          <div className="flex flex-col items-end gap-2 shrink-0">
             <button
-              onClick={handleInstallApp}
-              className="px-3 py-1.5 bg-primary text-white text-[10px] font-black rounded-xl hover:bg-primary-container hover:text-primary transition shadow-sm"
+              onClick={handleDismissInstall}
+              className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
+              title="다시 보지 않기"
             >
-              설치
+              <X className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => setShowInstallBanner(false)}
-              className="p-1 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition"
-              title="닫기"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
+            {!isIOS && (
+              <button
+                onClick={handleInstallApp}
+                className="px-3.5 py-1.5 bg-violet-600 text-white text-[10px] sm:text-xs font-semibold rounded-xl hover:bg-violet-500 transition shadow-lg shadow-violet-600/25 cursor-pointer active:scale-95"
+              >
+                설치
+              </button>
+            )}
           </div>
         </div>
       )}

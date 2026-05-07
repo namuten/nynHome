@@ -64,4 +64,31 @@ describe('Audit Logs Service and Endpoint Integration Tests', () => {
     expect(res.body.data.length).toBeGreaterThan(0);
     expect(res.body.data[0].action).toBe('post.create');
   });
+
+  it('automatically logs an admin mutation to audit_logs via middleware', async () => {
+    const config = await prisma.mediaTypeConfig.upsert({
+      where: { mimeType: 'image/gif' },
+      update: {},
+      create: { mimeType: 'image/gif', fileCategory: 'image', maxSizeMb: 10, isAllowed: true },
+    });
+
+    const res = await request(app)
+      .put(`/api/admin/media-types/${config.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ maxSizeMb: 25, isAllowed: true });
+
+    expect(res.status).toBe(200);
+
+    // Wait 50ms to let the async res.on('finish') background database write complete
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    const latestLogs = await prisma.auditLog.findMany({
+      where: { action: 'media-types.put' },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    expect(latestLogs.length).toBeGreaterThan(0);
+    expect(latestLogs[0].action).toBe('media-types.put');
+    expect(latestLogs[0].resourceType).toBe('media-types');
+  });
 });

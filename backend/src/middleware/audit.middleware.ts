@@ -3,20 +3,18 @@ import { recordAuditLog } from '../modules/audit/audit.service';
 
 export function auditMiddleware(req: Request, res: Response, next: NextFunction) {
   const isMutation = ['POST', 'PUT', 'DELETE'].includes(req.method);
-  const isAdminRoute = req.originalUrl.startsWith('/api/admin');
-
-  // Skip audit logging for get requests or non-admin routes
-  if (!isMutation || !isAdminRoute) {
-    return next();
-  }
 
   // Hook into the finish event of the response to log successfully processed actions
   res.on('finish', () => {
-    if (res.statusCode >= 200 && res.statusCode < 300) {
+    // Check again during response finish when req.user is guaranteed to be decoded and populated by auth middleware
+    const isAdminRoute = req.originalUrl.startsWith('/api/admin');
+    const isAdminUser = req.user?.role === 'admin';
+
+    if (isMutation && (isAdminRoute || isAdminUser) && res.statusCode >= 200 && res.statusCode < 300) {
       const parts = req.originalUrl.split('?')[0].split('/');
-      // /api/admin/some-resource -> some-resource
-      const resourceType = parts[3] || 'admin';
-      const resourceId = parts[4] || undefined;
+      // Detect resource category from path
+      const resourceType = parts[2] === 'admin' ? (parts[3] || 'admin') : (parts[2] || 'general');
+      const resourceId = parts[2] === 'admin' ? (parts[4] || undefined) : (parts[3] || undefined);
       
       const action = `${resourceType}.${req.method.toLowerCase()}`;
       const adminUserId = req.user?.userId || undefined;
@@ -31,7 +29,6 @@ export function auditMiddleware(req: Request, res: Response, next: NextFunction)
         metadata: {
           path: req.originalUrl,
           statusCode: res.statusCode,
-          // Exclude sensitive credentials if logged
           body: req.body && !req.originalUrl.includes('login') ? { ...req.body, password: req.body.password ? '***' : undefined } : undefined,
         },
         req,

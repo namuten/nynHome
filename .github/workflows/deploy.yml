@@ -23,8 +23,9 @@ jobs:
             mkdir -p "$TARGET_PARENT"
             cd "$TARGET_PARENT"
 
-            if [ ! -d "nynHome" ]; then
-              echo "nynHome not found! Initiating automatic clone..."
+            if [ ! -d "nynHome/.git" ]; then
+              echo "nynHome/.git not found or corrupt! Cleaning up and initiating fresh automatic clone..."
+              rm -rf nynHome
               git clone git@github.com:namuten/nynHome.git || git clone https://github.com/namuten/nynHome.git
             fi
 

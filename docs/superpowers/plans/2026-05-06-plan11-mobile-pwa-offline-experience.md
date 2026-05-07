@@ -644,14 +644,14 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://api.crochub.app'
 
 ### Steps
 
-- [ ] Step 1: 플러그인 설치
+- [x] Step 1: 플러그인 설치
 
 ```bash
 npm install @capacitor/push-notifications @capacitor/splash-screen @capacitor/status-bar @capacitor/haptics @capacitor/network
 npx cap sync
 ```
 
-- [ ] Step 2: Push Notifications 설정
+- [x] Step 2: Push Notifications 설정
 
 iOS: `ios/App/App/AppDelegate.swift`에 APNs 등록 코드 추가 (Capacitor 공식 가이드 참조)  
 Android: `google-services.json`을 `android/app/`에 배치 (Firebase 콘솔에서 다운로드, `.gitignore`에 추가)
@@ -674,7 +674,7 @@ export async function registerNativePush() {
 }
 ```
 
-- [ ] Step 3: Splash Screen 설정 — `capacitor.config.ts`에 추가
+- [x] Step 3: Splash Screen 설정 — `capacitor.config.ts`에 추가
 
 ```typescript
 plugins: {
@@ -688,7 +688,7 @@ plugins: {
 }
 ```
 
-- [ ] Step 4: Status Bar 설정
+- [x] Step 4: Status Bar 설정
 
 ```typescript
 import { StatusBar, Style } from '@capacitor/status-bar'
@@ -700,7 +700,7 @@ if (Capacitor.isNativePlatform()) {
 }
 ```
 
-- [ ] Step 5: Haptics — 댓글 전송 성공, 좋아요, 알림 탭 시 진동
+- [x] Step 5: Haptics — 댓글 전송 성공, 좋아요, 알림 탭 시 진동
 
 ```typescript
 import { Haptics, ImpactStyle } from '@capacitor/haptics'
@@ -708,7 +708,7 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics'
 // 오류: ImpactStyle.Heavy
 ```
 
-- [ ] Step 6: Backend — 네이티브 push token 저장 엔드포인트 추가
+- [x] Step 6: Backend — 네이티브 push token 저장 엔드포인트 추가
 
 ```text
 POST /api/push/native-token

@@ -308,7 +308,7 @@ docs/
 - Create: `frontend/src/pages/admin/AdminOperationsPage.tsx`
 - Create: `frontend/src/lib/operationsApi.ts`
 
-- [ ] **Step 1: Plan 7 완료 상태 확인**
+- [x] **Step 1: Plan 7 완료 상태 확인**
 
 ```bash
 find frontend/src -maxdepth 4 -type f | sort
@@ -320,7 +320,7 @@ Expected:
 - admin shell/nav 존재
 - API contract 최신 상태
 
-- [ ] **Step 2: admin nav에 운영 메뉴 추가**
+- [x] **Step 2: admin nav에 운영 메뉴 추가**
 
 ```text
 Analytics → /admin/analytics
@@ -328,11 +328,11 @@ Audit Logs → /admin/audit-logs
 Operations → /admin/operations
 ```
 
-- [ ] **Step 3: route placeholder 추가**
+- [x] **Step 3: route placeholder 추가**
 
 보호 라우트는 Plan 5의 AdminRouteGuard를 그대로 사용한다.
 
-- [ ] **Step 4: operations API client baseline 작성**
+- [x] **Step 4: operations API client baseline 작성**
 
 ```typescript
 getAdminAnalyticsSummary(params)
@@ -342,14 +342,14 @@ getBackupRuns(params)
 getSystemHealth()
 ```
 
-- [ ] **Step 5: 확인**
+- [x] **Step 5: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src
@@ -514,7 +514,7 @@ recordAuditLog({ action, resourceType, resourceId, adminUserId, summary, metadat
 
 - 원문 IP 저장 금지 권장
 - `AUDIT_IP_HASH_SALT` 환경변수 사용
-- salt 없으면 production에서 경고 또는 비활성화 정책 결정
+- **salt 없으면 IP 저장 완전 비활성화 (확정)** — `AUDIT_IP_HASH_SALT`가 비어 있거나 없으면 `ip_hash` 필드에 `null`을 저장하고 서버 시작 시 경고 로그를 남긴다. 어떤 경우에도 원문 IP를 DB에 저장하지 않는다.
 
 - [ ] **Step 4: audit query API 구현**
 
@@ -747,16 +747,29 @@ GET /api/admin/analytics/events?from=&to=&eventName=
 - raw analytics_events: 90일 보관
 - daily rollups: 2년 보관
 
-- [ ] **Step 6: 테스트 작성**
+- [ ] **Step 6: rollup job 작성**
+
+파일: `backend/src/jobs/analyticsRollup.job.ts`
+
+동작:
+- 전날(UTC 기준) raw `analytics_events`를 집계해 `daily_analytics_rollups`에 upsert
+- `route + event_name` 기준으로 `count` / `unique_sessions` 집계
+- 중복 실행 안전 (upsert, idempotent)
+- 실행 방법: 서버 cron에서 `node dist/jobs/analyticsRollup.job.js` 매일 실행
+
+`daily_analytics_rollups` 없이 admin summary endpoint만 구현하면 집계 데이터가 실제로 쌓이지 않는다.
+
+- [ ] **Step 7: 테스트 작성**
 
 ```text
 POST /api/analytics/events page_view -> 202 or 201
 POST invalid route -> 400
 GET /api/admin/analytics/summary as user -> 403
 GET /api/admin/analytics/summary as admin -> 200
+analyticsRollup.job produces correct rollup row for yesterday
 ```
 
-- [ ] **Step 7: 확인**
+- [ ] **Step 8: 확인**
 
 ```bash
 cd backend
@@ -765,11 +778,11 @@ npm test -- tests/analytics.test.ts
 npm run build
 ```
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
-git add backend/prisma/schema.prisma backend/src/modules/analytics backend/src/app.ts backend/tests/analytics.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
-git commit -m "feat(analytics): add privacy conscious event tracking API"
+git add backend/prisma/schema.prisma backend/src/modules/analytics backend/src/jobs/analyticsRollup.job.ts backend/src/app.ts backend/tests/analytics.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md
+git commit -m "feat(analytics): add privacy conscious event tracking and rollup job"
 ```
 
 ---
@@ -1007,9 +1020,23 @@ cd backend
 npm install sharp
 ```
 
-주의:
-- Alpine Docker에서 sharp native dependency 확인 필요
-- 설치/빌드 문제가 있으면 Dockerfile 보강
+**Alpine Docker에서 sharp 빌드 실패 시 (흔한 문제):**
+
+방법 A — Dockerfile에 native dependency 추가:
+
+```dockerfile
+RUN apk add --no-cache vips-dev fftw-dev gcc g++ make
+```
+
+방법 B — musl 전용 prebuilt 바이너리 사용:
+
+```bash
+npm install --cpu=x64 --os=linuxmusl sharp
+```
+
+방법 C — sharp 대신 `jimp` (순수 JS, native 없음, 처리 속도 느림) 로 대체.
+
+**이 Step이 블로킹되면 Task 11을 선택 구현으로 격하하고 다음 Task를 먼저 진행한다.**
 
 - [ ] **Step 2: media_derivatives model 추가**
 

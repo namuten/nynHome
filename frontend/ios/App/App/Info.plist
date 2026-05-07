@@ -47,5 +47,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>새 콘텐츠 알림을 받기 위해 알림 권한이 필요합니다.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>사진을 저장하기 위해 접근 권한이 필요합니다.</string>
 </dict>
 </plist>

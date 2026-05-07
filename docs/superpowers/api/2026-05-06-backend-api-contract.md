@@ -1009,3 +1009,215 @@
   ```
 - **Response (200)**: 업데이트된 `GuestbookEntry` 객체
 
+---
+
+## 11. Notifications
+
+### GET /api/notifications
+- **Auth**: Authenticated User
+- **Response (200)**:
+  ```json
+  [
+    {
+      "id": 1,
+      "userId": 5,
+      "type": "new_comment",
+      "title": "새로운 댓글 알림",
+      "body": "게시글에 새 의견이 작성되었습니다.",
+      "linkUrl": "/post/10",
+      "isRead": false,
+      "createdAt": "2026-05-07T12:00:00Z"
+    }
+  ]
+  ```
+
+### POST /api/notifications/read-all
+- **Auth**: Authenticated User
+- **Response (200)**:
+  ```json
+  { "success": true, "count": 5 }
+  ```
+
+### PUT /api/notifications/:id/read
+- **Auth**: Authenticated User
+- **Response (200)**: 업데이트된 `Notification` 객체
+
+### GET /api/notifications/unread-count
+- **Auth**: Authenticated User
+- **Response (200)**:
+  ```json
+  { "unreadCount": 3 }
+  ```
+
+### GET /api/notifications/preferences
+- **Auth**: Admin
+- **Response (200)**: `NotificationPreference` 객체
+
+### PUT /api/notifications/preferences
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "onNewComment": true,
+    "onNewGuestbook": true,
+    "onReportFlagged": false,
+    "emailDigestFreq": "daily | weekly | never",
+    "emailAddress": "admin@crochub.dev"
+  }
+  ```
+- **Response (200)**: 업데이트된 `NotificationPreference` 객체
+
+---
+
+## 12. Search
+
+### GET /api/search
+- **Auth**: Public
+- **Query Params**:
+  - `q`: 검색 키워드 (최소 2글자 이상, 한글 n-gram 지원)
+- **Response (200)**:
+  ```json
+  {
+    "posts": [
+      {
+        "id": 1,
+        "title": "매칭된 포스트 제목",
+        "category": "creative",
+        "createdAt": "2026-05-07T12:00:00Z"
+      }
+    ],
+    "showcases": [
+      {
+        "id": 2,
+        "title": "매칭된 포트폴리오 쇼케이스",
+        "slug": "portfolio-slug",
+        "createdAt": "2026-05-07T12:00:00Z"
+      }
+    ]
+  }
+  ```
+
+---
+
+## 13. Tags
+
+### GET /api/tags
+- **Auth**: Public
+- **Response (200)**: `Tag` 객체 리스트 (각 태그별 소속 콘텐츠 갯수 `contentCount` 포함)
+
+### GET /api/tags/:slug
+- **Auth**: Public
+- **Response (200)**:
+  ```json
+  {
+    "tag": {
+      "id": 1,
+      "name": "태그명",
+      "slug": "tag-slug",
+      "color": "#a78bfa"
+    },
+    "contents": {
+      "posts": [...],
+      "showcases": [...]
+    }
+  }
+  ```
+
+### POST /api/admin/tags
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "name": "신규 태그",
+    "slug": "new-tag",
+    "color": "#10b981"
+  }
+  ```
+- **Response (201)**: 생성된 `Tag` 객체
+
+### PUT /api/admin/tags/:id
+- **Auth**: Admin
+- **Request Body**: POST와 동일
+- **Response (200)**: 업데이트된 `Tag` 객체
+
+### DELETE /api/admin/tags/:id
+- **Auth**: Admin
+- **Response (204)**: No Content
+
+---
+
+## 14. Collections
+
+### GET /api/collections
+- **Auth**: Public
+- **Response (200)**: `Collection` 객체 리스트 (각 컬렉션에 소속된 아이템 갯수 포함)
+
+### GET /api/collections/:id
+- **Auth**: Public
+- **Response (200)**:
+  ```json
+  {
+    "id": 1,
+    "title": "컬렉션 주제",
+    "description": "기획 상세",
+    "isPublished": true,
+    "items": [
+      {
+        "id": 10,
+        "position": 1,
+        "contentType": "post",
+        "contentId": 5,
+        "title": "포스트 제목",
+        "createdAt": "2026-05-07T12:00:00Z"
+      }
+    ]
+  }
+  ```
+
+### POST /api/admin/collections
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "title": "기획전 제목",
+    "description": "상세 가이드",
+    "isPublished": true
+  }
+  ```
+- **Response (201)**: 생성된 `Collection` 객체
+
+### PUT /api/admin/collections/:id
+- **Auth**: Admin
+- **Request Body**: POST와 동일 (전체 필드 optional)
+- **Response (200)**: 업데이트된 `Collection` 객체
+
+### DELETE /api/admin/collections/:id
+- **Auth**: Admin
+- **Response (204)**: No Content
+
+### POST /api/admin/collections/:id/items
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "contentType": "post | showcase",
+    "contentId": 12
+  }
+  ```
+- **Response (201)**: 생성된 피벗 매핑 객체 (중복 시 409 Conflict 반환)
+
+### DELETE /api/admin/collections/:id/items/:itemId
+- **Auth**: Admin
+- **Response (204)**: No Content
+
+### PUT /api/admin/collections/:id/reorder
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "orderedItemIds": [2, 1, 3]
+  }
+  ```
+- **Response (200)**: 성공 완료 안내 `{ "success": true }`
+
+

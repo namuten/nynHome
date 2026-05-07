@@ -680,7 +680,7 @@ EMAIL_FROM="CrocHub <your@gmail.com>"
 
 ### Steps
 
-- [ ] Step 1: `docs/superpowers/specs/` API contract 문서에 Plan 10 신규 엔드포인트 추가
+- [x] Step 1: `docs/superpowers/specs/` API contract 문서에 Plan 10 신규 엔드포인트 추가
 
 ```text
 추가 항목:
@@ -709,7 +709,7 @@ EMAIL_FROM="CrocHub <your@gmail.com>"
   PUT  /api/admin/collections/:id/reorder
 ```
 
-- [ ] Step 2: E2E 회귀 테스트
+- [x] Step 2: E2E 회귀 테스트
 
 ```text
 - Plan 9A 기능 (댓글 신고, 방명록)이 Plan 10 기능과 충돌 없이 동작
@@ -718,7 +718,7 @@ EMAIL_FROM="CrocHub <your@gmail.com>"
 - 컬렉션 아이템 추가 후 역조회(getCollectionsByContent) 정상 동작
 ```
 
-- [ ] Step 3: 보안 점검
+- [x] Step 3: 보안 점검
 
 ```text
 - 알림 목록 API: 타 사용자 알림 조회 불가 확인
@@ -726,7 +726,7 @@ EMAIL_FROM="CrocHub <your@gmail.com>"
 - 관리자 전용 엔드포인트에 비인증 요청 → 401 반환
 ```
 
-- [ ] Step 4: 성능 체크
+- [x] Step 4: 성능 체크
 
 ```text
 - 검색 쿼리 실행 계획(EXPLAIN) 확인 — FULLTEXT index 사용 여부

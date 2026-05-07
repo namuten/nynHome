@@ -28,8 +28,8 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     const limit = parseInt(req.query.limit as string || '10', 10);
 
     // 관리자가 아니면 본인 알림만 조회 가능, 관리자는 전체 조회 가능 (userId: null)
-    const isAdmin = req.user?.role === 'admin';
-    const userId = isAdmin ? null : req.user?.id;
+    const isAdmin = (req.user as any)?.role === 'admin';
+    const userId = isAdmin ? null : (req.user as any)?.id;
 
     const data = await NotificationsService.getNotifications({
       userId,
@@ -50,8 +50,8 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 router.get('/unread-count', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const isAdmin = req.user?.role === 'admin';
-    const userId = isAdmin ? null : req.user?.id;
+    const isAdmin = (req.user as any)?.role === 'admin';
+    const userId = isAdmin ? null : (req.user as any)?.id;
 
     const count = await NotificationsService.getUnreadCount(userId);
     return res.json({ unreadCount: count });
@@ -66,8 +66,8 @@ router.get('/unread-count', async (req: Request, res: Response, next: NextFuncti
  */
 router.post('/read-all', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const isAdmin = req.user?.role === 'admin';
-    const userId = isAdmin ? null : req.user?.id;
+    const isAdmin = (req.user as any)?.role === 'admin';
+    const userId = isAdmin ? null : (req.user as any)?.id;
 
     await NotificationsService.markAllAsRead(userId);
     return res.json({ success: true });
@@ -87,8 +87,8 @@ router.put('/:id/read', async (req: Request, res: Response, next: NextFunction) 
       return res.status(400).json({ error: 'INVALID_ID', message: '유효하지 않은 알림 ID입니다.' });
     }
 
-    const isAdmin = req.user?.role === 'admin';
-    const userId = isAdmin ? null : req.user?.id;
+    const isAdmin = (req.user as any)?.role === 'admin';
+    const userId = isAdmin ? null : (req.user as any)?.id;
 
     await NotificationsService.markAsRead([id], userId);
     return res.json({ success: true });
@@ -121,7 +121,7 @@ router.delete('/:id', requireAdmin, async (req: Request, res: Response, next: Ne
  */
 router.get('/preferences', requireAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const adminUserId = req.user!.id;
+    const adminUserId = (req.user as any).id;
     const pref = await NotificationsService.getPreferences(adminUserId);
     return res.json(pref);
   } catch (error) {
@@ -135,10 +135,10 @@ router.get('/preferences', requireAdmin, async (req: Request, res: Response, nex
  */
 router.put('/preferences', requireAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const adminUserId = req.user!.id;
+    const adminUserId = (req.user as any).id;
     const result = UpdatePreferencesSchema.safeParse(req.body);
     if (!result.success) {
-      return res.status(400).json({ error: 'VALIDATION_FAILED', details: result.error.errors });
+      return res.status(400).json({ error: 'VALIDATION_FAILED', details: result.error.issues });
     }
 
     const pref = await NotificationsService.updatePreferences(adminUserId, result.data);

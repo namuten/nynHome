@@ -6,6 +6,19 @@ describe('Search Integration Tests', () => {
   let tempShowcaseId: number;
 
   beforeAll(async () => {
+    // 테스트용 DB에 로컬 FULLTEXT 인덱스가 안 잡혀 있는 예외를 사전에 방어
+    try {
+      await prisma.$executeRawUnsafe(`ALTER TABLE posts ADD FULLTEXT INDEX posts_title_body_idx (title, body) WITH PARSER ngram;`);
+    } catch (e) {
+      // 이미 인덱스가 잡혀 있으면 성공적인 패스
+    }
+
+    try {
+      await prisma.$executeRawUnsafe(`ALTER TABLE showcase_items ADD FULLTEXT INDEX showcase_items_title_description_idx (title, description) WITH PARSER ngram;`);
+    } catch (e) {
+      // 이미 인덱스가 잡혀 있으면 성공적인 패스
+    }
+
     // 1. 임시 CJK 포스트 레코드 작성
     const post = await prisma.post.create({
       data: {

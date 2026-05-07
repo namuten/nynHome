@@ -13,6 +13,8 @@ import GuestbookPage from '../pages/GuestbookPage';
 import CommunityGuidelinesPage from '../pages/CommunityGuidelinesPage';
 import PrivacySafetyPage from '../pages/PrivacySafetyPage';
 import SearchPage from '../pages/SearchPage';
+import TagsCloudPage from '../pages/TagsCloudPage';
+import TagDetailPage from '../pages/TagDetailPage';
 
 // Portfolio imports
 import PortfolioPage from '../pages/portfolio/PortfolioPage';
@@ -71,6 +73,8 @@ export const router = createBrowserRouter([
       { path: 'community-guidelines', element: <CommunityGuidelinesPage /> },
       { path: 'privacy-safety', element: <PrivacySafetyPage /> },
       { path: 'search', element: <SearchPage /> },
+      { path: 'tags', element: <TagsCloudPage /> },
+      { path: 'tags/:slug', element: <TagDetailPage /> },
       {
         element: <AdminRouteGuard />,
         children: [

@@ -21,6 +21,7 @@ export interface PostSummary {
   viewCount: number;
   commentCount?: number;
   thumbnailUrl?: string | null;
+  tags?: { id: number; name: string; color: string | null; slug: string }[];
 }
 
 export interface PostDetail {

@@ -388,9 +388,10 @@ model NotificationPreference {
   onNewComment    Boolean  @default(true) @map("on_new_comment")
   onNewGuestbook  Boolean  @default(true) @map("on_new_guestbook")
   onReportFlagged Boolean  @default(true) @map("on_report_flagged")
-  emailDigestFreq String   @default("weekly") @map("email_digest_freq") // "never" | "daily" | "weekly"
-  emailAddress    String?  @map("email_address") @db.VarChar(320)
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  emailDigestFreq String    @default("weekly") @map("email_digest_freq") // "never" | "daily" | "weekly"
+  emailAddress    String?   @map("email_address") @db.VarChar(320)
+  lastDigestSentAt DateTime? @map("last_digest_sent_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   @@map("notification_preferences")
 }

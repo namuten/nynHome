@@ -701,11 +701,11 @@ git commit -m "feat(admin): add audit log viewer"
 - Create: `backend/tests/analytics.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: analytics models 추가**
+- [x] **Step 1: analytics models 추가**
 
 `analytics_events`, `daily_analytics_rollups`를 추가한다.
 
-- [ ] **Step 2: public event ingest endpoint 구현**
+- [x] **Step 2: public event ingest endpoint 구현**
 
 ```text
 POST /api/analytics/events
@@ -724,7 +724,7 @@ Request:
 }
 ```
 
-- [ ] **Step 3: validation 규칙**
+- [x] **Step 3: validation 규칙**
 
 - eventName: 1~120, allowlist 권장
 - route: 내부 path만 허용
@@ -733,7 +733,7 @@ Request:
 - metadata: object, size 제한
 - sessionId: raw 저장하지 않고 hash 저장
 
-- [ ] **Step 4: admin summary endpoints 구현**
+- [x] **Step 4: admin summary endpoints 구현**
 
 ```text
 GET /api/admin/analytics/summary?from=&to=
@@ -741,13 +741,13 @@ GET /api/admin/analytics/routes?from=&to=&limit=
 GET /api/admin/analytics/events?from=&to=&eventName=
 ```
 
-- [ ] **Step 5: retention 정책 문서화**
+- [x] **Step 5: retention 정책 문서화**
 
 권장:
 - raw analytics_events: 90일 보관
 - daily rollups: 2년 보관
 
-- [ ] **Step 6: rollup job 작성**
+- [x] **Step 6: rollup job 작성**
 
 파일: `backend/src/jobs/analyticsRollup.job.ts`
 
@@ -759,7 +759,7 @@ GET /api/admin/analytics/events?from=&to=&eventName=
 
 `daily_analytics_rollups` 없이 admin summary endpoint만 구현하면 집계 데이터가 실제로 쌓이지 않는다.
 
-- [ ] **Step 7: 테스트 작성**
+- [x] **Step 7: 테스트 작성**
 
 ```text
 POST /api/analytics/events page_view -> 202 or 201
@@ -769,7 +769,7 @@ GET /api/admin/analytics/summary as admin -> 200
 analyticsRollup.job produces correct rollup row for yesterday
 ```
 
-- [ ] **Step 8: 확인**
+- [x] **Step 8: 확인**
 
 ```bash
 cd backend
@@ -778,7 +778,7 @@ npm test -- tests/analytics.test.ts
 npm run build
 ```
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/analytics backend/src/jobs/analyticsRollup.job.ts backend/src/app.ts backend/tests/analytics.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

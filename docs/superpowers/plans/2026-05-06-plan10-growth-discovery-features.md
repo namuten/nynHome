@@ -395,7 +395,7 @@ GET /api/search?q=<query>&types=post,image,video,portfolio&page=1&limit=20
 
 ### Steps
 
-- [ ] Step 1: `backend/src/modules/search/search.service.ts` 생성
+- [x] Step 1: `backend/src/modules/search/search.service.ts` 생성
 
 ```typescript
 async search(params: {
@@ -420,13 +420,13 @@ ORDER BY score DESC
 LIMIT ? OFFSET ?
 ```
 
-- [ ] Step 2: 쿼리 sanitization — SQL injection 방지, 특수문자(`+`, `-`, `*`, `"`) 이스케이프
+- [x] Step 2: 쿼리 sanitization — SQL injection 방지, 특수문자(`+`, `-`, `*`, `"`) 이스케이프
 
-- [ ] Step 3: 빈 쿼리 가드 — `q`가 2자 미만이면 400 반환 (ngram_token_size=2 기준)
+- [x] Step 3: 빈 쿼리 가드 — `q`가 2자 미만이면 400 반환 (ngram_token_size=2 기준)
 
-- [ ] Step 4: `backend/src/modules/search/search.routes.ts` 등록, rate limit 적용 (30req/min)
+- [x] Step 4: `backend/src/modules/search/search.routes.ts` 등록, rate limit 적용 (30req/min)
 
-- [ ] Step 5: 테스트:
+- [x] Step 5: 테스트:
   - `search returns posts matching korean query`
   - `search with q shorter than 2 chars returns 400`
   - `search respects types filter`

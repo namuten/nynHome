@@ -19,6 +19,8 @@ import {
   Server,
   ShieldAlert,
   Flag,
+  Hash,
+  FolderHeart,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -31,6 +33,8 @@ export default function AdminNav() {
     { to: '/admin/media', label: '미디어 라이브러리', icon: Image },
     { to: '/admin/comments', label: '댓글 관리', icon: MessageSquare },
     { to: '/admin/users', label: '사용자 관리', icon: Users },
+    { to: '/admin/tags', label: '태그 카테고리', icon: Hash },
+    { to: '/admin/collections', label: '컬렉션 시리즈', icon: FolderHeart },
   ];
 
   const brandingMenuItems = [

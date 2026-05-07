@@ -46,6 +46,9 @@ import AdminOperationsPage from '../pages/admin/AdminOperationsPage';
 import AdminModerationPage from '../pages/admin/AdminModerationPage';
 import AdminReportsPage from '../pages/admin/AdminReportsPage';
 import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage';
+import TagsListPage from '../pages/admin/tags/TagsListPage';
+import CollectionsListPage from '../pages/admin/collections/CollectionsListPage';
+import CollectionEditPage from '../pages/admin/collections/CollectionEditPage';
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +101,9 @@ export const router = createBrowserRouter([
               { path: 'moderation', element: <AdminModerationPage /> },
               { path: 'reports', element: <AdminReportsPage /> },
               { path: 'notifications/preferences', element: <AdminNotificationsPage /> },
+              { path: 'tags', element: <TagsListPage /> },
+              { path: 'collections', element: <CollectionsListPage /> },
+              { path: 'collections/:id', element: <CollectionEditPage /> },
             ],
           },
         ],

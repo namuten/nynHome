@@ -36,20 +36,20 @@ export default function SiteHeader() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-1">
+        <nav className="hidden md:flex space-x-0.5 lg:space-x-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-body font-semibold transition-all duration-200 ${
+                className={`flex items-center space-x-1.5 lg:space-x-2 px-2.5 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-body font-bold whitespace-nowrap transition-all duration-200 ${
                   isActive(item.path)
-                    ? 'bg-primary text-white shadow-sm'
+                    ? 'bg-primary text-white shadow-sm shadow-primary/25'
                     : 'text-on-surface-variant hover:bg-surface-container hover:text-primary'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                 <span>{item.label}</span>
               </Link>
             );

@@ -2,10 +2,10 @@ export const i18nDict = {
   ko: {
     // Navigation / Public
     navHome: '홈',
-    navGallery: '창작 갤러리',
-    navBlog: '테크 블로그',
-    navStudy: '학습 아카이브',
-    navProfile: '자기소개',
+    navGallery: '갤러리',
+    navBlog: '블로그',
+    navStudy: '학습',
+    navProfile: '프로필',
     navPortfolio: '포트폴리오',
     navResume: '이력서',
     navShowcase: '쇼케이스',

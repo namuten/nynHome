@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 
+const isTest = process.env.NODE_ENV === 'test';
+
 export const globalRateLimiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   limit: 300, // limit each IP to 300 requests per window
   standardHeaders: 'draft-6', // standard RateLimit headers
   legacyHeaders: false,
+  skip: () => isTest, // Bypass rate-limiting during Jest testing to prevent runner false-positives
   message: {
     error: 'RATE_LIMITED',
     message: 'Too many requests. Please try again later.',
@@ -17,6 +20,13 @@ export const authRateLimiter = rateLimit({
   limit: 5, // limit each IP to 5 requests per window
   standardHeaders: 'draft-6',
   legacyHeaders: false,
+  skip: (req) => {
+    // If it is our dedicated rate-limit test, do NOT skip so the test can verify the 429 response!
+    if (isTest && req.header('X-Test-Rate-Limit') === 'true') {
+      return false;
+    }
+    return isTest;
+  },
   message: {
     error: 'RATE_LIMITED',
     message: '너무 많은 로그인/가입 시도가 감지되었습니다. 잠시 후 다시 시도해주세요.',
@@ -28,6 +38,7 @@ export const commentsRateLimiter = rateLimit({
   limit: 10, // limit each IP to 10 requests per window
   standardHeaders: 'draft-6',
   legacyHeaders: false,
+  skip: () => isTest, // Bypass in tests
   message: {
     error: 'RATE_LIMITED',
     message: '댓글 작성이 일시적으로 제한되었습니다. 잠시 후 다시 시도해주세요.',
@@ -37,6 +48,11 @@ export const commentsRateLimiter = rateLimit({
 const lastComments = new Map<number, { content: string; timestamp: number }>();
 
 export function commentSpamGuard(req: Request, res: Response, next: NextFunction) {
+  // Always bypass spam guard in tests unless we are explicitly testing it
+  if (isTest && req.header('X-Test-Spam-Guard') !== 'true') {
+    return next();
+  }
+
   const { body } = req.body;
   if (!body || typeof body !== 'string') {
     return next();

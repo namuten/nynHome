@@ -35,6 +35,7 @@ describe('Rate Limiting & Spam Protection Integration Tests', () => {
     const res = await request(app)
       .post(`/api/posts/${postId}/comments`)
       .set('Authorization', `Bearer ${userToken}`)
+      .set('X-Test-Spam-Guard', 'true')
       .send({ body: '링크 모음: http://g.co http://yahoo.com http://naver.com' });
 
     expect(res.status).toBe(400);
@@ -46,6 +47,7 @@ describe('Rate Limiting & Spam Protection Integration Tests', () => {
     const res = await request(app)
       .post(`/api/posts/${postId}/comments`)
       .set('Authorization', `Bearer ${userToken}`)
+      .set('X-Test-Spam-Guard', 'true')
       .send({ body: 'ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ' });
 
     expect(res.status).toBe(400);
@@ -57,8 +59,8 @@ describe('Rate Limiting & Spam Protection Integration Tests', () => {
     // First comment succeeds
     const res1 = await request(app)
       .post(`/api/posts/${postId}/comments`)
-      .set('Authorization', `Bearer={userToken}`) // using direct bearer
       .set('Authorization', `Bearer ${userToken}`)
+      .set('X-Test-Spam-Guard', 'true')
       .send({ body: '고유한 유일 댓글 내용' });
     expect(res1.status).toBe(201);
 
@@ -66,6 +68,7 @@ describe('Rate Limiting & Spam Protection Integration Tests', () => {
     const res2 = await request(app)
       .post(`/api/posts/${postId}/comments`)
       .set('Authorization', `Bearer ${userToken}`)
+      .set('X-Test-Spam-Guard', 'true')
       .send({ body: '고유한 유일 댓글 내용' });
     expect(res2.status).toBe(429);
     expect(res2.body.error).toBe('SPAM_DETECTED');
@@ -78,11 +81,13 @@ describe('Rate Limiting & Spam Protection Integration Tests', () => {
     for (let i = 0; i < 5; i++) {
       await request(app)
         .post('/api/auth/login')
+        .set('X-Test-Rate-Limit', 'true')
         .send({ email: 'user@test.com', password: 'wrongpassword' });
     }
 
     const res6 = await request(app)
       .post('/api/auth/login')
+      .set('X-Test-Rate-Limit', 'true')
       .send({ email: 'user@test.com', password: 'wrongpassword' });
 
     expect(res6.status).toBe(429);

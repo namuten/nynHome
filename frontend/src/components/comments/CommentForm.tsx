@@ -17,17 +17,24 @@ export default function CommentForm({
   const { isAuthenticated, user } = useAuth();
   const [body, setBody] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [offlineSuccess, setOfflineSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!body.trim()) return;
     try {
       setErrorMsg(null);
+      setOfflineSuccess(false);
       await onSubmit(body);
       setBody('');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
-      setErrorMsg(message);
+      if (err instanceof Error && err.message === 'OFFLINE_SAVED') {
+        setOfflineSuccess(true);
+        setBody('');
+      } else {
+        const message = err instanceof Error ? err.message : '댓글 등록에 실패했습니다. 다시 시도해주세요.';
+        setErrorMsg(message);
+      }
     }
   };
 
@@ -56,6 +63,11 @@ export default function CommentForm({
       {errorMsg && (
         <div className="p-3 text-xs rounded-xl bg-red-50 text-red-600 border border-red-100">
           {errorMsg}
+        </div>
+      )}
+      {offlineSuccess && (
+        <div className="p-3 text-xs rounded-xl bg-violet-500/10 text-violet-300 border border-violet-500/20 animate-pulse font-medium">
+          💚 네트워크 장애가 감지되어 작성하신 댓글이 <strong>오프라인 대기열(IndexedDB)</strong>에 임시 안전 저장되었습니다. 온라인 연결이 복구되면 자동으로 전송 및 적용됩니다!
         </div>
       )}
       <div className="relative">

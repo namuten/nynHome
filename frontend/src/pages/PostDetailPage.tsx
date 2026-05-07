@@ -5,6 +5,7 @@ import type { PostDetail } from '../types/api';
 import { useComments } from '../hooks/useComments';
 import CommentForm from '../components/comments/CommentForm';
 import CommentList from '../components/comments/CommentList';
+import PendingCommentsBanner from '../components/comments/PendingCommentsBanner';
 import { ArrowLeft, Clock, Eye, AlertTriangle } from 'lucide-react';
 
 import { getOptimizedImageUrl } from '../lib/media';
@@ -135,6 +136,8 @@ export default function PostDetailPage() {
         <h3 className="text-xl font-display font-bold text-on-surface">
           댓글 <span className="text-primary font-extrabold">{commentsQuery.data?.length ?? 0}</span>
         </h3>
+
+        <PendingCommentsBanner postId={postId} onSyncComplete={() => commentsQuery.refetch()} />
 
         {/* Create Parent Comment Form */}
         <CommentForm

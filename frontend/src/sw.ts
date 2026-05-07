@@ -2,8 +2,9 @@
 
 import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
+import { BackgroundSyncPlugin } from 'workbox-background-sync';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -16,6 +17,19 @@ registerRoute(
   new NavigationRoute(createHandlerBoundToURL('/index.html'), {
     denylist: [/^\/_/, /\/[^/?]+\.[^/]+$/]
   })
+);
+
+// 1.5. 오프라인 댓글 백그라운드 동기화 (Background Sync API 지원 브라우저용)
+const bgSyncPlugin = new BackgroundSyncPlugin('comment-sync', {
+  maxRetentionTime: 24 * 60, // 최대 24시간 동안 보존 및 네트워크 복귀 시 자동 재시도
+});
+
+registerRoute(
+  ({ url, request }) => url.pathname.endsWith('/api/comments') && request.method === 'POST',
+  new NetworkOnly({
+    plugins: [bgSyncPlugin],
+  }),
+  'POST'
 );
 
 // 2. API 캐싱 — NetworkFirst (오프라인인 경우 신속히 캐시 데이터 제공)

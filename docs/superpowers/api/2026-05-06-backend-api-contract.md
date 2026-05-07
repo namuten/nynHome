@@ -801,6 +801,41 @@
   Sitemap: https://crochub.dev/sitemap.xml
   ```
 
+---
+
+## 17. Image Optimization & Derivatives
+
+업로드된 고용량 이미지를 모바일 및 웹 성능 최적화용 파생 썸네일(WebP)로 가공 및 관리하는 내부 어드민 제어부입니다.
+
+### GET /api/media/:id/derivatives
+- **Auth**: Admin
+- **Response (200)**: 파생 파일 정보 목록
+  ```json
+  [
+    {
+      "id": 10,
+      "mediaId": 5,
+      "derivativeType": "thumb_small",
+      "fileUrl": "https://pub.dev/derivatives/5/thumb_small.webp",
+      "width": 320,
+      "height": 320,
+      "mimeType": "image/webp",
+      "fileSize": 12450,
+      "createdAt": "2026-05-07T12:00:00.000Z"
+    }
+  ]
+  ```
+
+### POST /api/media/:id/derivatives/regenerate
+- **Auth**: Admin
+- **Response (200)**:
+  ```json
+  {
+    "status": "SUCCESS"
+  }
+  ```
+
+
 
 
 

@@ -64,10 +64,12 @@ model Media {
   height       Int?
   createdAt    DateTime     @default(now())
 
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post        Post?             @relation(fields: [postId], references: [id], onDelete: SetNull)
+  derivatives MediaDerivative[]
 
   @@map("media")
 }
+
 
 enum FileCategory {
   image
@@ -262,6 +264,9 @@ model MediaDerivative {
   fileSize       BigInt   @map("file_size")
   createdAt      DateTime @default(now()) @map("created_at")
 
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, derivativeType])
   @@map("media_derivatives")
 }
 

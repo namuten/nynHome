@@ -706,7 +706,7 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - Modify: `frontend/src/lib/portfolioApi.ts` 또는 `frontend/src/lib/adminApi.ts`
 - Modify: `frontend/src/types/portfolio.ts`
 
-- [ ] **Step 1: section list UI 구현**
+- [x] **Step 1: section list UI 구현**
 
 표시:
 - locale
@@ -716,7 +716,7 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - order
 - actions
 
-- [ ] **Step 2: section editor 구현**
+- [x] **Step 2: section editor 구현**
 
 필드:
 - sectionKey
@@ -725,26 +725,26 @@ git commit -m "feat(portfolio): add public portfolio and resume pages"
 - items JSON 또는 structured list editor
 - visible toggle
 
-- [ ] **Step 3: reorder 구현**
+- [x] **Step 3: reorder 구현**
 
 up/down 버튼 우선. drag-and-drop은 선택 기능이다.
 
-- [ ] **Step 4: preview pane 구현**
+- [x] **Step 4: preview pane 구현**
 
 작성 중 public portfolio에서 어떻게 보일지 간단히 preview한다.
 
-- [ ] **Step 5: 저장/삭제 flow 구현**
+- [x] **Step 5: 저장/삭제 flow 구현**
 
 create/update/delete/reorder API와 연결한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/pages/admin/AdminPortfolioPage.tsx frontend/src/components/admin/PortfolioSectionEditor.tsx frontend/src/components/admin/LocaleTabs.tsx frontend/src/lib frontend/src/types/portfolio.ts

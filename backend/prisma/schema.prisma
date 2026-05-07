@@ -208,3 +208,73 @@ model SeoSettings {
   @@unique([routeKey, locale])
   @@map("seo_settings")
 }
+
+model AuditLog {
+  id               Int      @id @default(autoincrement())
+  action           String   @db.VarChar(120)
+  resourceType     String   @db.VarChar(80) @map("resource_type")
+  resourceId       String?  @db.VarChar(120) @map("resource_id")
+  adminUserId      Int?     @map("admin_user_id")
+  summary          String   @db.VarChar(300)
+  metadata         Json?
+  ipHash           String?  @db.VarChar(128) @map("ip_hash")
+  userAgentSummary String?  @db.VarChar(200) @map("user_agent_summary")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
+
+model AnalyticsEvent {
+  id            BigInt   @id @default(autoincrement())
+  eventName     String   @db.VarChar(120) @map("event_name")
+  route         String   @db.VarChar(300)
+  referrer      String?  @db.VarChar(500)
+  locale        String?  @db.VarChar(5)
+  userId        Int?     @map("user_id")
+  sessionIdHash String?  @db.VarChar(128) @map("session_id_hash")
+  metadata      Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("analytics_events")
+}
+
+model DailyAnalyticsRollup {
+  id             Int      @id @default(autoincrement())
+  day            DateTime @db.Date
+  route          String?  @db.VarChar(300)
+  eventName      String   @db.VarChar(120) @map("event_name")
+  count          Int
+  uniqueSessions Int      @map("unique_sessions")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("daily_analytics_rollups")
+}
+
+model MediaDerivative {
+  id             Int      @id @default(autoincrement())
+  mediaId        Int      @map("media_id")
+  derivativeType String   @db.VarChar(80) @map("derivative_type")
+  fileUrl        String   @db.VarChar(500) @map("file_url")
+  width          Int?
+  height         Int?
+  mimeType       String   @db.VarChar(120) @map("mime_type")
+  fileSize       BigInt   @map("file_size")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("media_derivatives")
+}
+
+model BackupRun {
+  id           Int       @id @default(autoincrement())
+  backupType   String    @db.VarChar(80) @map("backup_type")
+  status       String    @db.VarChar(40)
+  fileUrl      String?   @db.VarChar(500) @map("file_url")
+  checksum     String?   @db.VarChar(128)
+  sizeBytes    BigInt?   @map("size_bytes")
+  startedAt    DateTime  @map("started_at")
+  finishedAt   DateTime? @map("finished_at")
+  errorMessage String?   @db.Text @map("error_message")
+
+  @@map("backup_runs")
+}

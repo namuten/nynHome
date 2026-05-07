@@ -4,6 +4,7 @@ import { errorMiddleware } from './middleware/error.middleware';
 import { requestIdMiddleware } from './middleware/requestId.middleware';
 import { securityHeadersMiddleware } from './middleware/securityHeaders.middleware';
 import { globalRateLimiter } from './middleware/rateLimit.middleware';
+import { auditMiddleware } from './middleware/audit.middleware';
 import authRouter from './modules/auth/auth.router';
 import postsRouter from './modules/posts/posts.router';
 import mediaRouter from './modules/media/media.router';
@@ -16,6 +17,7 @@ import profileRouter from './modules/profile/profile.router';
 import portfolioRouter from './modules/portfolio/portfolio.router';
 import showcaseRouter from './modules/showcase/showcase.router';
 import seoRouter from './modules/seo/seo.router';
+import auditRouter from './modules/audit/audit.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -28,6 +30,7 @@ app.set('trust proxy', 1);
 app.use(requestIdMiddleware);
 app.use(securityHeadersMiddleware);
 app.use(globalRateLimiter);
+app.use(auditMiddleware);
 app.use(cors());
 app.use(express.json());
 
@@ -43,6 +46,7 @@ app.use('/api/schedules', scheduleRouter);
 app.use('/api/layout', layoutRouter);
 app.use('/api/push', pushRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/admin', auditRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);
 app.use('/api', showcaseRouter);

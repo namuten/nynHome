@@ -1295,15 +1295,15 @@ git commit -m "docs(ops): add backup restore runbooks"
 - Create: `frontend/src/components/admin/BackupRunsTable.tsx`
 - Modify: `frontend/src/lib/operationsApi.ts`
 
-- [ ] **Step 1: API 구현 여부 결정**
+- [x] **Step 1: API 구현 여부 결정**
 
 초기 운영에서는 script + 문서만으로 충분할 수 있다. UI에서 backup run history를 보여주려면 `backup_runs` model/API를 추가한다.
 
-- [ ] **Step 2: backup_runs model 추가**
+- [x] **Step 2: backup_runs model 추가**
 
 Task 14 script가 backup 결과를 DB에 기록하도록 연동할지 결정한다.
 
-- [ ] **Step 3: backup runs endpoint 구현**
+- [x] **Step 3: backup runs endpoint 구현**
 
 ```text
 GET /api/admin/backup-runs?page=&limit=
@@ -1317,7 +1317,7 @@ POST /api/admin/backup-runs/db
 
 수동 trigger는 운영 서버 권한/보안 리스크가 있으므로 기본 비활성화 권장.
 
-- [ ] **Step 4: system health endpoint 구현**
+- [x] **Step 4: system health endpoint 구현**
 
 ```text
 GET /api/admin/system/health
@@ -1334,7 +1334,7 @@ Response 후보:
 }
 ```
 
-- [ ] **Step 5: AdminOperationsPage 구현**
+- [x] **Step 5: AdminOperationsPage 구현**
 
 표시:
 - system health card
@@ -1342,7 +1342,7 @@ Response 후보:
 - runbook links
 - smoke test checklist
 
-- [ ] **Step 6: 테스트 작성**
+- [x] **Step 6: 테스트 작성**
 
 ```text
 GET /api/admin/system/health as admin -> 200

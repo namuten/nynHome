@@ -794,10 +794,10 @@ git commit -m "feat(analytics): add privacy conscious event tracking and rollup 
 - Create: `frontend/src/components/analytics/AnalyticsProvider.tsx`
 - Create: `frontend/src/components/analytics/RouteTracker.tsx`
 - Create: `frontend/src/hooks/useAnalytics.ts`
-- Modify: `frontend/src/main.tsx` 또는 app shell
+- Modify: `frontend/src/components/layout/AppShell.tsx`
 - Modify: public interaction components as needed
 
-- [ ] **Step 1: session id 정책 구현**
+- [x] **Step 1: session id 정책 구현**
 
 - random UUID 생성
 - localStorage 또는 sessionStorage 저장
@@ -805,11 +805,11 @@ git commit -m "feat(analytics): add privacy conscious event tracking and rollup 
 
 권장: 클라이언트 random id 전송 + 서버 hash 저장.
 
-- [ ] **Step 2: page_view 자동 수집**
+- [x] **Step 2: page_view 자동 수집**
 
 React Router location 변경 시 `page_view` event를 전송한다.
 
-- [ ] **Step 3: 주요 interaction event 추가**
+- [x] **Step 3: 주요 interaction event 추가**
 
 후보:
 
@@ -823,7 +823,7 @@ audio_play
 portfolio_resume_view
 ```
 
-- [ ] **Step 4: privacy opt-out 준비**
+- [x] **Step 4: privacy opt-out 준비**
 
 localStorage key 예시:
 
@@ -831,21 +831,21 @@ localStorage key 예시:
 crochub:analytics-opt-out=true
 ```
 
-- [ ] **Step 5: 실패 무시 정책**
+- [x] **Step 5: 실패 무시 정책**
 
 analytics 전송 실패는 사용자 flow를 막지 않는다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add frontend/src/lib/analytics.ts frontend/src/components/analytics frontend/src/hooks/useAnalytics.ts frontend/src/main.tsx frontend/src
+git add frontend/src/lib/analytics.ts frontend/src/components/analytics frontend/src/hooks/useAnalytics.ts frontend/src/components/layout/AppShell.tsx
 git commit -m "feat(analytics): track public route events"
 ```
 

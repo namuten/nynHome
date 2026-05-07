@@ -340,20 +340,20 @@ frontend/src/components/notifications/
 
 ### Steps
 
-- [ ] Step 1: `NotificationBell.tsx` — `GET /api/notifications/unread-count` 폴링 (30초), badge 표시
+- [x] Step 1: `NotificationBell.tsx` — `GET /api/notifications/unread-count` 폴링 (30초), badge 표시
 
-- [ ] Step 2: `NotificationDropdown.tsx` — 최근 10건 표시, "전체 읽음", "전체 보기" 링크
+- [x] Step 2: `NotificationDropdown.tsx` — 최근 10건 표시, "전체 읽음", "전체 보기" 링크
 
-- [ ] Step 3: `/admin/notifications` 전체 알림 목록 페이지 — 필터(읽음/안읽음), 삭제
+- [x] Step 3: `/admin/notifications` 전체 알림 목록 페이지 — 필터(읽음/안읽음), 삭제
 
-- [ ] Step 4: `NotificationPrefsPage.tsx` — `/admin/notifications/preferences`
+- [x] Step 4: `NotificationPrefsPage.tsx` — `/admin/notifications/preferences`
   - 알림 토글 (새 댓글, 새 방명록, 신고 접수)
   - 이메일 다이제스트 주기 선택 (없음 / 매일 / 매주)
   - 이메일 주소 입력 (관리자 본인)
 
-- [ ] Step 5: Admin 헤더에 `NotificationBell` 삽입
+- [x] Step 5: Admin 헤더에 `NotificationBell` 삽입
 
-- [ ] Step 6: 테스트 — bell 클릭 시 dropdown 표시, 알림 클릭 시 linkUrl로 이동, 읽음 처리 후 badge 감소
+- [x] Step 6: 테스트 — bell 클릭 시 dropdown 표시, 알림 클릭 시 linkUrl로 이동, 읽음 처리 후 badge 감소
 
 **Commit:** `feat(notifications): add notification bell, dropdown, preferences page`
 

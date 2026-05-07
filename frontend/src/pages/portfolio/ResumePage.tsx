@@ -25,7 +25,7 @@ export default function ResumePage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 print:hidden bg-surface-container/30 border border-outline-variant/30 p-4 rounded-2xl">
         <div className="flex items-center gap-3">
           <Link
-            to="/profile"
+            to="/portfolio"
             className="p-2 border border-outline-variant/40 rounded-xl hover:bg-surface-container transition-all"
             title="포트폴리오 돌아가기"
           >

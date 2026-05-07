@@ -110,7 +110,7 @@ export default function PortfolioHero({
 
             {/* 이력서 상세 CTA */}
             <Link
-              to="/resume"
+              to="/portfolio/resume"
               className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary/95 text-on-primary text-xs font-bold rounded-xl hover:shadow-lg transition-all active:scale-98 shadow-sm"
             >
               <FileText className="w-4 h-4" />

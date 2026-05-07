@@ -104,7 +104,7 @@ export default function PortfolioPage() {
             </Link>
 
             <Link
-              to="/resume"
+              to="/portfolio/resume"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-surface-container-high hover:bg-surface-container border border-outline-variant/50 text-on-surface text-sm font-bold rounded-2xl hover:shadow-md transition-all text-center"
             >
               <FileText className="w-4.5 h-4.5" />

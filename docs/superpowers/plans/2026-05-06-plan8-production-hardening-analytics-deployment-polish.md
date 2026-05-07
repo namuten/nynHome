@@ -426,7 +426,7 @@ git commit -m "feat(security): add request id and security headers"
 - Create: `backend/tests/rate-limit.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: rate limit strategy 확정**
+- [x] **Step 1: rate limit strategy 확정**
 
 권장 baseline:
 
@@ -438,7 +438,7 @@ Admin mutation: 120 requests / min / admin user
 Global fallback: 300 requests / 5 min / IP
 ```
 
-- [ ] **Step 2: dependency 선택**
+- [x] **Step 2: dependency 선택**
 
 초기에는 `express-rate-limit` 사용을 권장한다.
 
@@ -447,7 +447,7 @@ cd backend
 npm install express-rate-limit
 ```
 
-- [ ] **Step 3: 429 error format 표준화**
+- [x] **Step 3: 429 error format 표준화**
 
 ```json
 {
@@ -456,21 +456,21 @@ npm install express-rate-limit
 }
 ```
 
-- [ ] **Step 4: comment spam guard 추가**
+- [x] **Step 4: comment spam guard 추가**
 
 간단한 규칙:
 - 빈/반복 문자 방지
 - 동일 body 짧은 시간 반복 방지
 - URL 과다 포함 방지
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 POST /api/auth/login over limit -> 429 RATE_LIMITED
 POST /api/posts/:id/comments repeated spam -> 400 or 429
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -478,7 +478,7 @@ npm test -- tests/rate-limit.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/package.json backend/package-lock.json backend/src/middleware backend/src/modules/comments backend/src/modules/auth backend/tests/rate-limit.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

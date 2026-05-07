@@ -766,6 +766,42 @@
   - `eventName` (optional): string (예: `cta_click`)
 - **Response (200)**: Event 객체 리스트 (최대 100건)
 
+---
+
+## 16. SEO Sitemap & Robots Directives
+
+웹 검색 색인 수집봇(Spiders/Crawlers)을 유치하기 위해 표준 도메인 레벨 포맷의 색인 및 제어 파일을 제공합니다.
+
+### GET /sitemap.xml
+- **Auth**: Public (익명 전송 가능)
+- **Response (200)**: XML 형식 sitemap 데이터 (`Content-Type: application/xml`)
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+      <loc>https://crochub.dev</loc>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+    </url>
+    <url>
+      <loc>https://crochub.dev/post/1</loc>
+      <lastmod>2026-05-07</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+    </url>
+  </urlset>
+  ```
+
+### GET /robots.txt
+- **Auth**: Public (익명 전송 가능)
+- **Response (200)**: 평문 텍스트 규격 파일 (`Content-Type: text/plain`)
+  ```text
+  User-agent: *
+  Allow: /
+  Sitemap: https://crochub.dev/sitemap.xml
+  ```
+
+
 
 
 

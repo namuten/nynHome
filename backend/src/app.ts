@@ -24,6 +24,8 @@ import analyticsRouter from './modules/analytics/analytics.router';
   return Number(this);
 };
 
+import { generateSitemapXml, generateRobotsTxt } from './modules/seo/sitemap.service';
+
 const app = express();
 
 app.set('trust proxy', 1);
@@ -34,6 +36,22 @@ app.use(globalRateLimiter);
 app.use(auditMiddleware);
 app.use(cors());
 app.use(express.json());
+
+app.get('/sitemap.xml', async (_req, res) => {
+  try {
+    const xml = await generateSitemapXml();
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (err) {
+    res.status(500).send('Error generating sitemap');
+  }
+});
+
+app.get('/robots.txt', (_req, res) => {
+  const robots = generateRobotsTxt();
+  res.header('Content-Type', 'text/plain');
+  res.send(robots);
+});
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });

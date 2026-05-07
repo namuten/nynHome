@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import type { CommentItem } from '../../types/api';
 import CommentForm from './CommentForm';
-import { CornerDownRight } from 'lucide-react';
+import { CornerDownRight, Flag } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import ReportDialog from '../safety/ReportDialog';
 
 interface CommentListProps {
   comments: CommentItem[] | undefined;
@@ -19,6 +21,8 @@ export default function CommentList({
   isReplying,
 }: CommentListProps) {
   const [activeReplyId, setActiveReplyId] = useState<number | null>(null);
+  const [reportCommentId, setReportCommentId] = useState<number | null>(null);
+  const { isAuthenticated } = useAuth();
 
   const formatCommentDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
@@ -80,7 +84,16 @@ export default function CommentList({
             <p className="text-sm text-on-surface-variant leading-relaxed whitespace-pre-wrap pl-1">
               {comment.body}
             </p>
-            <div className="flex justify-end pt-1">
+            <div className="flex items-center justify-end pt-1 gap-3">
+              {isAuthenticated && (
+                <button
+                  onClick={() => setReportCommentId(comment.id)}
+                  className="flex items-center gap-1 text-[11px] font-medium text-on-surface-variant hover:text-red-500 transition-colors"
+                >
+                  <Flag className="w-3 h-3" />
+                  <span>신고</span>
+                </button>
+              )}
               <button
                 onClick={() => setActiveReplyId(activeReplyId === comment.id ? null : comment.id)}
                 className="text-xs font-semibold text-primary hover:underline transition duration-200"
@@ -113,6 +126,17 @@ export default function CommentList({
                 <p className="text-sm text-on-surface-variant leading-relaxed whitespace-pre-wrap">
                   {reply.body}
                 </p>
+                {isAuthenticated && (
+                  <div className="flex justify-end pt-1">
+                    <button
+                      onClick={() => setReportCommentId(reply.id)}
+                      className="flex items-center gap-1 text-[11px] font-medium text-on-surface-variant hover:text-red-500 transition-colors"
+                    >
+                      <Flag className="w-3 h-3" />
+                      <span>신고</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -134,6 +158,13 @@ export default function CommentList({
           )}
         </div>
       ))}
+
+      {/* Report Dialog */}
+      <ReportDialog
+        isOpen={reportCommentId !== null}
+        commentId={reportCommentId!}
+        onClose={() => setReportCommentId(null)}
+      />
     </div>
   );
 }

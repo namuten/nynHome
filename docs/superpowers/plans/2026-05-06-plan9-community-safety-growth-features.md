@@ -291,11 +291,11 @@ git commit -m "feat(community): prepare safety routes"
 - Create: `backend/tests/reports.test.ts`
 - Modify: `docs/superpowers/api/2026-05-06-backend-api-contract.md`
 
-- [ ] **Step 1: comment_reports model 추가**
+- [x] **Step 1: comment_reports model 추가**
 
 `(commentId, reporterUserId)` unique index 필수 — 중복 신고 방지.
 
-- [ ] **Step 2: 댓글 신고 endpoint 구현**
+- [x] **Step 2: 댓글 신고 endpoint 구현**
 
 ```text
 POST /api/comments/:id/reports  user+
@@ -310,18 +310,18 @@ Request:
 }
 ```
 
-- [ ] **Step 3: validation 규칙**
+- [x] **Step 3: validation 규칙**
 
 - reason: ENUM allowlist 기준
 - description: optional, max 1000
 - 동일 사용자의 동일 댓글 중복 신고는 409 `ALREADY_REPORTED`
 - 신고 생성도 Plan 8 rate limiter 적용 (abuse 방지)
 
-- [ ] **Step 4: 신고 상태 초기화**
+- [x] **Step 4: 신고 상태 초기화**
 
 신고 status는 `open`으로 시작하고 admin moderation queue에서 볼 수 있게 한다.
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 POST /api/comments/:id/reports without token -> 401
@@ -330,7 +330,7 @@ POST /api/comments/:id/reports as user -> 201
 POST duplicate report -> 409 ALREADY_REPORTED
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -339,7 +339,7 @@ npm test -- tests/reports.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/reports backend/src/app.ts backend/tests/reports.test.ts docs/superpowers/api/2026-05-06-backend-api-contract.md

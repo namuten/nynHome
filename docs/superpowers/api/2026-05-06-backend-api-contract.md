@@ -488,3 +488,80 @@
   ```
 - **Response (200)**: `{ "success": true }`
 
+---
+
+## 11. Showcase Items
+
+### GET /api/showcase
+- **Auth**: Public
+- **Query Parameters**:
+  - `locale` (optional): `ko | en`
+  - `category` (optional): `string`
+  - `featured` (optional): `true | false`
+- **Response (200)**:
+  ```json
+  {
+    "locale": "ko",
+    "items": [
+      {
+        "id": 1,
+        "title": "공개 WebGL 포털",
+        "slug": "public-webgl-portal",
+        "description": "설명",
+        "category": "WebGL",
+        "coverMediaId": 3,
+        "mediaIds": [3, 4],
+        "postId": null,
+        "locale": "ko",
+        "tags": ["React", "WebGL"],
+        "isFeatured": true,
+        "isPublished": true,
+        "publishedAt": "2026-05-07T00:00:00.000Z",
+        "order": 0,
+        "createdAt": "2026-05-07T00:00:00.000Z",
+        "updatedAt": "2026-05-07T00:00:00.000Z"
+      }
+    ]
+  }
+  ```
+
+### GET /api/showcase/:slug
+- **Auth**: Public
+- **Response (200)**: 단일 ShowcaseItem 객체
+- **Response (404)**: 존재하지 않거나 게시되지 않은 경우
+
+### POST /api/admin/showcase
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "title": "신규 작품",
+    "slug": "new-project",
+    "category": "3D Graphics",
+    "locale": "ko",
+    "isPublished": true
+  }
+  ```
+- **Response (201)**: 생성된 ShowcaseItem 객체
+- **Response (409)**: 중복 슬러그인 경우 (`SLUG_DUPLICATE`)
+- **Response (400)**: 유효하지 않은 미디어 ID이거나 잘못된 검증 스펙인 경우 (`VALIDATION_ERROR`)
+
+### PUT /api/admin/showcase/:id
+- **Auth**: Admin
+- **Request Body**: POST와 동일 (모든 필드 optional, locale 필드는 제외)
+- **Response (200)**: 수정된 ShowcaseItem 객체
+
+### DELETE /api/admin/showcase/:id
+- **Auth**: Admin
+- **Response (204)**: No Content
+
+### PUT /api/admin/showcase/reorder
+- **Auth**: Admin
+- **Request Body**:
+  ```json
+  {
+    "ids": [2, 1, 3]
+  }
+  ```
+- **Response (200)**: `{ "success": true }`
+

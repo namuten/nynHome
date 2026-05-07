@@ -10,6 +10,12 @@ import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
+// Portfolio imports
+import PortfolioPage from '../pages/portfolio/PortfolioPage';
+import ResumePage from '../pages/portfolio/ResumePage';
+import ShowcasePage from '../pages/portfolio/ShowcasePage';
+import ShowcaseDetailPage from '../pages/portfolio/ShowcaseDetailPage';
+
 // Admin imports
 import AdminRouteGuard from '../components/admin/AdminRouteGuard';
 import AdminLayout from '../components/admin/AdminLayout';
@@ -24,6 +30,12 @@ import AdminLayoutPage from '../pages/admin/AdminLayoutPage';
 import AdminSchedulePage from '../pages/admin/AdminSchedulePage';
 import AdminSettingsPage from '../pages/admin/AdminSettingsPage';
 import AdminPushPage from '../pages/admin/AdminPushPage';
+import AdminProfilePage from '../pages/admin/AdminProfilePage';
+import AdminPortfolioPage from '../pages/admin/AdminPortfolioPage';
+import AdminShowcasePage from '../pages/admin/AdminShowcasePage';
+import AdminShowcaseNewPage from '../pages/admin/AdminShowcaseNewPage';
+import AdminShowcaseEditPage from '../pages/admin/AdminShowcaseEditPage';
+import AdminSeoPage from '../pages/admin/AdminSeoPage';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +48,10 @@ export const router = createBrowserRouter([
       { path: 'study', element: <StudyPage /> },
       { path: 'post/:id', element: <PostDetailPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'portfolio', element: <PortfolioPage /> },
+      { path: 'portfolio/resume', element: <ResumePage /> },
+      { path: 'portfolio/showcase', element: <ShowcasePage /> },
+      { path: 'portfolio/showcase/:slug', element: <ShowcaseDetailPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
       {
@@ -56,6 +72,12 @@ export const router = createBrowserRouter([
               { path: 'schedule', element: <AdminSchedulePage /> },
               { path: 'settings', element: <AdminSettingsPage /> },
               { path: 'push', element: <AdminPushPage /> },
+              { path: 'profile', element: <AdminProfilePage /> },
+              { path: 'portfolio', element: <AdminPortfolioPage /> },
+              { path: 'showcase', element: <AdminShowcasePage /> },
+              { path: 'showcase/new', element: <AdminShowcaseNewPage /> },
+              { path: 'showcase/:id/edit', element: <AdminShowcaseEditPage /> },
+              { path: 'seo', element: <AdminSeoPage /> },
             ],
           },
         ],

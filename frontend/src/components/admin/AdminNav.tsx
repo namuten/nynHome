@@ -10,6 +10,10 @@ import {
   Sliders,
   Send,
   LogOut,
+  User,
+  Briefcase,
+  Palette,
+  Globe,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -22,6 +26,13 @@ export default function AdminNav() {
     { to: '/admin/media', label: '미디어 라이브러리', icon: Image },
     { to: '/admin/comments', label: '댓글 관리', icon: MessageSquare },
     { to: '/admin/users', label: '사용자 관리', icon: Users },
+  ];
+
+  const brandingMenuItems = [
+    { to: '/admin/profile', label: '프로필 설정', icon: User },
+    { to: '/admin/portfolio', label: '포트폴리오 관리', icon: Briefcase },
+    { to: '/admin/showcase', label: '작품 쇼케이스', icon: Palette },
+    { to: '/admin/seo', label: 'SEO 설정', icon: Globe },
   ];
 
   const advancedMenuItems = [
@@ -69,6 +80,30 @@ export default function AdminNav() {
               key={item.to}
               to={item.to}
               end={item.exact}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-300 ${
+                  isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]'
+                    : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                }`
+              }
+            >
+              <Icon className="w-4.5 h-4.5" />
+              <span>{item.label}</span>
+            </NavLink>
+          );
+        })}
+
+        {/* Personal Branding management */}
+        <div className="text-[10px] font-black text-on-surface-variant/70 uppercase tracking-widest px-3 pt-6 mb-2 select-none">
+          개인 브랜딩
+        </div>
+        {brandingMenuItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold transition-all duration-300 ${
                   isActive

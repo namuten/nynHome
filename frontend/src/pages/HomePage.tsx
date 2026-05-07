@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { usePosts } from '../hooks/usePosts';
 import { useSchedules } from '../hooks/useSchedules';
+import { useSeoMeta } from '../hooks/useSeoMeta';
 import PostGrid from '../components/content/PostGrid';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
+  useSeoMeta('home', 'ko');
   const { data: postsData, isLoading: postsLoading, isError: postsError } = usePosts({ limit: 6 });
   const currentMonth = new Date().toISOString().substring(0, 7); // "YYYY-MM"
   const { data: schedules, isLoading: schedLoading } = useSchedules(currentMonth);

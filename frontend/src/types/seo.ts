@@ -1,15 +1,13 @@
 import type { LocaleCode } from './profile';
 
-/**
- * SEO 및 Open Graph 설정 타입 정의
- */
 export interface SeoSettings {
-  id: number;
-  routeKey: string; // default, home, profile, portfolio, showcase 등
-  title: string;
-  description: string;
-  ogImageUrl: string;
-  keywords: string[];
+  id?: number;
+  routeKey: string;
   locale: LocaleCode;
-  updatedAt: string;
+  title: string;
+  description: string | null;
+  ogImageUrl: string | null;
+  keywords: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }

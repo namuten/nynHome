@@ -500,29 +500,29 @@ git commit -m "feat(security): add rate limiting and spam protection"
 - Create: `backend/src/lib/userAgentSummary.ts`
 - Create: `backend/tests/audit.test.ts`
 
-- [ ] **Step 1: Prisma model 추가**
+- [x] **Step 1: Prisma model 추가**
 
 `audit_logs` model을 추가한다.
 
-- [ ] **Step 2: audit service 작성**
+- [x] **Step 2: audit service 작성**
 
 ```typescript
 recordAuditLog({ action, resourceType, resourceId, adminUserId, summary, metadata, req })
 ```
 
-- [ ] **Step 3: IP hash helper 작성**
+- [x] **Step 3: IP hash helper 작성**
 
 - 원문 IP 저장 금지 권장
 - `AUDIT_IP_HASH_SALT` 환경변수 사용
 - **salt 없으면 IP 저장 완전 비활성화 (확정)** — `AUDIT_IP_HASH_SALT`가 비어 있거나 없으면 `ip_hash` 필드에 `null`을 저장하고 서버 시작 시 경고 로그를 남긴다. 어떤 경우에도 원문 IP를 DB에 저장하지 않는다.
 
-- [ ] **Step 4: audit query API 구현**
+- [x] **Step 4: audit query API 구현**
 
 ```text
 GET /api/admin/audit-logs?page=&limit=&action=&resourceType=
 ```
 
-- [ ] **Step 5: 테스트 작성**
+- [x] **Step 5: 테스트 작성**
 
 ```text
 GET /api/admin/audit-logs without token -> 401
@@ -531,7 +531,7 @@ GET /api/admin/audit-logs as admin -> 200
 recordAuditLog stores action/resource/admin id
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd backend
@@ -540,7 +540,7 @@ npm test -- tests/audit.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/prisma/schema.prisma backend/src/modules/audit backend/src/middleware/audit.middleware.ts backend/src/lib/ipHash.ts backend/src/lib/userAgentSummary.ts backend/src/app.ts backend/tests/audit.test.ts

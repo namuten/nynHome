@@ -18,24 +18,35 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            # 서버 상의 nynHome 프로젝트 루트 디렉토리 생성 및 최초 복제(Clone) 자동화
+            # 서버 상의 nynHome 프로젝트 루트 디렉터리 생성 및 최초 복제 자동화
             TARGET_PARENT="/home/tfsmaster/nagee"
             mkdir -p "$TARGET_PARENT"
             cd "$TARGET_PARENT"
 
+            # 깃 레포 검증 및 복제 (HTTPS 전용)
             if [ ! -d "nynHome/.git" ]; then
               echo "nynHome/.git not found or corrupt! Cleaning up and initiating fresh automatic clone..."
               rm -rf nynHome
-              git clone git@github.com:namuten/nynHome.git || git clone https://github.com/namuten/nynHome.git
+              git clone https://github.com/namuten/nynHome.git
+            fi
+            cd nynHome
+            echo "Current working directory: $(pwd)"
+
+            # .env 파일 자동 생성 (예시를 복사)
+            if [ ! -f ".env" ]; then
+              echo ".env 파일이 없으므로 .env.example 로부터 복사합니다."
+              cp .env.example .env
             fi
 
-            cd nynHome
-
-            echo "Current working directory: $(pwd)"
+            # Secrets 로부터 MySQL 환경 변수 삽입 (필요 시 추가)
+            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
 
             # Git 최신화 및 강제 리셋 (main 브랜치 타겟)
             git fetch origin main
             git reset --hard origin/main
 
             # Docker Compose 빌드 및 강제 컨테이너 교체 재기동
-            docker compose up -d --build --force-recreate
+            docker compose --env-file .env up -d --build --force-recreate

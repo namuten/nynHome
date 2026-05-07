@@ -607,4 +607,46 @@
 - **Response (200)**: 생성 또는 수정된 SeoSettings 객체
 - **Response (400)**: 유효하지 않은 검증 스펙인 경우 (`VALIDATION_ERROR`)
 
+---
+
+## 13. Security & Rate Limiting
+
+플랫폼의 무결성과 디도스(DDoS) 방지, 그리고 댓글 도배 차단을 위해 Express 레이어 상단에 Rate Limiting 및 Spam Guard 필터가 작동 중입니다.
+
+### 13.1 공통 응답 규격 (Error Formats)
+
+#### API 요청 횟수 초과 (Rate Limited)
+- **HTTP Status**: 429 Too Many Requests
+- **Response Body**:
+  ```json
+  {
+    "error": "RATE_LIMITED",
+    "message": "너무 많은 로그인/가입 시도가 감지되었습니다. 잠시 후 다시 시도해주세요."
+  }
+  ```
+
+#### 댓글 도배 감지 (Spam Detected)
+- **HTTP Status**: 400 Bad Request 또는 429 Too Many Requests
+- **Response Body**:
+  ```json
+  {
+    "error": "SPAM_DETECTED",
+    "message": "댓글에 너무 많은 링크(URL)가 포함되어 있습니다."
+  }
+  ```
+
+### 13.2 레이트 리미트 정책 (Rate Limit Baseline)
+
+- **로그인 & 회원가입 (`/api/auth/register`, `/api/auth/login`)**: IP당 10분 내 최대 5회 시도 가능
+- **일반 댓글 작성 (`/api/posts/:postId/comments`)**: IP당 10분 내 최대 10회 작성 가능
+- **글로벌 기본 가드 (`/api/*`)**: IP당 5분 내 최대 300회 호출 가능
+
+### 13.3 댓글 스팸 가드 규칙 (Spam Guard Rules)
+
+댓글 작성 API 호출 시 다음의 스팸 감지 가드가 엄격히 적용됩니다.
+1. **URL 링크 개수 제한**: 단일 댓글 내에 URL 주소가 2개 초과로 연속 배치된 경우 거부 (`SPAM_DETECTED`)
+2. **반복 연속 문자 도배 차단**: 동일한 문자가 consecutive하게 10회 이상 반복해서 나열된 경우 거부 (`SPAM_DETECTED`)
+3. **단기 동일 댓글 연속 등록 방지**: 동일 사용자가 15초 이내에 동일한 내용의 댓글을 연속해서 이중 작성(Double Posting)하는 경우 거부 (`SPAM_DETECTED`)
+
+
 

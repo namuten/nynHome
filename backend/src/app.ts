@@ -3,6 +3,7 @@ import cors from 'cors';
 import { errorMiddleware } from './middleware/error.middleware';
 import { requestIdMiddleware } from './middleware/requestId.middleware';
 import { securityHeadersMiddleware } from './middleware/securityHeaders.middleware';
+import { globalRateLimiter } from './middleware/rateLimit.middleware';
 import authRouter from './modules/auth/auth.router';
 import postsRouter from './modules/posts/posts.router';
 import mediaRouter from './modules/media/media.router';
@@ -26,6 +27,7 @@ app.set('trust proxy', 1);
 
 app.use(requestIdMiddleware);
 app.use(securityHeadersMiddleware);
+app.use(globalRateLimiter);
 app.use(cors());
 app.use(express.json());
 

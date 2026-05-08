@@ -43,6 +43,8 @@ jobs:
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+            echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+            echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> .env
 
             # DATABASE_URL 자동 갱신 (기존 설정 삭제 후 Secrets 기반으로 주입)
             sed -i '/DATABASE_URL=/d' .env 2>/dev/null || sed -i '' '/DATABASE_URL=/d' .env

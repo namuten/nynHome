@@ -33,15 +33,16 @@ docker-compose down || true
 
 echo ""
 echo "=== 2. 디렉토리 생성 ==="
-mkdir -p /var/www/certbot
-mkdir -p /etc/letsencrypt
+# 루트 권한 필요 없이 일반 계정 홈(프로젝트 루트) 밑에 안전하게 생성하도록 상대 경로로 변경
+mkdir -p "$(pwd)/certbot"
+mkdir -p "$(pwd)/letsencrypt"
 
 echo ""
 echo "=== 3. nginx-init 임시 시작 ==="
 docker run -d --name nginx-init \
   -p 80:80 \
   -v "$(pwd)/nginx/nginx-init.conf:/etc/nginx/conf.d/default.conf:ro" \
-  -v "/var/www/certbot:/var/www/certbot" \
+  -v "$(pwd)/certbot:/var/www/certbot" \
   nginx:alpine
 
 echo "nginx-init 기동 대기 (3초)..."
@@ -50,8 +51,8 @@ sleep 3
 echo ""
 echo "=== 4. 인증서 발급 ==="
 docker run --rm \
-  -v /etc/letsencrypt:/etc/letsencrypt \
-  -v /var/www/certbot:/var/www/certbot \
+  -v "$(pwd)/letsencrypt:/etc/letsencrypt" \
+  -v "$(pwd)/certbot:/var/www/certbot" \
   certbot/certbot certonly --webroot \
   -w /var/www/certbot \
   -d "$DOMAIN" \

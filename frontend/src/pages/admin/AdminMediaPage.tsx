@@ -4,6 +4,7 @@ import { adminApi } from '../../lib/adminApi';
 import { UploadCloud, Trash2, FileText, AlertCircle, Link2, RotateCw } from 'lucide-react';
 import AdminConfirmDialog from '../../components/admin/AdminConfirmDialog';
 import { getOptimizedImageUrl } from '../../lib/media';
+import type { AdminMediaItem } from '../../types/admin';
 
 export default function AdminMediaPage() {
   const queryClient = useQueryClient();
@@ -168,7 +169,7 @@ export default function AdminMediaPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {mediaItems.map((item) => {
+            {mediaItems.map((item: AdminMediaItem) => {
               const isImage = item.fileCategory === 'image' || item.mimeType.startsWith('image/');
               return (
                 <div

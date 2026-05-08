@@ -50,3 +50,13 @@ jobs:
 
             # Docker Compose 빌드 및 강제 컨테이너 교체 재기동
             docker compose --env-file .env up -d --build --force-recreate
+
+            # 데이터베이스 테이블 자동 생성 및 초기 데이터 적재 (추가)
+            echo "데이터베이스 컨테이너 준비를 대기합니다..."
+            sleep 15
+            
+            echo "Prisma 스키마를 데이터베이스에 동기화합니다 (테이블 생성)..."
+            docker exec nynhome-api-1 npx prisma db push --accept-data-loss
+            
+            echo "초기 마스터 데이터를 적재합니다 (시딩)..."
+            docker exec nynhome-api-1 npx prisma db seed

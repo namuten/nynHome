@@ -15,10 +15,13 @@ export default function AdminMediaPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   // Fetch media library items
-  const { data: mediaItems, isLoading } = useQuery({
+  const { data: rawMediaItems, isLoading } = useQuery({
     queryKey: ['admin', 'media'],
     queryFn: () => adminApi.getAdminMedia(),
   });
+
+  // 백엔드 API 반환 포맷({ data, total })과 프론트엔드의 배열 예측 스펙 간의 불일치를 잡아주는 안전성 보정 코드
+  const mediaItems = Array.isArray(rawMediaItems) ? rawMediaItems : (rawMediaItems as any)?.data || [];
 
   // Delete media mutation
   const deleteMutation = useMutation({

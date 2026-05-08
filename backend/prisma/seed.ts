@@ -5,8 +5,8 @@ import { seedDefaultProfiles } from '../src/modules/profile/profile.service';
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = process.env.ADMIN_EMAIL ?? 'admin@crochub.dev';
-  const password = process.env.ADMIN_PASSWORD ?? 'change-me-in-production';
+  const email = (process.env.ADMIN_EMAIL ?? 'admin@crochub.dev').trim().toLowerCase();
+  const password = (process.env.ADMIN_PASSWORD ?? 'change-me-in-production').trim();
 
   const passwordHash = await bcrypt.hash(password, 12);
 

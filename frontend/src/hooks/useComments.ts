@@ -8,8 +8,9 @@ export function useComments(postId: number) {
   const commentsQuery = useQuery({
     queryKey: ['comments', postId],
     queryFn: async () => {
-      const response = await api.get<CommentItem[]>(`/posts/${postId}/comments`);
-      return response.data;
+      const response = await api.get<any>(`/posts/${postId}/comments`);
+      const rawData = response.data;
+      return (Array.isArray(rawData) ? rawData : rawData?.data || []) as CommentItem[];
     },
     enabled: !isNaN(postId),
   });

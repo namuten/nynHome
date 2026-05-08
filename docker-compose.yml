@@ -54,7 +54,7 @@ services:
 
   # certbot 자동 갱신 서비스 (12시간 주기로 갱신 여부 검사)
   certbot:
-    image: certbot/certbot:alpine # apk 사용을 위해 alpine 태그 명시
+    image: certbot/certbot
     volumes:
       # 일반 유저 권한으로 안전하게 구동되도록 프로젝트 내부의 로컬 디렉터리로 마운트 변경
       - ./letsencrypt:/etc/letsencrypt

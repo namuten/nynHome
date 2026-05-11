@@ -27,27 +27,53 @@ export default function ShowcaseCard({ item }: ShowcaseCardProps) {
 
   return (
     <div className="group bg-white dark:bg-surface-container/10 border border-outline-variant/35 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full font-body">
-      {/* 1. 상단 대표 그라디언트 빔 (커버 미디어가 비어있을 시 자동 작동) */}
-      <div className="relative h-44 w-full overflow-hidden shrink-0">
-        <div className={`absolute inset-0 bg-gradient-to-tr ${coverGradient} group-hover:scale-105 transition-transform duration-500 flex items-center justify-center p-6 text-center select-none`}>
-          {/* 장식용 화려한 광륜 */}
-          <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
-          <div className="absolute -inset-10 bg-radial-gradient from-white/20 to-transparent opacity-40 blur-xl pointer-events-none" />
-          
-          <h4 className="text-white text-base font-black tracking-tight drop-shadow-md">
-            {item.title}
-          </h4>
-        </div>
+      {/* 1. 상단 대표 그라디언트 빔 / 업로드 커버 미디어 */}
+      <div className="relative h-44 w-full overflow-hidden shrink-0 bg-surface-container-low border-b border-outline-variant/10">
+        {item.coverMedia?.fileUrl ? (
+          item.coverMedia.mimeType.startsWith('video/') ? (
+            <div className="w-full h-full relative">
+              <video
+                src={item.coverMedia.fileUrl}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                muted
+                playsInline
+                loop
+                autoPlay
+              />
+              <div className="absolute inset-0 bg-black/25 flex items-center justify-center select-none">
+                <span className="bg-black/55 backdrop-blur-md text-[9px] font-black text-white px-2 py-1 rounded-lg">
+                  ▶ VIDEO DEMO
+                </span>
+              </div>
+            </div>
+          ) : (
+            <img
+              src={item.coverMedia.fileUrl}
+              alt={item.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          )
+        ) : (
+          <div className={`absolute inset-0 bg-gradient-to-tr ${coverGradient} group-hover:scale-105 transition-transform duration-500 flex items-center justify-center p-6 text-center select-none`}>
+            {/* 장식용 화려한 광륜 */}
+            <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
+            <div className="absolute -inset-10 bg-radial-gradient from-white/20 to-transparent opacity-40 blur-xl pointer-events-none" />
+            
+            <h4 className="text-white text-xs font-black tracking-tight drop-shadow-md">
+              {item.title}
+            </h4>
+          </div>
+        )}
 
         {/* 카테고리 배지 */}
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1 px-3 py-1 bg-black/40 backdrop-blur-md text-[10px] font-extrabold text-white rounded-full uppercase tracking-wider">
+        <span className="absolute top-4 left-4 inline-flex items-center gap-1 px-3 py-1 bg-black/40 backdrop-blur-md text-[10px] font-extrabold text-white rounded-full uppercase tracking-wider select-none">
           <Bookmark className="w-3 h-3 text-primary-container" />
           <span>{item.category}</span>
         </span>
 
         {/* Featured 배지 */}
         {item.isFeatured && (
-          <span className="absolute top-4 right-4 inline-flex items-center gap-0.5 px-2.5 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full shadow-sm">
+          <span className="absolute top-4 right-4 inline-flex items-center gap-0.5 px-2.5 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full shadow-sm select-none">
             ⭐ BEST
           </span>
         )}

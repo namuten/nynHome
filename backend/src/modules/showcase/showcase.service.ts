@@ -46,10 +46,28 @@ export async function getShowcaseItems(
     whereClause.isFeatured = filters.featured;
   }
 
-  return prisma.showcaseItem.findMany({
+  const items = await prisma.showcaseItem.findMany({
     where: whereClause,
     orderBy: { order: 'asc' },
   });
+
+  // 각 아이템별 대표 커버 미디어 조회 및 병합
+  const hydratedItems = await Promise.all(
+    items.map(async (item) => {
+      let coverMedia = null;
+      if (item.coverMediaId) {
+        coverMedia = await prisma.media.findUnique({
+          where: { id: item.coverMediaId },
+        });
+      }
+      return {
+        ...item,
+        coverMedia,
+      };
+    })
+  );
+
+  return hydratedItems;
 }
 
 /**
@@ -63,16 +81,65 @@ export async function getShowcaseItemBySlug(slug: string, isPublic: boolean = tr
   if (!item) return null;
   if (isPublic && !item.isPublished) return null;
 
-  return item;
+  // 대표 커버 미디어 조회
+  let coverMedia = null;
+  if (item.coverMediaId) {
+    coverMedia = await prisma.media.findUnique({
+      where: { id: item.coverMediaId },
+    });
+  }
+
+  // 연결된 상세 미디어들(갤러리) 조회
+  let galleryMedia: any[] = [];
+  const mediaIdsArray = Array.isArray(item.mediaIds) ? (item.mediaIds as number[]) : [];
+  if (mediaIdsArray.length > 0) {
+    galleryMedia = await prisma.media.findMany({
+      where: { id: { in: mediaIdsArray } },
+    });
+    // 저장된 순서 유지 정렬
+    galleryMedia.sort((a, b) => mediaIdsArray.indexOf(a.id) - mediaIdsArray.indexOf(b.id));
+  }
+
+  return {
+    ...item,
+    coverMedia,
+    galleryMedia,
+  };
 }
 
 /**
  * ID로 단일 쇼케이스 아이템 상세 조회
  */
 export async function getShowcaseItemById(id: number) {
-  return prisma.showcaseItem.findUnique({
+  const item = await prisma.showcaseItem.findUnique({
     where: { id },
   });
+  if (!item) return null;
+
+  // 대표 커버 미디어 조회
+  let coverMedia = null;
+  if (item.coverMediaId) {
+    coverMedia = await prisma.media.findUnique({
+      where: { id: item.coverMediaId },
+    });
+  }
+
+  // 연결된 상세 미디어들(갤러리) 조회
+  let galleryMedia: any[] = [];
+  const mediaIdsArray = Array.isArray(item.mediaIds) ? (item.mediaIds as number[]) : [];
+  if (mediaIdsArray.length > 0) {
+    galleryMedia = await prisma.media.findMany({
+      where: { id: { in: mediaIdsArray } },
+    });
+    // 저장된 순서 유지 정렬
+    galleryMedia.sort((a, b) => mediaIdsArray.indexOf(a.id) - mediaIdsArray.indexOf(b.id));
+  }
+
+  return {
+    ...item,
+    coverMedia,
+    galleryMedia,
+  };
 }
 
 /**

@@ -2,3 +2,14 @@
 backend/.env.test
 backend/node_modules/
 backend/dist/
+
+# Generated local branding placeholders
+/developer_avatar.png
+/profile_cover_banner.png
+
+# Sensitive keys and scripts
+/secrets.txt
+/add_all_secrets.sh
+
+# Let's Encrypt certificates
+/letsencrypt/

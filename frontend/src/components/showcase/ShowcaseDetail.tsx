@@ -141,7 +141,7 @@ export default function ShowcaseDetail({ item, locale }: ShowcaseDetailProps) {
 
       {/* 3. 대표 비주얼 이미지 / 비디오 대형 배너 */}
       <div className="relative rounded-3xl overflow-hidden shadow-md h-72 sm:h-96 w-full select-none bg-black">
-        {item.coverMedia?.mimeType.startsWith('video/') ? (
+        {item.coverMedia?.mimeType?.startsWith('video/') ? (
           <video
             src={item.coverMedia.fileUrl}
             className="w-full h-full object-contain"

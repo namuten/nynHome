@@ -1,5 +1,16 @@
 import type { LocaleCode } from './profile';
 
+export interface ShowcaseMediaItem {
+  id: number;
+  postId: number | null;
+  fileUrl: string;
+  mimeType: string;
+  fileCategory: 'image' | 'video' | 'audio' | 'document' | 'other';
+  fileName: string;
+  fileSize: string | number;
+  createdAt: string;
+}
+
 /**
  * 쇼케이스 작품 아이템 타입 정의
  */
@@ -20,6 +31,8 @@ export interface ShowcaseItem {
   order: number;
   createdAt: string;
   updatedAt: string;
+  coverMedia?: ShowcaseMediaItem | null;
+  galleryMedia?: ShowcaseMediaItem[] | null;
 }
 
 export interface ShowcaseListResponse {

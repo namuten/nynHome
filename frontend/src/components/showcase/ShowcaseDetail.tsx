@@ -73,7 +73,9 @@ export default function ShowcaseDetail({ item, locale }: ShowcaseDetailProps) {
   const [slideshowIndex, setSlideshowIndex] = useState<number | null>(null);
 
   // 미디어 파일 또는 Fallback 갤러리 이미지 할당
-  const galleryImages = getFallbackGalleryImages(item.id);
+  const galleryImages = item.galleryMedia && item.galleryMedia.length > 0
+    ? item.galleryMedia.map(m => m.fileUrl)
+    : getFallbackGalleryImages(item.id);
 
   // 오디오 트랙 정보 획득
   const audioTracks = getDemoAudioTracks(item.slug);
@@ -137,14 +139,25 @@ export default function ShowcaseDetail({ item, locale }: ShowcaseDetailProps) {
         )}
       </div>
 
-      {/* 3. 대표 비주얼 이미지 대형 배너 */}
-      <div className="relative rounded-3xl overflow-hidden shadow-md h-72 sm:h-96 w-full select-none">
-        <img
-          src={galleryImages[0]}
-          alt={`${item.title} 커버`}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+      {/* 3. 대표 비주얼 이미지 / 비디오 대형 배너 */}
+      <div className="relative rounded-3xl overflow-hidden shadow-md h-72 sm:h-96 w-full select-none bg-black">
+        {item.coverMedia?.mimeType.startsWith('video/') ? (
+          <video
+            src={item.coverMedia.fileUrl}
+            className="w-full h-full object-contain"
+            controls
+            autoPlay
+            muted
+            playsInline
+          />
+        ) : (
+          <img
+            src={item.coverMedia?.fileUrl || galleryImages[0]}
+            alt={`${item.title} 커버`}
+            className="w-full h-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* 4. 프로젝트 상세 설명 */}

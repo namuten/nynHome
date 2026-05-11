@@ -111,21 +111,30 @@ export default function PostDetailPage() {
         <div className="space-y-4 border-t border-surface-container pt-8">
           <h3 className="text-lg font-display font-bold text-on-surface">첨부 미디어</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {post.media.map((item) => (
-              <div key={item.id} className="rounded-2xl overflow-hidden border border-surface-container bg-surface-container/25">
-                {item.type.startsWith('image/') ? (
-                  <OptimizedImage
-                    media={item}
-                    alt={item.filename}
-                    className="w-full h-auto object-cover aspect-video"
-                  />
-                ) : (
-                  <div className="p-4 text-xs font-semibold text-primary text-center">
-                    파일 첨부: <a href={item.url} target="_blank" className="underline">{item.filename}</a>
-                  </div>
-                )}
-              </div>
-            ))}
+            {post.media.map((rawItem) => {
+              const item = {
+                id: rawItem.id,
+                type: rawItem.type || (rawItem as any).mimeType || '',
+                url: rawItem.url || (rawItem as any).fileUrl || '',
+                filename: rawItem.filename || (rawItem as any).fileName || '',
+                derivatives: rawItem.derivatives,
+              };
+              return (
+                <div key={item.id} className="rounded-2xl overflow-hidden border border-surface-container bg-surface-container/25">
+                  {item.type.startsWith('image/') ? (
+                    <OptimizedImage
+                      media={item}
+                      alt={item.filename}
+                      className="w-full h-auto object-cover aspect-video"
+                    />
+                  ) : (
+                    <div className="p-4 text-xs font-semibold text-primary text-center">
+                      파일 첨부: <a href={item.url} target="_blank" className="underline">{item.filename}</a>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

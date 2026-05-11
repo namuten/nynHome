@@ -43,7 +43,7 @@ export async function seedProfile(prisma: PrismaClient): Promise<void> {
   for (const p of PROFILES) {
     await prisma.profileSettings.upsert({
       where: { locale: p.locale },
-      update: p,
+      update: {},
       create: p,
     });
   }

@@ -215,6 +215,20 @@ export default function AdminMediaPage() {
 
                     {/* Hover action buttons overlay */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const fullUrl = `${window.location.origin}${item.fileUrl}`;
+                          navigator.clipboard.writeText(fullUrl);
+                          alert(`미디어 주소(URL)가 복사되었습니다:\n${fullUrl}`);
+                        }}
+                        className="p-3 bg-white text-on-surface hover:bg-surface-container rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"
+                        title="URL 주소 복사"
+                      >
+                        <Link2 className="w-4 h-4 text-on-surface-variant" />
+                      </button>
+
                       {isImage && (
                         <button
                           onClick={(e) => {
@@ -244,10 +258,15 @@ export default function AdminMediaPage() {
 
                   {/* Info panel */}
                   <div className="p-3.5 flex-1 flex flex-col min-w-0">
-                    <h4 className="text-xs font-bold text-on-surface truncate" title={item.fileName}>
-                      {item.fileName}
-                    </h4>
-                    <div className="flex items-center justify-between mt-1 text-[10px] text-on-surface-variant font-medium">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <span className="bg-primary/10 text-primary text-[9px] font-black px-1.5 py-0.5 rounded-md shrink-0 select-none">
+                        ID: {item.id}
+                      </span>
+                      <h4 className="text-xs font-bold text-on-surface truncate flex-1" title={item.fileName}>
+                        {item.fileName}
+                      </h4>
+                    </div>
+                    <div className="flex items-center justify-between mt-auto text-[10px] text-on-surface-variant font-medium">
                       <span>{formatBytes(item.fileSize)}</span>
                       <span>{new Date(item.createdAt).toLocaleDateString('ko-KR')}</span>
                     </div>

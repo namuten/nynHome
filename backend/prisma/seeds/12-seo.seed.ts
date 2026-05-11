@@ -55,7 +55,7 @@ export async function seedSeo(prisma: PrismaClient): Promise<void> {
   for (const s of SEO) {
     await prisma.seoSettings.upsert({
       where: { routeKey_locale: { routeKey: s.routeKey, locale: s.locale } },
-      update: s,
+      update: {},
       create: s,
     });
   }

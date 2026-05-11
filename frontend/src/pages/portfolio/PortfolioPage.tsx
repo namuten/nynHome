@@ -57,7 +57,7 @@ export default function PortfolioPage() {
 
         {/* 대시보드 바로가기 링크 (개발자 편의) */}
         <Link
-          to="/showcase"
+          to="/portfolio/showcase"
           className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
         >
           <span>작품 전시관 가기</span>
@@ -100,7 +100,7 @@ export default function PortfolioPage() {
           {/* 3. 하단 거대 CTA 버튼 조합 */}
           <div className="pt-12 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              to="/showcase"
+              to="/portfolio/showcase"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-accent text-on-primary text-sm font-bold rounded-2xl hover:shadow-xl transition-all hover:scale-101 active:scale-99 text-center"
             >
               <Grid className="w-4.5 h-4.5" />

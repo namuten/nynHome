@@ -17,11 +17,12 @@ export function useNotifications(page: number, limit: number = 10, isRead?: bool
 /**
  * 읽지 않은 알림 개수 훅
  */
-export function useUnreadNotificationsCount() {
+export function useUnreadNotificationsCount(enabled: boolean = true) {
   return useQuery({
     queryKey: ['notifications', 'unreadCount'],
     queryFn: () => notificationsApi.getUnreadCount(),
     refetchInterval: 15000, // 15초마다 자동 갱신
+    enabled,
   });
 }
 

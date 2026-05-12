@@ -10,7 +10,7 @@ export default function MobileNav() {
   const { isAuthenticated } = useAuth();
   
   // 읽지 않은 알림 갯수 가져오기 (로그인 시에만 폴링 가동)
-  const { data: unreadCount } = useUnreadNotificationsCount();
+  const { data: unreadCount } = useUnreadNotificationsCount(isAuthenticated);
   const activeUnread = isAuthenticated ? (unreadCount || 0) : 0;
 
   const isActive = (path: string) => {
@@ -26,7 +26,7 @@ export default function MobileNav() {
     { label: '포트폴리오', path: '/portfolio', icon: Briefcase },
     { 
       label: '알림', 
-      path: '/profile', 
+      path: '/notifications', 
       icon: Bell, 
       badge: activeUnread > 0 ? activeUnread : undefined 
     },

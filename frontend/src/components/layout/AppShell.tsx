@@ -48,7 +48,7 @@ export default function AppShell() {
         >
           {/* iOS 자동 재생 호환 특수 옵션 주입 */}
           <video
-            src="/branding/video.mp4"
+            src="/branding/intro.mp4"
             autoPlay
             muted
             playsInline

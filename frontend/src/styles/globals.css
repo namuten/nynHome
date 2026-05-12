@@ -30,6 +30,11 @@
 }
 
 /* Base custom resets and scrollbar styles */
+html, body {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-on-surface);

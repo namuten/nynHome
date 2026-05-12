@@ -34,7 +34,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 border-t border-slate-900 shadow-[0_-8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] font-body">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 border-t border-slate-900 shadow-[0_-8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] font-body touch-none select-none">
       <div className="flex justify-around items-center h-16 max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;

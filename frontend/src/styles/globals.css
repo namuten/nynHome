@@ -30,7 +30,7 @@
 }
 
 /* Base custom resets and scrollbar styles */
-html, body {
+html, body, #root {
   overscroll-behavior: none;
   overscroll-behavior-y: none;
   height: 100%;

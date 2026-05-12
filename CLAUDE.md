@@ -108,5 +108,15 @@ design_sample/      # Gemini/Claude용 UI 레퍼런스
 - 코드를 직접 작성하거나 수정하지 않는다
 - 구현 전 반드시 스펙 문서를 먼저 작성하고 사용자 승인을 받는다
 - 스펙은 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 형식으로 저장
-- `git commit`, `git push`, `gh pr create`는 사용자가 직접 실행한다
 - 민감 정보(API 키, 비밀번호, `.env`)는 절대 커밋하지 않는다
+
+---
+
+## Antigravity 모바일 빌드 및 배포 규칙
+
+### 🤖 안드로이드 APK 빌드 수순
+사용자가 **"APK 빌드해줘"** 혹은 **"apk 파일 만들어줘"** 라고 요청하면, 반드시 아래 3단계를 수행하여 컴파일하고 파일을 공급한다:
+1. **내장 JDK 17 연동**: `export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"` 을 사용해 터미널 JVM 버전을 통일한다.
+2. **그레이들 디버그 빌드 기동**: `frontend/android` 디렉토리로 진입하여 `./gradlew assembleDebug` 명령을 실행한다.
+3. **공개용 서빙 디렉토리로 다이렉트 이적**: 컴파일이 통과되면, 빌드 결과물인 `app-debug.apk` 파일을 반드시 **`frontend/public/crochub-debug.apk`** 위치로 강제 복사(`cp`)하여 서빙 대기시킨다.
+

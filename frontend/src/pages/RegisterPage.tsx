@@ -41,7 +41,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16 space-y-6">
+    <div className="max-w-md mx-auto px-4 py-6 md:py-16 space-y-4 md:space-y-6">
       <div className="text-center space-y-3">
         <img 
           src="/branding/crochub-logo.svg" 

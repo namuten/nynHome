@@ -8,6 +8,10 @@ interface TagBadgeProps {
   size?: 'sm' | 'md';
 }
 
+/**
+ * Standardized Tag Badge for blog and portfolio categorizations.
+ * Built with defensive color styling to handle custom user HEX palettes flawlessly.
+ */
 export const TagBadge: React.FC<TagBadgeProps> = ({
   tag,
   onClick,
@@ -15,27 +19,46 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
   size = 'md',
 }) => {
   const { name, color } = tag;
-  const tagColor = color || '#a78bfa'; // 기본 바이올렛 헥사
+  
+  // Safe hex code verification
+  const isValidHex = (hex: string) => {
+    return /^#([A-Fa-f0-9]{3}){1,2}$/.test(hex);
+  };
+  
+  let tagColor = color || '#6844c7'; // Falls back to theme primary
+  if (tagColor && !tagColor.startsWith('#')) {
+    tagColor = `#${tagColor}`;
+  }
+  if (!isValidHex(tagColor)) {
+    tagColor = '#6844c7';
+  }
 
-  // 부드러운 배경색을 연출하기 위해 hex에 투명도 12% 병합
+  // Create delicate semi-transparent background using hex transparency
   const bgStyle = {
-    backgroundColor: `${tagColor}1f`,
-    borderColor: `${tagColor}4d`,
+    backgroundColor: `${tagColor}14`, // ~8% opacity
+    borderColor: `${tagColor}33`,     // ~20% opacity
     color: tagColor,
   };
 
-  const sizeClasses = size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-xs';
+  const sizeClasses = size === 'sm' 
+    ? 'px-2 py-0.5 text-[11px] rounded-md gap-1' 
+    : 'px-3 py-1 text-xs rounded-lg gap-1.5';
 
   return (
     <span
       onClick={onClick}
       style={bgStyle}
-      className={`inline-flex items-center gap-1.5 font-bold rounded-lg border transition-all ${sizeClasses} ${
-        onClick ? 'cursor-pointer hover:brightness-110 active:scale-95' : ''
+      className={`inline-flex items-center font-bold border transition-all duration-300 ${sizeClasses} ${
+        onClick 
+          ? 'cursor-pointer hover:brightness-105 hover:scale-[1.02] active:scale-95 shadow-sm hover:shadow-md' 
+          : ''
       }`}
     >
-      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: tagColor }} />
-      <span>{name}</span>
+      <span 
+        className="w-1.5 h-1.5 rounded-full shrink-0 transition-transform duration-300" 
+        style={{ backgroundColor: tagColor }} 
+      />
+      <span className="truncate max-w-[120px] tracking-tight">{name}</span>
       {onRemove && (
         <button
           type="button"
@@ -43,14 +66,15 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
             e.stopPropagation();
             onRemove();
           }}
-          className="ml-1 text-[11px] font-bold hover:text-white transition-colors"
-          style={{ color: `${tagColor}b3` }}
-          title="삭제"
+          className="ml-1 text-[13px] font-bold hover:text-red-500 transition-colors duration-200 leading-none"
+          style={{ color: `${tagColor}99` }}
+          title="Remove tag"
         >
-          ×
+          &times;
         </button>
       )}
     </span>
   );
 };
+
 export default TagBadge;

@@ -21,7 +21,7 @@ export default function SiteHeader() {
   ];
 
   return (
-    <header className="fixed md:sticky top-0 left-0 right-0 z-40 w-full glass-surface border-b border-surface-container transition-all duration-300 max-md:touch-none max-md:select-none pt-[env(safe-area-inset-top)]">
+    <header className="fixed md:sticky top-0 left-0 right-0 z-40 w-full glass-surface border-b border-surface-container transition-all duration-300 max-md:touch-none max-md:select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4 lg:gap-8">
         {/* Brand */}
         <Link to="/" className="flex items-center space-x-2 shrink-0 whitespace-nowrap">

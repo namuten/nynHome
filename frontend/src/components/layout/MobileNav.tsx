@@ -10,7 +10,7 @@ export default function MobileNav() {
   const { isAuthenticated } = useAuth();
   
   // 읽지 않은 알림 갯수 가져오기 (로그인 시에만 폴링 가동)
-  const { data: unreadCount } = useUnreadNotificationsCount();
+  const { data: unreadCount } = useUnreadNotificationsCount(isAuthenticated);
   const activeUnread = isAuthenticated ? (unreadCount || 0) : 0;
 
   const isActive = (path: string) => {
@@ -26,7 +26,7 @@ export default function MobileNav() {
     { label: '포트폴리오', path: '/portfolio', icon: Briefcase },
     { 
       label: '알림', 
-      path: '/profile', 
+      path: '/notifications', 
       icon: Bell, 
       badge: activeUnread > 0 ? activeUnread : undefined 
     },
@@ -34,7 +34,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 border-t border-slate-900 shadow-[0_-8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] font-body">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 border-t border-slate-900 shadow-[0_-8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl px-2 pb-[calc(env(safe-area-inset-bottom)+8px)] font-body touch-none select-none">
       <div className="flex justify-around items-center h-16 max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;

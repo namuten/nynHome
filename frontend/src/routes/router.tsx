@@ -6,6 +6,7 @@ import BlogPage from '../pages/BlogPage';
 import StudyPage from '../pages/StudyPage';
 import PostDetailPage from '../pages/PostDetailPage';
 import ProfilePage from '../pages/ProfilePage';
+import NotificationsPage from '../pages/NotificationsPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -64,6 +65,7 @@ export const router = createBrowserRouter([
       { path: 'study', element: <StudyPage /> },
       { path: 'post/:id', element: <PostDetailPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'notifications', element: <NotificationsPage /> },
       { path: 'portfolio', element: <PortfolioPage /> },
       { path: 'portfolio/resume', element: <ResumePage /> },
       { path: 'portfolio/showcase', element: <ShowcasePage /> },

@@ -41,7 +41,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16 space-y-6">
+    <div className="max-w-md mx-auto px-4 py-6 md:py-16 space-y-4 md:space-y-6">
       <div className="text-center space-y-3">
         <img 
           src="/branding/crochub-logo.svg" 
@@ -65,7 +65,7 @@ export default function RegisterPage() {
             type="text"
             placeholder="크록이"
             {...registerField('nickname')}
-            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-sm focus:outline-none focus:border-primary ${
+            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-base focus:outline-none focus:border-primary ${
               errors.nickname ? 'border-red-300 focus:border-red-500' : 'border-surface-container'
             }`}
           />
@@ -80,7 +80,7 @@ export default function RegisterPage() {
             type="email"
             placeholder="email@example.com"
             {...registerField('email')}
-            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-sm focus:outline-none focus:border-primary ${
+            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-base focus:outline-none focus:border-primary ${
               errors.email ? 'border-red-300 focus:border-red-500' : 'border-surface-container'
             }`}
           />
@@ -95,7 +95,7 @@ export default function RegisterPage() {
             type="password"
             placeholder="••••••••"
             {...registerField('password')}
-            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-sm focus:outline-none focus:border-primary ${
+            className={`w-full px-4 py-2.5 rounded-xl border bg-surface font-body text-base focus:outline-none focus:border-primary ${
               errors.password ? 'border-red-300 focus:border-red-500' : 'border-surface-container'
             }`}
           />

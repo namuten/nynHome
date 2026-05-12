@@ -25,43 +25,45 @@ export default function PortfolioPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-12 font-body">
       {/* 1. 언어 토글러 및 헤더 액션 */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-primary" />
-          <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Language Settings:</span>
-          <div className="flex bg-surface-container rounded-lg p-0.5 border border-outline-variant/30">
+      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 bg-surface-container/30 border border-surface-container/80 p-3 rounded-2xl backdrop-blur-md">
+        <div className="flex items-center justify-between xs:justify-start gap-3 w-full xs:w-auto">
+          <div className="flex items-center gap-1.5">
+            <Globe className="w-4 h-4 text-primary animate-pulse" />
+            <span className="text-xs font-extrabold text-on-surface-variant uppercase tracking-wider">Language:</span>
+          </div>
+          <div className="flex bg-surface-container/80 rounded-full p-0.5 border border-outline-variant/20 shadow-inner">
             <button
               type="button"
               onClick={() => setLocale('ko')}
-              className={`px-3 py-1 text-[10px] font-extrabold rounded-md transition-all ${
+              className={`px-3 py-1 text-[10px] font-extrabold rounded-full transition-all duration-300 ${
                 locale === 'ko'
-                  ? 'bg-primary text-on-primary shadow-sm'
+                  ? 'bg-primary text-white shadow-md scale-105'
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              한국어
+              KO
             </button>
             <button
               type="button"
               onClick={() => setLocale('en')}
-              className={`px-3 py-1 text-[10px] font-extrabold rounded-md transition-all ${
+              className={`px-3 py-1 text-[10px] font-extrabold rounded-full transition-all duration-300 ${
                 locale === 'en'
-                  ? 'bg-primary text-on-primary shadow-sm'
+                  ? 'bg-primary text-white shadow-md scale-105'
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              ENGLISH
+              EN
             </button>
           </div>
         </div>
 
-        {/* 대시보드 바로가기 링크 (개발자 편의) */}
+        {/* 대시보드 바로가기 링크 */}
         <Link
           to="/portfolio/showcase"
-          className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+          className="flex items-center justify-center gap-1 px-3 py-1.5 bg-primary/5 hover:bg-primary/10 border border-primary/10 hover:border-primary/20 rounded-xl text-[11px] font-extrabold text-primary transition-all duration-300 shadow-sm"
         >
           <span>작품 전시관 가기</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
 

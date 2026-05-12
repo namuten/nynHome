@@ -8,7 +8,7 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
   },
   ios: {
-    contentInset: 'automatic',
+    contentInset: 'never',
     preferredContentMode: 'mobile',
   },
   plugins: {
@@ -16,6 +16,9 @@ const config: CapacitorConfig = {
       launchShowDuration: 2000,
       backgroundColor: '#0f0f1a',
       androidSplashResourceName: 'splash',
+      iosSplashTemplate: 'Splash',
+      splashFullScreen: true,
+      splashImmersive: true,
       showSpinner: false,
       launchAutoHide: true,
     },

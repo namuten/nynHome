@@ -29,7 +29,7 @@ export default function AppShell() {
   }, []);
   return (
     <AnalyticsProvider>
-      <div className="h-[100dvh] md:h-auto md:min-h-screen flex flex-col bg-background overflow-hidden md:overflow-visible">
+      <div className="fixed md:static inset-0 md:h-auto md:min-h-screen flex flex-col bg-background overflow-hidden md:overflow-visible">
         <PwaInstallBanner />
         <UpdatePrompt />
         <SiteHeader />

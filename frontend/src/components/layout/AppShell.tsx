@@ -29,14 +29,16 @@ export default function AppShell() {
   }, []);
   return (
     <AnalyticsProvider>
-      <div className="min-h-screen flex flex-col bg-background pb-16 md:pb-0">
+      <div className="h-[100dvh] md:h-auto md:min-h-screen flex flex-col bg-background overflow-hidden md:overflow-visible">
         <PwaInstallBanner />
         <UpdatePrompt />
         <SiteHeader />
         <PageContainer>
           <Outlet />
         </PageContainer>
-        <Footer />
+        <div className="hidden md:block">
+          <Footer />
+        </div>
         <MobileNav />
       </div>
     </AnalyticsProvider>

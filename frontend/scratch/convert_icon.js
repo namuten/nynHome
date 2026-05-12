@@ -36,7 +36,7 @@ async function run() {
         width: 2732,
         height: 2732,
         channels: 4,
-        background: { r: 15, g: 15, b: 26, alpha: 1 }
+        background: { r: 255, g: 255, b: 255, alpha: 1 }
       }
     })
       .composite([{

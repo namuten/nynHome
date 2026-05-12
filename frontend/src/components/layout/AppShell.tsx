@@ -42,7 +42,7 @@ export default function AppShell() {
     <AnalyticsProvider>
       {showIntro && (
         <div 
-          className={`fixed inset-0 z-50 bg-[#0f0f1a] flex items-center justify-center transition-opacity duration-500 ${
+          className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-opacity duration-500 ${
             isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >

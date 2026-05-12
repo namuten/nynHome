@@ -55,7 +55,7 @@ export default function AppShell() {
             controls={false}
             onEnded={handleIntroEnd}
             onError={handleIntroEnd}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
           
           {/* 건너뛰기 투명 글래스모픽 칩 */}

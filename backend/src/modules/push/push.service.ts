@@ -56,7 +56,14 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
     const devices = await prisma.nativeDevice.findMany();
     const tokens = devices.map(d => d.token);
 
+    console.log(`📱 [FCM Native Push] DB에서 조회된 기기 수: ${tokens.length}대`);
+
     if (tokens.length > 0) {
+      console.log(`📣 [FCM Native Push] 발송을 시작합니다.`);
+      console.log(`📝 [FCM Native Push] 제목: "${dto.title}"`);
+      console.log(`📝 [FCM Native Push] 내용: "${dto.body}"`);
+      console.log(`📝 [FCM Native Push] 대상 토큰 목록:`, tokens);
+
       try {
         // FCM Multicast payload 구성
         const message = {
@@ -86,6 +93,8 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
 
         const response = await firebaseAdmin.messaging().sendEachForMulticast(message);
         nativeSentCount = response.successCount;
+        
+        console.log(`✅ [FCM Native Push] 구글 FCM 서버 전송 성공: ${response.successCount}대, 실패: ${response.failureCount}대`);
 
         // 유효하지 않거나 만료된 FCM 토큰(stale) 처리
         if (response.failureCount > 0) {
@@ -93,6 +102,7 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
           response.responses.forEach((resp, idx) => {
             if (!resp.success) {
               const error = resp.error;
+              console.warn(`⚠️ [FCM Native Push] 기기 토큰 [${tokens[idx]}] 전송 실패 원인:`, error?.message || error?.code);
               if (error && (
                 error.code === 'messaging/invalid-registration-token' ||
                 error.code === 'messaging/registration-token-not-registered'
@@ -103,12 +113,15 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
           });
 
           if (staleTokens.length > 0) {
+            console.log(`🗑️ [FCM Native Push] 만료되었거나 무효한 토큰 ${staleTokens.length}개를 DB에서 안전하게 정리합니다.`);
             await prisma.nativeDevice.deleteMany({ where: { token: { in: staleTokens } } });
           }
         }
       } catch (err) {
-        console.error('❌ Failed to dispatch multicast FCM messages:', err);
+        console.error('❌ [FCM Native Push] 구글 FCM 전송 중 치명적 오류 발생:', err);
       }
+    } else {
+      console.log('⚠️ [FCM Native Push] DB에 등록된 활성화된 안드로이드/iOS 기기 토큰이 없어 전송을 생략합니다.');
     }
   }
 

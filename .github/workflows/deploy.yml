@@ -53,6 +53,11 @@ jobs:
             echo "R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}" >> .env
             echo "R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }}" >> .env
 
+            # Firebase 환경 변수 주입 (추가)
+            echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
+            echo "FIREBASE_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }}" >> .env
+            echo "FIREBASE_PRIVATE_KEY=\"${{ secrets.FIREBASE_PRIVATE_KEY }}\"" >> .env
+
             # DATABASE_URL 자동 갱신 (기존 설정 삭제 후 Secrets 기반으로 주입)
             sed -i '/DATABASE_URL=/d' .env 2>/dev/null || sed -i '' '/DATABASE_URL=/d' .env
             echo "DATABASE_URL=mysql://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db:3306/${{ secrets.MYSQL_DATABASE }}" >> .env

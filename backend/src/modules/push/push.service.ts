@@ -1,27 +1,50 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import { webpush } from '../../lib/webpush';
 import { firebaseAdmin } from '../../lib/firebase';
 import { SubscribeDto, SendPushDto } from './push.types';
 
 export async function subscribe(dto: SubscribeDto, userId?: number) {
-  return prisma.pushSubscription.upsert({
-    where: { endpoint: dto.endpoint } as any,
-    update: { p256dh: dto.keys.p256dh, auth: dto.keys.auth },
-    create: {
-      endpoint: dto.endpoint,
-      p256dh: dto.keys.p256dh,
-      auth: dto.keys.auth,
-      userId: userId ?? null,
-    },
-  });
+  try {
+    return await prisma.pushSubscription.upsert({
+      where: { endpoint: dto.endpoint } as any,
+      update: { p256dh: dto.keys.p256dh, auth: dto.keys.auth, userId: userId ?? null },
+      create: {
+        endpoint: dto.endpoint,
+        p256dh: dto.keys.p256dh,
+        auth: dto.keys.auth,
+        userId: userId ?? null,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      // Fallback to update if concurrent registration occurred
+      return await prisma.pushSubscription.update({
+        where: { endpoint: dto.endpoint },
+        data: { p256dh: dto.keys.p256dh, auth: dto.keys.auth, userId: userId ?? null },
+      });
+    }
+    throw error;
+  }
 }
 
 export async function saveNativeToken(token: string, platform: 'android' | 'ios', userId?: number) {
-  return prisma.nativeDevice.upsert({
-    where: { token },
-    update: { userId: userId ?? null, platform },
-    create: { token, platform, userId: userId ?? null },
-  });
+  try {
+    return await prisma.nativeDevice.upsert({
+      where: { token },
+      update: { userId: userId ?? null, platform },
+      create: { token, platform, userId: userId ?? null },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      // Fallback to update if concurrent registration occurred
+      return await prisma.nativeDevice.update({
+        where: { token },
+        data: { userId: userId ?? null, platform },
+      });
+    }
+    throw error;
+  }
 }
 
 export async function sendToAll(dto: SendPushDto): Promise<number> {

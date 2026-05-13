@@ -153,9 +153,9 @@ export default function AdminShowcasePage() {
                   <th className="px-5 py-4 w-12 text-center">순서</th>
                   <th className="px-5 py-4 w-28">카테고리</th>
                   <th className="px-5 py-4">작품 제목</th>
-                  <th className="px-5 py-4 w-20 text-center">공개</th>
+                  <th className="px-5 py-4 w-24 text-center">공개</th>
                   <th className="px-5 py-4 w-20 text-center">베스트</th>
-                  <th className="px-5 py-4 w-32 text-center">액션</th>
+                  <th className="px-5 py-4 w-36 text-center">액션</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/30 font-medium">
@@ -199,11 +199,11 @@ export default function AdminShowcasePage() {
                     {/* 공개 여부 배지 */}
                     <td className="px-5 py-4.5 text-center">
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold whitespace-nowrap shrink-0 ${
                           item.isPublished ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-red-50 text-red-700 border border-red-200'
                         }`}
                       >
-                        {item.isPublished ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                        {item.isPublished ? <Eye className="w-3 h-3 shrink-0" /> : <EyeOff className="w-3 h-3 shrink-0" />}
                         <span>{item.isPublished ? '공개' : '숨김'}</span>
                       </span>
                     </td>
@@ -211,7 +211,7 @@ export default function AdminShowcasePage() {
                     {/* 베스트 추천 표시 */}
                     <td className="px-5 py-4.5 text-center">
                       {item.isFeatured ? (
-                        <span className="inline-flex px-2 py-0.5 bg-amber-500 text-white rounded text-[9px] font-black shadow-sm">
+                        <span className="inline-flex px-2 py-0.5 bg-amber-500 text-white rounded text-[9px] font-black shadow-sm whitespace-nowrap">
                           ⭐ BEST
                         </span>
                       ) : (
@@ -225,17 +225,17 @@ export default function AdminShowcasePage() {
                         <button
                           type="button"
                           onClick={() => navigate(`/admin/showcase/${item.id}/edit`)}
-                          className="p-1.5 border border-outline-variant/50 hover:border-primary hover:text-primary transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold"
+                          className="p-1.5 border border-outline-variant/50 hover:border-primary hover:text-primary transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold whitespace-nowrap"
                         >
-                          <Edit className="w-3.5 h-3.5" />
+                          <Edit className="w-3.5 h-3.5 shrink-0" />
                           <span>수정</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDeleteItem(item.id)}
-                          className="p-1.5 border border-red-200 hover:bg-red-50 text-red-500 transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold"
+                          className="p-1.5 border border-red-200 hover:bg-red-50 text-red-500 transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold whitespace-nowrap"
                         >
-                          <Trash className="w-3.5 h-3.5" />
+                          <Trash className="w-3.5 h-3.5 shrink-0" />
                           <span>삭제</span>
                         </button>
                       </div>

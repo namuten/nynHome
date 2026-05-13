@@ -205,9 +205,9 @@ export default function AdminPortfolioPage() {
                   <th className="px-5 py-4 w-12 text-center">순서</th>
                   <th className="px-5 py-4 w-28">섹션 키</th>
                   <th className="px-5 py-4">섹션 제목</th>
-                  <th className="px-5 py-4 w-20 text-center">공개</th>
+                  <th className="px-5 py-4 w-24 text-center">공개</th>
                   <th className="px-5 py-4 w-20 text-center">아이템 수</th>
-                  <th className="px-5 py-4 w-32 text-center">액션</th>
+                  <th className="px-5 py-4 w-36 text-center">액션</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/30 font-medium">
@@ -249,11 +249,11 @@ export default function AdminPortfolioPage() {
                     {/* 공개 여부 배지 */}
                     <td className="px-5 py-4.5 text-center">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap shrink-0 ${
                           sec.isVisible ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-red-50 text-red-700 border border-red-200'
                         }`}
                       >
-                        {sec.isVisible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                        {sec.isVisible ? <Eye className="w-3 h-3 shrink-0" /> : <EyeOff className="w-3 h-3 shrink-0" />}
                         <span>{sec.isVisible ? '공개' : '숨김'}</span>
                       </span>
                     </td>
@@ -273,19 +273,19 @@ export default function AdminPortfolioPage() {
                             setValidationErrors({});
                             setError(null);
                           }}
-                          className="p-1.5 border border-outline-variant/50 hover:border-primary hover:text-primary transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold"
+                          className="p-1.5 border border-outline-variant/50 hover:border-primary hover:text-primary transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold whitespace-nowrap"
                           title="수정"
                         >
-                          <Edit className="w-3.5 h-3.5" />
+                          <Edit className="w-3.5 h-3.5 shrink-0" />
                           <span>수정</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDeleteSection(sec.id)}
-                          className="p-1.5 border border-red-200 hover:bg-red-50 text-red-500 transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold"
+                          className="p-1.5 border border-red-200 hover:bg-red-50 text-red-500 transition-all rounded-lg bg-white inline-flex items-center gap-1 text-[10px] font-bold whitespace-nowrap"
                           title="삭제"
                         >
-                          <Trash className="w-3.5 h-3.5" />
+                          <Trash className="w-3.5 h-3.5 shrink-0" />
                           <span>삭제</span>
                         </button>
                       </div>

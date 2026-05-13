@@ -219,7 +219,9 @@ export default function AdminMediaPage() {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          const fullUrl = `${window.location.origin}${item.fileUrl}`;
+                          const fullUrl = item.fileUrl.startsWith('http://') || item.fileUrl.startsWith('https://')
+                            ? item.fileUrl
+                            : `${window.location.origin}${item.fileUrl}`;
                           navigator.clipboard.writeText(fullUrl);
                           alert(`미디어 주소(URL)가 복사되었습니다:\n${fullUrl}`);
                         }}

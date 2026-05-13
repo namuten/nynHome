@@ -16,11 +16,11 @@ export async function subscribe(dto: SubscribeDto, userId?: number) {
   });
 }
 
-export async function saveNativeToken(token: string, platform: 'android' | 'ios', userId: number) {
+export async function saveNativeToken(token: string, platform: 'android' | 'ios', userId?: number) {
   return prisma.nativeDevice.upsert({
     where: { token },
-    update: { userId, platform },
-    create: { token, platform, userId },
+    update: { userId: userId ?? null, platform },
+    create: { token, platform, userId: userId ?? null },
   });
 }
 

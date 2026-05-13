@@ -26,6 +26,20 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+export function optionalAuth(req: Request, res: Response, next: NextFunction) {
+  const header = req.headers.authorization;
+  if (header?.startsWith('Bearer ')) {
+    const token = header.slice(7);
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+      req.user = payload;
+    } catch {
+      // Ignore invalid token in optional auth and treat as guest
+    }
+  }
+  next();
+}
+
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
   if (req.user?.role !== 'admin') {
     return res.status(403).json({ error: 'FORBIDDEN' });

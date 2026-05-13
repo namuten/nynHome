@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
+import { requireAuth, requireAdmin, optionalAuth } from '../../middleware/auth.middleware';
 import { validateBody } from '../../lib/validation';
 import * as pushService from './push.service';
 import { SubscribeSchema, SendPushSchema, NativeTokenSchema } from './push.types';
@@ -15,8 +15,8 @@ router.post('/subscribe', requireAuth, validateBody(SubscribeSchema), async (req
   res.status(201).json(sub);
 });
 
-router.post('/native-token', requireAuth, validateBody(NativeTokenSchema), async (req: Request, res: Response) => {
-  const result = await pushService.saveNativeToken(req.body.token, req.body.platform, req.user!.userId);
+router.post('/native-token', optionalAuth, validateBody(NativeTokenSchema), async (req: Request, res: Response) => {
+  const result = await pushService.saveNativeToken(req.body.token, req.body.platform, req.user?.userId);
   res.status(201).json(result);
 });
 

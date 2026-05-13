@@ -84,9 +84,11 @@ describe('POST /api/push/native-token', () => {
     expect(res.body.platform).toBe(nativeDto.platform);
   });
 
-  it('비로그인은 네이티브 FCM 토큰 등록 시 401을 받는다', async () => {
+  it('비로그인(게스트) 사용자도 네이티브 FCM 토큰을 등록할 수 있다', async () => {
     const res = await request(app).post('/api/push/native-token').send(nativeDto);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(201);
+    expect(res.body.token).toBe(nativeDto.token);
+    expect(res.body.userId).toBeNull();
   });
 
   it('올바르지 않은 플랫폼 형식이면 400을 반환한다', async () => {

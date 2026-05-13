@@ -7,7 +7,8 @@ import SiteHeader from './SiteHeader';
 import Footer from './Footer';
 import MobileNav from './MobileNav';
 import PageContainer from './PageContainer';
-import PwaInstallBanner from '../common/PwaInstallBanner';
+import PwaInstallBanner from '../pwa/PwaInstallBanner';
+import PushPermissionBanner from '../pwa/PushPermissionBanner';
 import UpdatePrompt from '../common/UpdatePrompt';
 import { AnalyticsProvider } from '../analytics/AnalyticsProvider';
 
@@ -71,6 +72,7 @@ export default function AppShell() {
 
       <div className="w-full h-full md:h-auto md:min-h-screen flex flex-col bg-background overflow-hidden md:overflow-visible">
         <PwaInstallBanner />
+        <PushPermissionBanner />
         <UpdatePrompt />
         <SiteHeader />
         <PageContainer>

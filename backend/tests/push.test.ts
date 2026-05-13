@@ -9,10 +9,24 @@ jest.mock('../src/lib/webpush', () => ({
   },
 }));
 
+// firebase-admin 모킹
+jest.mock('../src/lib/firebase', () => ({
+  firebaseAdmin: {
+    messaging: () => ({
+      sendEachForMulticast: jest.fn().mockResolvedValue({
+        successCount: 1,
+        failureCount: 0,
+        responses: [{ success: true }],
+      }),
+    }),
+  },
+}));
+
 let adminToken: string;
 let userToken: string;
 
 beforeAll(async () => {
+  await prisma.nativeDevice.deleteMany();
   await prisma.pushSubscription.deleteMany();
   await prisma.user.deleteMany();
 
@@ -24,9 +38,15 @@ beforeAll(async () => {
   userToken = (await request(app).post('/api/auth/login').send({ email: 'user@test.com', password: 'pw123' })).body.token;
 });
 
-afterAll(async () => { await prisma.$disconnect(); });
+afterAll(async () => {
+  await prisma.nativeDevice.deleteMany();
+  await prisma.pushSubscription.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.$disconnect();
+});
 
 const subDto = { endpoint: 'https://fcm.example.com/sub123', keys: { p256dh: 'key123', auth: 'auth123' } };
+const nativeDto = { token: 'mock-fcm-token-12345', platform: 'android' };
 
 describe('POST /api/push/subscribe', () => {
   it('로그인한 사용자가 푸시 구독을 등록한다', async () => {
@@ -53,17 +73,46 @@ describe('POST /api/push/subscribe', () => {
   });
 });
 
+describe('POST /api/push/native-token', () => {
+  it('로그인한 사용자가 네이티브 FCM 토큰을 등록한다', async () => {
+    const res = await request(app)
+      .post('/api/push/native-token')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send(nativeDto);
+    expect(res.status).toBe(201);
+    expect(res.body.token).toBe(nativeDto.token);
+    expect(res.body.platform).toBe(nativeDto.platform);
+  });
+
+  it('비로그인은 네이티브 FCM 토큰 등록 시 401을 받는다', async () => {
+    const res = await request(app).post('/api/push/native-token').send(nativeDto);
+    expect(res.status).toBe(401);
+  });
+
+  it('올바르지 않은 플랫폼 형식이면 400을 반환한다', async () => {
+    const res = await request(app)
+      .post('/api/push/native-token')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ token: 'mock-token', platform: 'blackberry' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('VALIDATION_ERROR');
+  });
+});
+
 describe('POST /api/push/send', () => {
-  it('admin이 푸시를 전송한다', async () => {
+  it('admin이 푸시를 전송한다 (WebPush 및 FCM 동시 전송)', async () => {
     await request(app).post('/api/push/subscribe')
       .set('Authorization', `Bearer ${userToken}`).send(subDto);
+
+    await request(app).post('/api/push/native-token')
+      .set('Authorization', `Bearer ${userToken}`).send(nativeDto);
 
     const res = await request(app)
       .post('/api/push/send')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ title: '새 글', body: '확인하세요!', url: '/post/1' });
     expect(res.status).toBe(200);
-    expect(res.body.sent).toBeGreaterThanOrEqual(1);
+    expect(res.body.sent).toBeGreaterThanOrEqual(2); // WebPush + Native 2개 전송 완료 예상
   });
 
   it('일반 user는 403을 받는다', async () => {

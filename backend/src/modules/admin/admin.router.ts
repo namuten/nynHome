@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import { requireAuth, requireAdmin } from '../../middleware/auth.middleware';
 import { validateBody } from '../../lib/validation';
 import * as adminService from './admin.service';
-import * as pushService from '../push/push.service';
 import { UpdateMediaTypeSchema } from './admin.types';
 
 const router = Router();
@@ -81,55 +80,6 @@ router.patch('/comments/:id/hidden', async (req: Request, res: Response) => {
     if (err.message === 'NOT_FOUND') {
       return res.status(404).json({ error: 'NOT_FOUND' });
     }
-    res.status(500).json({ error: 'INTERNAL_ERROR' });
-  }
-});
-
-/**
- * GET /api/admin/media-types
- * 미디어 업로드 허용 확장자 및 최대 크기 설정 목록 조회
- */
-router.get('/media-types', async (_req, res: Response) => {
-  try {
-    const list = await adminService.listMediaTypes();
-    res.json(list);
-  } catch {
-    res.status(500).json({ error: 'INTERNAL_ERROR' });
-  }
-});
-
-/**
- * PUT /api/admin/media-types/:id
- * 특정 미디어 업로드 확장자 속성(허용 여부, 최대 크기) 편집
- */
-router.put('/media-types/:id', async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id);
-    const { isAllowed, maxSizeMb } = req.body;
-    if (typeof isAllowed !== 'boolean' || typeof maxSizeMb !== 'number') {
-      return res.status(400).json({ error: 'VALIDATION_ERROR' });
-    }
-    const updated = await adminService.updateMediaType(id, { isAllowed, maxSizeMb });
-    res.json(updated);
-  } catch (err: any) {
-    if (err.message === 'NOT_FOUND') return res.status(404).json({ error: 'NOT_FOUND' });
-    res.status(500).json({ error: 'INTERNAL_ERROR' });
-  }
-});
-
-/**
- * POST /api/admin/push/send
- * 전체 PWA 구독자 대상 관리자 긴급 푸시 알림 일괄 발송
- */
-router.post('/push/send', async (req: Request, res: Response) => {
-  try {
-    const { title, body, url } = req.body;
-    if (!title || !body) {
-      return res.status(400).json({ error: 'VALIDATION_ERROR' });
-    }
-    const sentCount = await pushService.sendToAll({ title, body, url });
-    res.json({ success: true, sentCount });
-  } catch (err: any) {
     res.status(500).json({ error: 'INTERNAL_ERROR' });
   }
 });

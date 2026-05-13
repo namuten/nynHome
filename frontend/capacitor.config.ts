@@ -12,6 +12,9 @@ const config: CapacitorConfig = {
     preferredContentMode: 'mobile',
   },
   plugins: {
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"],
+    },
     SplashScreen: {
       launchShowDuration: 2000,
       backgroundColor: '#0f0f1a',

@@ -19,6 +19,7 @@ model User {
 
   comments                  Comment[]
   pushSubs                  PushSubscription[]
+  nativeDevices             NativeDevice[]
   reports                   CommentReport[]    @relation("UserReports")
   resolvedReports           CommentReport[]    @relation("AdminResolvedReports")
   moderatedComments         Comment[]          @relation("AdminModeratedComments")
@@ -450,3 +451,16 @@ model CollectionItem {
   @@index([contentType, contentId])   // reverse lookup: "which collections contain this item?"
   @@map("collection_items")
 }
+
+model NativeDevice {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  platform   String   // "android" | "ios"
+  userId     Int?     @map("user_id")
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("native_devices")
+}
+

@@ -13,3 +13,7 @@ backend/dist/
 
 # Let's Encrypt certificates
 /letsencrypt/
+
+# Firebase configuration files
+google-services.json
+**/google-services.json

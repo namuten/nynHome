@@ -9,6 +9,7 @@ import PendingCommentsBanner from '../components/comments/PendingCommentsBanner'
 import { ArrowLeft, Clock, Eye, AlertTriangle } from 'lucide-react';
 
 import OptimizedImage from '../components/common/OptimizedImage';
+import NotificationOptInCard from '../components/pwa/NotificationOptInCard';
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -138,6 +139,11 @@ export default function PostDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Push Notification Opt-In (post 하단) */}
+      <div className="py-2">
+        <NotificationOptInCard />
+      </div>
 
       {/* Comment Section Block */}
       <div className="border-t border-surface-container pt-10 space-y-8">

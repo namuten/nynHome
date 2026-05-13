@@ -1,129 +1,109 @@
-# Plan 6 구현 현황 분석
+# Plan 6 구현 현황 분석 (2026-05-13 기준)
 
-## 전체 요약
-
-Plan 6은 **상당 부분 구현 완료**. 단, 계획 대비 범위가 더 넓게 확장됨 (Plan 7 범위 일부 포함).
+## 전체 상태: 대부분 완료, 버그/중복 정리 필요
 
 ---
 
 ## Task별 구현 상태
 
-| Task | 내용 | 상태 | 비고 |
-|------|------|------|------|
-| **T1** | 라우트 확장 준비 (nav/route/type) | ✅ 완료 | AdminNav.tsx 존재 |
-| **T2** | Dashboard Aggregate API (backend) | ✅ 완료 | `admin.dashboard.test.ts` 존재 |
-| **T3** | Dashboard UI (aggregate API 연동) | ✅ 완료 | `AdminDashboardPage.tsx` + `DashboardMetricGrid.tsx` |
-| **T4** | 전체 댓글 목록/필터링 API (backend) | ✅ 완료 | `admin.comments.test.ts` 존재 |
-| **T5** | 댓글 관리 화면 개선 (frontend) | ✅ 완료 | `AdminCommentsPage.tsx` (14KB) + `useAdminComments.ts` |
-| **T6** | `/admin/layout` 홈 섹션 배치 편집 | ✅ 완료 | `AdminLayoutPage.tsx` (15KB) + `layout.test.ts` |
-| **T7** | `/admin/schedule` 캘린더 CRUD | ✅ 완료 | `AdminSchedulePage.tsx` (23KB) + `schedule.test.ts` |
-| **T8** | `/admin/settings` 미디어 타입 설정 | ✅ 완료 | `AdminSettingsPage.tsx` (12KB) + `admin.settings.test.ts` |
-| **T9** | 푸시 알림 발송 UI | ✅ 완료 | `AdminPushPage.tsx` (14KB) + `push.test.ts` |
-| **T10** | PWA Install UX | ⚠️ 부분 | `useRegisterSWCustom.ts` 존재, `PwaInstallBanner.tsx` **없음** |
-| **T11** | Push Permission/Subscription UX | ⚠️ 부분 | `nativePush.ts` 존재, `PushPermissionBanner.tsx` **없음** |
-| **T12** | API Contract / README 문서 최종화 | ❓ 미확인 | |
-| **T13** | 전체 회귀 검증 | ❓ 미실행 | |
+| Task | 내용 | 상태 |
+|------|------|------|
+| T1 | 라우트/타입 확장 준비 | ✅ 완료 |
+| T2 | Dashboard Aggregate API (backend) | ✅ 완료 |
+| T3 | Dashboard UI (aggregate 연동) | ✅ 완료 |
+| T4 | 전체 댓글 API (backend) | ✅ 완료 |
+| T5 | 댓글 관리 화면 (frontend) | ✅ 완료 |
+| T6 | `/admin/layout` 홈 섹션 배치 편집 | ✅ 완료 |
+| T7 | `/admin/schedule` 캘린더 CRUD | ✅ 완료 |
+| T8 | `/admin/settings` 미디어 타입 설정 | ✅ 완료 |
+| T9 | 푸시 알림 발송 UI | ✅ 완료 |
+| T10 | PWA Install UX | ✅ 파일 구현됨, 버그 있음 |
+| T11 | Push Permission/Subscription UX | ✅ 파일 구현됨, 미연결 항목 있음 |
+| T12 | API Contract 문서 최종화 | ❓ 미확인 |
+| T13 | 전체 회귀 검증 | ❓ 미실행 |
 
 ---
 
-## Plan 6 범위 대비 파일 현황
+## 수정 필요한 버그/문제
 
-### ✅ 계획에 있고 구현된 것
+### 🔴 HIGH - `admin.router.ts` 엔드포인트 중복 등록
 
-**Frontend Pages (admin/):**
-- `AdminDashboardPage.tsx` ✅
-- `AdminLayoutPage.tsx` ✅
-- `AdminSchedulePage.tsx` ✅
-- `AdminSettingsPage.tsx` ✅
-- `AdminPushPage.tsx` ✅
-- `AdminCommentsPage.tsx` ✅
+`backend/src/modules/admin/admin.router.ts` 내에서:
+- `GET /media-types` → 12번 라인, 92번 라인 **중복**
+- `PUT /media-types/:id` → 17번 라인, 105번 라인 **중복**
 
-**Frontend Components (admin/):**
-- `DashboardMetricGrid.tsx` ✅
-- `AdminNav.tsx` ✅ (nav 확장)
-
-**Frontend Hooks:**
-- `useAdminDashboard.ts` ✅
-- `useAdminComments.ts` ✅
-- `useSchedules.ts` ✅
-
-**Backend Tests:**
-- `admin.dashboard.test.ts` ✅
-- `admin.comments.test.ts` ✅
-- `layout.test.ts` ✅
-- `schedule.test.ts` ✅
-- `push.test.ts` ✅
-- `admin.settings.test.ts` ✅
-
-**Backend Modules:**
-- `admin/`, `layout/`, `schedule/`, `push/` ✅ 모두 존재
-
-### ❌ 계획에 있으나 없는 것 (PWA 관련)
-
-**Frontend Components (pwa/):**
-- `PwaInstallBanner.tsx` ❌ — `pwa/` 디렉토리 자체 없음
-- `PushPermissionBanner.tsx` ❌
-- `NotificationOptInCard.tsx` ❌
-
-**Frontend Hooks:**
-- `usePwaInstallPrompt.ts` ❌
-- `usePushPermission.ts` ❌
-
-**Frontend Lib:**
-- `pwa.ts` ❌
-- `pushApi.ts` ❌ → 대신 `nativePush.ts`로 구현됨 (이름 다름)
-
-**Frontend Hooks:**
-- `useAdminLayout.ts` ❌ — AdminLayoutPage에 인라인 구현 추정
-- `useAdminSettings.ts` ❌ — AdminSettingsPage에 인라인 구현 추정
-- `useAdminPush.ts` ❌ — AdminPushPage에 인라인 구현 추정
-
-**Frontend Components (admin/):**
-- `LayoutSectionEditor.tsx` ❌ — AdminLayoutPage 내 통합 추정
-- `LayoutPostPicker.tsx` ❌
-- `MediaTypeSettingsTable.tsx` ❌
-- `PushComposer.tsx` ❌
-- `ScheduleCalendar.tsx` ❌
-- `ScheduleEventForm.tsx` ❌
-
-### 🆕 계획에 없이 추가된 것 (확장)
-
-Plan 6 범위를 초과해 추가 구현된 기능:
-- `AdminAnalyticsPage.tsx` + `useAdminAnalytics.ts` (analytics)
-- `AdminAuditLogsPage.tsx` + `AuditLogTable.tsx` (audit)
-- `AdminModerationPage.tsx` + `ModerationQueueList.tsx` (moderation)
-- `AdminNotificationsPage.tsx` (notifications)
-- `AdminOperationsPage.tsx` + `operationsApi.ts` (ops/backup)
-- `AdminProfilePage.tsx` + `ProfileEditorForm.tsx` (profile branding)
-- `AdminPortfolioPage.tsx` + `PortfolioSectionEditor.tsx` (portfolio)
-- `AdminShowcasePage.tsx` + `ShowcaseEditorForm.tsx` (showcase)
-- `AdminSeoPage.tsx` + `SeoSettingsForm.tsx` (SEO/OG)
-- `AdminReportsPage.tsx` + `ReportsTable.tsx` (reports)
-- `collections/`, `tags/` 페이지 (content mgmt)
-- `BackupRunsTable.tsx` (operations)
-- `ContentTagSelector.tsx`, `LocaleTabs.tsx` (공통 UI)
-
-→ **Plan 7 범위(Portfolio, SEO, Profile Branding 등)가 이미 상당 부분 구현됨**
+**수정**: 92~118번 라인 블록 제거 (12~25번 라인이 validation 미들웨어 포함 버전)
 
 ---
 
-## 미완성 항목 요약 (PWA 집중)
+### 🔴 HIGH - VAPID 키 하드코딩
 
-PWA Task 10, 11이 핵심 미완성:
-
-```
-frontend/src/
-├── lib/
-│   ├── pwa.ts                  ❌ 없음
-│   └── pushApi.ts              ❌ (nativePush.ts로 대체?)
-├── hooks/
-│   ├── usePwaInstallPrompt.ts  ❌ 없음
-│   └── usePushPermission.ts    ❌ 없음
-└── components/
-    └── pwa/                    ❌ 디렉토리 없음
-        ├── PwaInstallBanner.tsx
-        ├── PushPermissionBanner.tsx
-        └── NotificationOptInCard.tsx
+`frontend/src/components/common/PwaInstallBanner.tsx:5`
+```ts
+const VAPID_PUBLIC_KEY = 'BLe0W6yk3UMp5shvgU2-rGAGVk8jpSR3_qZGHraNTjozoRHPS0-S3SIGRpZ79RA35mnKs6V62UZHqiF23lJddho';
 ```
 
-`useRegisterSWCustom.ts`는 SW 등록 로직만 있고, install prompt/push permission UX 컴포넌트는 미구현 상태.
+**수정**: `lib/pushApi.ts`의 `getVapidPublicKey()`로 대체
+- `GET /api/push/vapid-public-key` 엔드포인트는 backend에 이미 존재함
+
+---
+
+### 🟡 MID - `PwaInstallBanner` 중복 구현
+
+두 개의 `PwaInstallBanner`가 공존:
+- `frontend/src/components/pwa/PwaInstallBanner.tsx` — 훅 기반, 깔끔, 78줄
+- `frontend/src/components/common/PwaInstallBanner.tsx` — 올인원, 264줄, VAPID 하드코딩 포함
+
+`AppShell.tsx`는 `pwa/` 버전을 사용 중:
+```ts
+import PwaInstallBanner from '../pwa/PwaInstallBanner';
+import PushPermissionBanner from '../pwa/PushPermissionBanner';
+```
+
+**수정 방향 선택 필요**:
+- Option A: `pwa/` 버전 유지, `common/` 버전 삭제
+- Option B: `common/` 버전으로 통합 (더 풍부한 기능, VAPID만 수정)
+
+---
+
+### 🟡 MID - `push/send` 경로 이중화
+
+- `push.router.ts`: `POST /api/push/send` (auth + admin 미들웨어 적용, validation 스키마 사용) ✅ 권장
+- `admin.router.ts`: `POST /api/admin/push/send` ← 별도로 추가 존재
+- `adminApi.ts`: `/push/send` 호출 → `push.router.ts` 경로 사용 중
+
+**수정**: `admin.router.ts`의 `POST /admin/push/send` 블록 제거 (push.router.ts로 충분)
+
+---
+
+### 🟢 LOW - `NotificationOptInCard` 미마운트
+
+`frontend/src/components/pwa/NotificationOptInCard.tsx` 파일은 존재하지만 어디에도 import/사용되지 않음.
+
+Plan 6 명세 기준으로는 `/profile` 또는 post 상세 페이지 하단에 삽입 예정.
+
+**수정**: profile 페이지 또는 post 상세 페이지에 삽입 결정 후 마운트
+
+---
+
+### 🟢 LOW - `usePushPermission.ts` 미연결
+
+`frontend/src/hooks/usePushPermission.ts` 파일은 존재하지만 사용처 없음.
+`PushPermissionBanner.tsx`가 이 훅을 사용하는지 확인 필요.
+
+---
+
+## 파일 위치 참조
+
+| 파일 | 경로 |
+|------|------|
+| admin router | `backend/src/modules/admin/admin.router.ts` |
+| push router | `backend/src/modules/push/push.router.ts` |
+| pushApi (frontend) | `frontend/src/lib/pushApi.ts` |
+| PwaInstallBanner (사용 중) | `frontend/src/components/pwa/PwaInstallBanner.tsx` |
+| PwaInstallBanner (중복) | `frontend/src/components/common/PwaInstallBanner.tsx` |
+| PushPermissionBanner | `frontend/src/components/pwa/PushPermissionBanner.tsx` |
+| NotificationOptInCard | `frontend/src/components/pwa/NotificationOptInCard.tsx` |
+| AppShell (마운트 포인트) | `frontend/src/components/layout/AppShell.tsx` |
+| usePwaInstallPrompt | `frontend/src/hooks/usePwaInstallPrompt.ts` |
+| usePushPermission | `frontend/src/hooks/usePushPermission.ts` |

@@ -119,7 +119,7 @@ export const CollectionsListPage: React.FC = () => {
                   placeholder="예: 2026 크로코 아키텍처 연감"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300 placeholder:text-on-surface-variant/30"
                 />
               </div>
 
@@ -130,12 +130,12 @@ export const CollectionsListPage: React.FC = () => {
                   placeholder="컬렉션의 기획 주안점 및 주요 전달 메시지를 서술해 주세요..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30 resize-none leading-relaxed"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300 placeholder:text-on-surface-variant/30 resize-none leading-relaxed"
                 />
               </div>
 
               {/* Publish Toggle Box */}
-              <div className="flex items-center justify-between p-4 rounded-xl bg-[#fbf8ff] border border-surface-container">
+              <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container/20 border border-surface-container">
                 <div className="space-y-0.5 pr-2">
                   <span className="text-xs font-bold text-on-surface block">시리즈 즉각 노출</span>
                   <span className="text-[10px] text-on-surface-variant/60 block leading-tight">체크 시 방문객용 시리즈 리스트에 즉시 발행됩니다.</span>
@@ -191,7 +191,7 @@ export const CollectionsListPage: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse table-fixed min-w-[650px]">
                   <thead>
-                    <tr className="bg-[#fbf8ff] border-b border-surface-container text-[11px] font-extrabold text-on-surface-variant/70 tracking-wider uppercase">
+                    <tr className="bg-surface-container/20 border-b border-surface-container text-[11px] font-extrabold text-on-surface-variant/70 tracking-wider uppercase">
                       <th className="px-6 py-4 w-1/12">ID</th>
                       <th className="px-6 py-4 w-2/12">공개 여부</th>
                       <th className="px-6 py-4 w-4/12">시리즈 타이틀 및 요약 설명</th>
@@ -207,11 +207,11 @@ export const CollectionsListPage: React.FC = () => {
                         </td>
                         <td className="px-6 py-4.5">
                           {col.isPublished ? (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 font-bold text-[10px]">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[10px] whitespace-nowrap">
                               <Eye className="w-3 h-3 shrink-0" /> 공개
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fbf8ff] text-on-surface-variant/50 border border-surface-container font-bold text-[10px]">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant/60 border border-surface-container font-bold text-[10px] whitespace-nowrap">
                               <EyeOff className="w-3 h-3 shrink-0" /> 비공개
                             </span>
                           )}
@@ -225,7 +225,7 @@ export const CollectionsListPage: React.FC = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4.5">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg bg-[#fbf8ff] border border-surface-container text-xs font-bold text-emerald-600">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg bg-surface-container/30 border border-surface-container text-xs font-bold text-emerald-700 whitespace-nowrap">
                             {col.itemCount || 0}개 수록
                           </span>
                         </td>
@@ -289,7 +289,7 @@ export const CollectionsListPage: React.FC = () => {
                   type="text"
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300"
                 />
               </div>
 
@@ -299,12 +299,12 @@ export const CollectionsListPage: React.FC = () => {
                   rows={4}
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all resize-none leading-relaxed"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300 resize-none leading-relaxed"
                 />
               </div>
 
               {/* Edit Publish Toggle Box */}
-              <div className="flex items-center justify-between p-4 rounded-xl bg-[#fbf8ff] border border-surface-container">
+              <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container/20 border border-surface-container">
                 <span className="text-xs font-bold text-on-surface">시리즈 노출 설정</span>
                 <input
                   type="checkbox"

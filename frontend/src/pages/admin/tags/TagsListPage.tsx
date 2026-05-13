@@ -130,7 +130,7 @@ export const TagsListPage: React.FC = () => {
                   placeholder="예: React, 3D 가공, 신소재"
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300 placeholder:text-on-surface-variant/30"
                 />
               </div>
 
@@ -141,7 +141,7 @@ export const TagsListPage: React.FC = () => {
                   placeholder="예: react, 3d-processing, material"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-xs font-mono font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/30"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-3 text-xs font-mono font-semibold text-on-surface outline-none transition-all duration-300 placeholder:text-on-surface-variant/30"
                 />
               </div>
 
@@ -160,13 +160,13 @@ export const TagsListPage: React.FC = () => {
                     type="text"
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
-                    className="flex-1 bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-2.5 text-xs font-mono font-semibold text-on-surface outline-none transition-all"
+                    className="flex-1 bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-2.5 text-xs font-mono font-semibold text-on-surface outline-none transition-all duration-300"
                   />
                 </div>
               </div>
 
               {/* Dynamic Design Preview */}
-              <div className="p-4 bg-[#fbf8ff] rounded-xl border border-surface-container flex flex-col gap-2">
+              <div className="p-4 bg-surface-container/10 rounded-xl border border-surface-container flex flex-col gap-2">
                 <span className="text-[10px] text-on-surface-variant/60 font-extrabold tracking-wider uppercase">실시간 UI 프리뷰</span>
                 <div className="flex items-center min-h-[32px]">
                   <TagBadge tag={{ id: 0, name: name || '태그 샘플', slug, color, createdAt: '' }} />
@@ -215,19 +215,19 @@ export const TagsListPage: React.FC = () => {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse table-fixed min-w-[550px]">
-                  <thead>
-                    <tr className="bg-[#fbf8ff] border-b border-surface-container text-[11px] font-extrabold text-on-surface-variant/70 tracking-wider uppercase">
-                      <th className="px-6 py-4 w-1/12">ID</th>
-                      <th className="px-6 py-4 w-4/12">디자인 프리뷰</th>
-                      <th className="px-6 py-4 w-4/12">식별 슬러그 (Slug)</th>
-                      <th className="px-6 py-4 w-2/12">콘텐츠 수</th>
-                      <th className="px-6 py-4 w-2/12 text-right">관리 제어</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-surface-container/60">
-                    {tags?.map((tag) => (
-                      <tr key={tag.id} className="hover:bg-primary/5/30 transition-all duration-200">
-                        <td className="px-6 py-4.5 font-mono text-xs text-on-surface-variant/50 font-bold">
+              <thead>
+                <tr className="bg-surface-container/20 border-b border-surface-container text-[11px] font-extrabold text-on-surface-variant/70 tracking-wider uppercase">
+                  <th className="px-6 py-4 w-1/12">ID</th>
+                  <th className="px-6 py-4 w-4/12">디자인 프리뷰</th>
+                  <th className="px-6 py-4 w-4/12">식별 슬러그 (Slug)</th>
+                  <th className="px-6 py-4 w-2/12">콘텐츠 수</th>
+                  <th className="px-6 py-4 w-2/12 text-right">관리 제어</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-surface-container/60">
+                {tags?.map((tag) => (
+                  <tr key={tag.id} className="hover:bg-primary/5 transition-all duration-200">
+                    <td className="px-6 py-4.5 font-mono text-xs text-on-surface-variant/50 font-bold">
                           #{tag.id}
                         </td>
                         <td className="px-6 py-4.5">
@@ -241,20 +241,20 @@ export const TagsListPage: React.FC = () => {
                             {tag.contentCount || 0}개
                           </span>
                         </td>
-                        <td className="px-6 py-4.5 text-right space-x-1.5">
+                        <td className="px-6 py-4.5 text-right space-x-1.5 whitespace-nowrap">
                           <button
                             onClick={() => handleStartEdit(tag)}
-                            className="p-2 bg-[#fbf8ff] hover:bg-primary/10 border border-surface-container hover:border-primary/20 text-on-surface-variant hover:text-primary rounded-xl transition-all duration-300 inline-flex items-center cursor-pointer"
+                            className="p-2 bg-[#fbf8ff] hover:bg-primary/10 border border-surface-container hover:border-primary/20 text-on-surface-variant hover:text-primary rounded-xl transition-all duration-300 inline-flex items-center cursor-pointer whitespace-nowrap"
                             title="수정"
                           >
-                            <Edit2 className="w-3.5 h-3.5" />
+                            <Edit2 className="w-3.5 h-3.5 shrink-0" />
                           </button>
                           <button
                             onClick={() => handleDelete(tag.id)}
-                            className="p-2 bg-[#fbf8ff] hover:bg-red-50 border border-surface-container hover:border-red-100 text-on-surface-variant hover:text-red-500 rounded-xl transition-all duration-300 inline-flex items-center cursor-pointer"
+                            className="p-2 bg-[#fbf8ff] hover:bg-red-50 border border-surface-container hover:border-red-100 text-on-surface-variant hover:text-red-500 rounded-xl transition-all duration-300 inline-flex items-center cursor-pointer whitespace-nowrap"
                             title="삭제"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-3.5 h-3.5 shrink-0" />
                           </button>
                         </td>
                       </tr>
@@ -293,7 +293,7 @@ export const TagsListPage: React.FC = () => {
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-3 text-xs font-semibold text-on-surface outline-none transition-all duration-300"
                 />
               </div>
 
@@ -303,7 +303,7 @@ export const TagsListPage: React.FC = () => {
                   type="text"
                   value={editSlug}
                   onChange={(e) => setEditSlug(e.target.value)}
-                  className="w-full bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-xs font-mono font-semibold text-on-surface outline-none transition-all"
+                  className="w-full bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-3 text-xs font-mono font-semibold text-on-surface outline-none transition-all duration-300"
                 />
               </div>
 
@@ -322,7 +322,7 @@ export const TagsListPage: React.FC = () => {
                     type="text"
                     value={editColor}
                     onChange={(e) => setEditColor(e.target.value)}
-                    className="flex-1 bg-[#fbf8ff] border border-surface-container focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-2.5 text-xs font-mono font-semibold text-on-surface outline-none transition-all"
+                    className="flex-1 bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl px-4 py-2.5 text-xs font-mono font-semibold text-on-surface outline-none transition-all duration-300"
                   />
                 </div>
               </div>

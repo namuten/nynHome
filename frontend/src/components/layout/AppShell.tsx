@@ -13,7 +13,23 @@ import UpdatePrompt from '../common/UpdatePrompt';
 import { AnalyticsProvider } from '../analytics/AnalyticsProvider';
 
 export default function AppShell() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    // 모바일 네이티브 플랫폼(Capacitor) 앱 구동 시에는 무조건 기동
+    if (Capacitor.isNativePlatform()) {
+      return true;
+    }
+
+    // 웹 환경: 최초 사이트 진입 경로가 메인 페이지('/')가 아니면 인트로 생략
+    if (window.location.pathname !== '/') {
+      return false;
+    }
+
+    // 웹 환경: 하루에 단 한 번만 노출되도록 localStorage 기반 캘린더 데이 체크
+    const todayStr = new Date().toDateString();
+    const lastShownStr = localStorage.getItem('lastIntroShowTime');
+    return lastShownStr !== todayStr;
+  });
+
   const [isFading, setIsFading] = useState(false);
 
   // 모바일 네이티브 앱 구동 시 하드웨어 부팅 설정
@@ -34,6 +50,17 @@ export default function AppShell() {
 
   const handleIntroEnd = () => {
     setIsFading(true);
+    
+    // 웹 환경에서 인트로 노출 완수 시 해당 날짜 스탬프 마킹
+    if (!Capacitor.isNativePlatform()) {
+      try {
+        const todayStr = new Date().toDateString();
+        localStorage.setItem('lastIntroShowTime', todayStr);
+      } catch (err) {
+        console.error('⚠️ Failed to persist intro show time:', err);
+      }
+    }
+
     setTimeout(() => {
       setShowIntro(false);
     }, 600); // 0.6초간 페이드 아웃 진행 후 인트로 제거

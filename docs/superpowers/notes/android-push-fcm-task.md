@@ -27,7 +27,7 @@
 5. Firebase Console → 프로젝트 설정 → 서비스 계정 → 새 비공개 키 생성 → JSON 저장
    - 또는 Cloud Messaging → Server Key 복사
 
-### Step 2: Backend — FCM 토큰 저장 엔드포인트
+### [x] Step 2: Backend — FCM 토큰 저장 엔드포인트
 
 **파일 수정**: `backend/prisma/schema.prisma`
 ```prisma
@@ -52,7 +52,7 @@ Body: { token: string, platform: "android" | "ios" }
 - `saveNativeToken(token, platform, userId)` 함수 추가
 - DB upsert (token unique)
 
-### Step 3: Backend — FCM 발송 로직
+### [x] Step 3: Backend — FCM 발송 로직
 
 **패키지 추가**:
 ```bash
@@ -74,7 +74,7 @@ FIREBASE_PRIVATE_KEY=<from-service-account-json>
 - Web Push(VAPID)와 FCM 동시 발송
 - stale 토큰 자동 삭제 유지
 
-### Step 4: Frontend — capacitor.config.ts push plugin 추가
+### [x] Step 4: Frontend — capacitor.config.ts push plugin 추가
 
 ```ts
 plugins: {
@@ -85,7 +85,7 @@ plugins: {
 }
 ```
 
-### Step 5: Android build.gradle — google-services plugin 추가
+### [x] Step 5: Android build.gradle — google-services plugin 추가
 
 `frontend/android/build.gradle`:
 ```gradle
@@ -99,7 +99,7 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 ```
 
-### Step 6: 검증
+### [x] Step 6: 검증
 
 ```bash
 # backend 빌드 확인
@@ -134,3 +134,33 @@ cd frontend && npx cap sync android
 - Firebase private key는 반드시 환경변수로 관리 (`FIREBASE_PRIVATE_KEY`)
 - `\n` 이스케이프 처리 주의: `.env`에서는 `"-----BEGIN PRIVATE KEY-----\n..."` 형태
 - Web Push (VAPID) 기존 로직은 그대로 유지하고 FCM을 **추가**하는 방식으로 구현
+
+---
+
+## 테스트 환경 조건
+
+### 테스트 시나리오
+- **발송**: `https://nynhome.duckdns.org/admin/push` 어드민 페이지
+- **수신**: Android Studio 에뮬레이터 (로컬)
+
+### 에뮬레이터 필수 조건 ⚠️
+- **Google Play Store 이미지** 에뮬레이터 필수 (AOSP/No Google APIs 이미지 불가)
+- AVD Manager에서 이미지 선택 시 → "Google Play" 열에 Play 아이콘 있는 것 선택
+- 에뮬레이터 최초 실행 후 **Google 계정 로그인** 필요
+
+### 프로덕션 서버 Firebase 환경변수 추가 필요
+에뮬레이터 앱이 `https://nynhome.duckdns.org`에 FCM 토큰 등록하므로
+**프로덕션 서버 `.env`** 또는 **GitHub Secrets**에도 아래 추가 필요:
+```
+FIREBASE_PROJECT_ID=nagee-a04d1
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-du2ym@nagee-a04d1.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
+```
+
+### 테스트 흐름
+1. Android Studio 에뮬레이터 실행 (Google Play 이미지)
+2. 에뮬레이터에서 앱 빌드 & 실행 (`npx cap run android`)
+3. 앱 실행 시 알림 권한 허용
+4. Logcat에서 FCM 토큰 확인: `Native device push registration token: ...`
+5. `https://nynhome.duckdns.org/admin/push` 로그인 후 발송
+6. 에뮬레이터에서 푸시 수신 확인

@@ -38,13 +38,8 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-// Enable CORS immediately at the top of the middleware stack
-app.use(cors({
-  origin: true,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Request-Id'],
-}));
+// Enable standard CORS immediately at the top of the middleware stack
+app.use(cors());
 
 app.use(requestIdMiddleware);
 app.use(securityHeadersMiddleware);

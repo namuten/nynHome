@@ -14,6 +14,11 @@ export const SendPushSchema = z.object({
   url: z.string().regex(/^\//, { message: "Internal path must start with '/'" }).optional(),
 });
 
+export const NativeTokenSchema = z.object({
+  token: z.string().min(1),
+  platform: z.enum(['android', 'ios']),
+});
+
 export interface SubscribeDto {
   endpoint: string;
   keys: {
@@ -26,4 +31,9 @@ export interface SendPushDto {
   title: string;
   body: string;
   url?: string;
+}
+
+export interface NativeTokenDto {
+  token: string;
+  platform: 'android' | 'ios';
 }

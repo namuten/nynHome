@@ -61,8 +61,8 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Docker Compose 빌드 및 강제 컨테이너 교체 재기동
-            docker compose --env-file .env up -d --build --force-recreate
+            # Docker Compose 빌드 및 강제 컨테이너 교체 재기동 (stale anonymous volume 갱신 포함)
+            docker compose --env-file .env up -d --build --force-recreate --renew-anon-volumes
 
             # 데이터베이스 테이블 자동 생성 및 초기 데이터 적재 (추가)
             echo "데이터베이스 컨테이너 준비를 대기합니다..."

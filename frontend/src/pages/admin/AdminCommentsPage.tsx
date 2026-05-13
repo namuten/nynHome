@@ -76,18 +76,18 @@ export default function AdminCommentsPage() {
     {
       key: 'id',
       header: 'ID',
-      cellClassName: 'w-12 font-semibold text-on-surface-variant/80',
+      cellClassName: 'w-12 font-semibold text-on-surface-variant/80 text-center',
     },
     {
       key: 'post',
-      header: '게시물',
+      header: '연결 게시물',
       render: (row: any) => (
-        <div className="max-w-xs truncate">
+        <div className="max-w-[160px] truncate">
           <Link
             to={`/post/${row.postId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-bold text-primary hover:underline transition"
+            className="inline-block truncate max-w-full text-[11px] font-bold text-primary bg-primary/10 border border-primary/20 rounded-xl px-2.5 py-1 hover:bg-primary/20 transition-all shadow-sm"
             title={row.postTitle}
           >
             {row.postTitle || `게시물 #${row.postId}`}
@@ -98,41 +98,49 @@ export default function AdminCommentsPage() {
     },
     {
       key: 'user',
-      header: '작성자',
+      header: '댓글 작성자',
       render: (row: any) => (
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-md bg-surface-container text-on-surface-variant text-[10px] font-bold flex items-center justify-center select-none shrink-0 border border-surface-container-high">
-            {row.author?.nickname?.[0] || 'U'}
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center select-none shrink-0 border border-primary/20 shadow-sm">
+            {row.author?.nickname?.[0] || '비'}
           </div>
           <div className="min-w-0">
             <span className="text-xs font-bold text-on-surface block truncate max-w-[110px]" title={row.author?.nickname}>
               {row.author?.nickname || '비회원'}
             </span>
             {row.author?.email && (
-              <span className="text-[9px] text-on-surface-variant block truncate max-w-[110px]" title={row.author?.email}>
+              <span className="text-[10px] text-on-surface-variant/70 font-mono block truncate max-w-[110px]" title={row.author?.email}>
                 {row.author?.email}
               </span>
             )}
           </div>
         </div>
       ),
-      cellClassName: 'w-36',
+      cellClassName: 'w-40',
     },
     {
       key: 'body',
-      header: '댓글 내용',
+      header: '댓글 및 답변 피드',
       render: (row: any) => (
-        <div className="space-y-1.5 py-1">
-          <p className={`text-xs font-medium leading-relaxed ${row.isHidden ? 'text-on-surface-variant/40 line-through italic' : 'text-on-surface'}`}>
-            {row.body}
-          </p>
+        <div className="space-y-2 py-1 max-w-xl">
+          {/* Main Comment Bubble */}
+          <div className={`p-3.5 rounded-2xl border transition-all ${
+            row.isHidden 
+              ? 'bg-surface-container/40 border-surface-container/50 opacity-60' 
+              : 'bg-surface-container/10 border-surface-container/30 hover:border-surface-container/80 hover:bg-surface-container/20 shadow-sm'
+          }`}>
+            <p className={`text-xs font-semibold leading-relaxed ${row.isHidden ? 'text-on-surface-variant/40 line-through italic' : 'text-on-surface'}`}>
+              {row.body}
+            </p>
+          </div>
           
+          {/* Administrator Reply Bubble */}
           {row.reply && (
-            <div className="flex gap-1.5 p-2 rounded-xl bg-surface-container/30 border border-surface-container text-[11px] font-medium text-on-surface-variant leading-relaxed">
-              <CornerDownRight className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+            <div className="flex gap-2 p-3 rounded-2xl bg-primary/5 border border-primary/15 text-xs font-medium text-on-surface leading-relaxed animate-fade-in shadow-sm">
+              <CornerDownRight className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <div className="flex-1">
-                <span className="font-bold text-primary mr-1">관리자 답글:</span>
-                <span>{row.reply}</span>
+                <span className="font-bold text-primary mr-1.5">답변:</span>
+                <span className="font-bold text-on-surface-variant">{row.reply}</span>
               </div>
             </div>
           )}
@@ -145,7 +153,7 @@ export default function AdminCommentsPage() {
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="답글 내용을 작성하세요..."
                 rows={3}
-                className="w-full p-3 bg-white border border-surface-container rounded-2xl text-xs font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition leading-relaxed"
+                className="w-full p-3.5 bg-white border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-2xl text-xs font-semibold text-on-surface outline-none transition-all duration-300 leading-relaxed shadow-sm"
               />
               {replyError && (
                 <p className="text-[10px] font-semibold text-red-500">⚠️ {replyError}</p>
@@ -157,14 +165,14 @@ export default function AdminCommentsPage() {
                     setReplyText('');
                     setReplyError(null);
                   }}
-                  className="px-3 py-1.5 rounded-lg border border-surface-container text-[10px] font-bold text-on-surface-variant bg-white hover:bg-surface-container transition"
+                  className="px-3 py-1.5 rounded-lg border border-surface-container text-[10px] font-bold text-on-surface-variant bg-white hover:bg-surface-container transition whitespace-nowrap"
                 >
                   취소
                 </button>
                 <button
                   onClick={() => handleReplySubmit(row.id)}
                   disabled={replyMutation.isPending || !replyText.trim()}
-                  className="px-3 py-1.5 rounded-lg bg-primary text-white text-[10px] font-bold hover:bg-primary-container hover:text-primary transition disabled:opacity-50"
+                  className="px-3 py-1.5 rounded-lg bg-primary text-white text-[10px] font-bold hover:bg-primary-container hover:text-primary transition disabled:opacity-50 whitespace-nowrap"
                 >
                   {replyMutation.isPending ? '저장 중...' : '답글 등록'}
                 </button>
@@ -177,24 +185,28 @@ export default function AdminCommentsPage() {
     {
       key: 'isHidden',
       header: '노출 상태',
-      render: (row: any) => <AdminStatusBadge status={row.isHidden} type="hidden" />,
-      cellClassName: 'w-24',
+      render: (row: any) => (
+        <span className="whitespace-nowrap inline-block">
+          <AdminStatusBadge status={row.isHidden} type="hidden" />
+        </span>
+      ),
+      cellClassName: 'w-24 text-center',
     },
     {
       key: 'createdAt',
-      header: '작성일',
+      header: '작성일자',
       render: (row: any) => (
-        <span className="text-on-surface-variant text-[11px] font-bold">
+        <span className="text-on-surface-variant/80 text-[11px] font-bold whitespace-nowrap">
           {new Date(row.createdAt).toLocaleDateString('ko-KR')}
         </span>
       ),
-      cellClassName: 'w-24',
+      cellClassName: 'w-24 text-center',
     },
     {
       key: 'actions',
       header: '운영 제어',
       render: (row: any) => (
-        <div className="flex items-center gap-1.5 justify-end">
+        <div className="flex items-center gap-1.5 justify-end whitespace-nowrap">
           {/* 답글 토글 버튼 */}
           {replyingId !== row.id && (
             <button
@@ -203,7 +215,7 @@ export default function AdminCommentsPage() {
                 setReplyError(null);
                 setReplyingId(row.id);
               }}
-              className="p-1.5 rounded-lg border border-surface-container bg-white text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all shadow-sm"
+              className="p-1.5 rounded-lg border border-surface-container bg-white text-on-surface-variant hover:text-primary hover:border-primary/30 transition-all shadow-sm whitespace-nowrap shrink-0"
               title={row.reply ? '답글 수정' : '답글 작성'}
             >
               <MessageSquare className="w-3.5 h-3.5" />
@@ -213,14 +225,14 @@ export default function AdminCommentsPage() {
           {/* 노출 상태 즉각 반전(숨김/해제) 제어 */}
           <button
             onClick={() => handleToggleHide(row.id, row.isHidden)}
-            className={`p-1.5 rounded-lg border transition-all shadow-sm ${
+            className={`p-1.5 rounded-lg border transition-all shadow-sm whitespace-nowrap shrink-0 ${
               row.isHidden
-                ? 'border-blue-100 bg-blue-50/70 text-blue-600 hover:bg-blue-100'
+                ? 'border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100'
                 : 'border-surface-container bg-white text-on-surface-variant hover:bg-red-50 hover:text-red-500 hover:border-red-100'
             }`}
             title={row.isHidden ? '숨김 해제 및 사이트 공개' : '댓글 숨김 처리'}
           >
-            {row.isHidden ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+            {row.isHidden ? <Eye className="w-3.5 h-3.5 shrink-0" /> : <EyeOff className="w-3.5 h-3.5 shrink-0" />}
           </button>
         </div>
       ),
@@ -241,7 +253,7 @@ export default function AdminCommentsPage() {
     <div className="space-y-6 font-body animate-fade-in">
       {/* 상단 제목 바 */}
       <div className="border-b border-surface-container pb-5">
-        <h1 className="text-3xl font-display font-black text-on-surface tracking-tight flex items-center gap-2">
+        <h1 className="text-3xl font-display font-black text-on-surface tracking-tight flex items-center gap-2.5">
           <MessageCircle className="w-8 h-8 text-primary" />
           댓글 통합 제어
         </h1>
@@ -254,10 +266,10 @@ export default function AdminCommentsPage() {
       <div className="p-4 bg-white rounded-3xl border border-surface-container shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           {/* 노출 여부 필터 배지 그룹 */}
-          <div className="flex items-center bg-surface-container/40 p-1.5 rounded-2xl border border-surface-container/50 text-xs">
+          <div className="flex items-center bg-surface-container/20 p-1.5 rounded-2xl border border-surface-container/40 text-xs">
             <button
               onClick={() => handleStatusChange('all')}
-              className={`px-3 py-1 rounded-xl font-bold transition ${
+              className={`px-3 py-1 rounded-xl font-bold transition whitespace-nowrap ${
                 status === 'all'
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-on-surface-variant hover:text-on-surface'
@@ -267,7 +279,7 @@ export default function AdminCommentsPage() {
             </button>
             <button
               onClick={() => handleStatusChange('visible')}
-              className={`px-3 py-1 rounded-xl font-bold transition ${
+              className={`px-3 py-1 rounded-xl font-bold transition whitespace-nowrap ${
                 status === 'visible'
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-on-surface-variant hover:text-on-surface'
@@ -277,7 +289,7 @@ export default function AdminCommentsPage() {
             </button>
             <button
               onClick={() => handleStatusChange('hidden')}
-              className={`px-3 py-1 rounded-xl font-bold transition ${
+              className={`px-3 py-1 rounded-xl font-bold transition whitespace-nowrap ${
                 status === 'hidden'
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-on-surface-variant hover:text-on-surface'
@@ -292,10 +304,10 @@ export default function AdminCommentsPage() {
             <SlidersHorizontal className="w-3.5 h-3.5 text-on-surface-variant/70" />
             <input
               type="number"
-              placeholder="게시글 ID 필터..."
+              placeholder="게시글 ID..."
               value={postIdFilter}
               onChange={(e) => handlePostIdChange(e.target.value)}
-              className="w-28 px-3 py-2 bg-surface-container/30 border border-surface-container rounded-xl focus:outline-none focus:border-primary transition font-bold"
+              className="w-28 px-3.5 py-2 bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none rounded-xl transition-all duration-300 font-bold"
             />
           </div>
         </div>
@@ -310,9 +322,9 @@ export default function AdminCommentsPage() {
               setSearchQuery(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-4 py-2.5 bg-surface-container/30 border border-surface-container rounded-2xl text-xs font-semibold focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition"
+            className="w-full pl-9 pr-4 py-2.5 bg-surface-container/20 border border-surface-container focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-2xl text-xs font-semibold outline-none transition-all duration-300"
           />
-          <Search className="w-4 h-4 text-on-surface-variant/60 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-on-surface-variant/60 absolute left-3.5 top-3.5" />
         </div>
       </div>
 

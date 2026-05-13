@@ -10,6 +10,8 @@ import type {
   ScheduleItem,
   MediaTypeConfig,
   PushSendRequest,
+  PushCampaignHistoryResponse,
+  PushCampaignStatsResponse,
 } from '../types/admin';
 
 export const adminApi = {
@@ -176,6 +178,16 @@ export const adminApi = {
   // Push
   sendAdminPush: async (payload: PushSendRequest) => {
     const response = await api.post('/push/send', payload);
+    return response.data;
+  },
+
+  getAdminPushHistory: async (page = 1) => {
+    const response = await api.get<PushCampaignHistoryResponse>(`/push/history?page=${page}`);
+    return response.data;
+  },
+
+  getAdminPushStats: async () => {
+    const response = await api.get<PushCampaignStatsResponse>('/push/stats');
     return response.data;
   },
 };

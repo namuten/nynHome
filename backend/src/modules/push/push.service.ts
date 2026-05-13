@@ -47,10 +47,15 @@ export async function saveNativeToken(token: string, platform: 'android' | 'ios'
   }
 }
 
-export async function sendToAll(dto: SendPushDto): Promise<number> {
+export async function sendToAll(dto: SendPushDto, adminUserId: number): Promise<number> {
   // 1. Web Push (VAPID) 발송
   const subscriptions = await prisma.pushSubscription.findMany();
-  const payload = JSON.stringify({ title: dto.title, body: dto.body, url: dto.url ?? '/' });
+  const payload = JSON.stringify({ 
+    title: dto.title, 
+    body: dto.body, 
+    url: dto.url ?? '/',
+    imageUrl: dto.imageUrl,
+  });
 
   let webSentCount = 0;
   const staleWebSubs: number[] = [];
@@ -75,10 +80,10 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
 
   // 2. Android/iOS Native (FCM) 발송
   let nativeSentCount = 0;
-  if (firebaseAdmin) {
-    const devices = await prisma.nativeDevice.findMany();
-    const tokens = devices.map(d => d.token);
+  const devices = await prisma.nativeDevice.findMany();
+  const tokens = devices.map(d => d.token);
 
+  if (firebaseAdmin) {
     console.log(`📱 [FCM Native Push] DB에서 조회된 기기 수: ${tokens.length}대`);
 
     if (tokens.length > 0) {
@@ -94,6 +99,7 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
           notification: {
             title: dto.title,
             body: dto.body,
+            image: dto.imageUrl || undefined,
           },
           data: {
             url: dto.url ?? '/',
@@ -148,5 +154,168 @@ export async function sendToAll(dto: SendPushDto): Promise<number> {
     }
   }
 
-  return webSentCount + nativeSentCount;
+  const totalCount = subscriptions.length + tokens.length;
+  const successCount = webSentCount + nativeSentCount;
+  const failCount = totalCount - successCount;
+
+  // 발송 후 캠페인 기록 생성
+  await prisma.pushCampaign.create({
+    data: {
+      title: dto.title,
+      body: dto.body,
+      imageUrl: dto.imageUrl ?? null,
+      linkUrl: dto.url ?? null,
+      targetType: 'all',
+      totalCount,
+      successCount,
+      failCount,
+      sentAt: new Date(),
+      createdBy: adminUserId,
+    },
+  });
+
+  return successCount;
+}
+
+export async function sendToUser(dto: SendPushDto, targetUserId: number, adminUserId: number): Promise<number> {
+  // 1. 해당 유저의 Web Push 구독 조회
+  const subscriptions = await prisma.pushSubscription.findMany({
+    where: { userId: targetUserId },
+  });
+  const payload = JSON.stringify({ 
+    title: dto.title, 
+    body: dto.body, 
+    url: dto.url ?? '/',
+    imageUrl: dto.imageUrl,
+  });
+
+  let webSentCount = 0;
+  const staleWebSubs: number[] = [];
+
+  await Promise.allSettled(
+    subscriptions.map(async (sub) => {
+      try {
+        await webpush.sendNotification(
+          { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
+          payload,
+        );
+        webSentCount++;
+      } catch {
+        staleWebSubs.push(sub.id);
+      }
+    }),
+  );
+
+  if (staleWebSubs.length > 0) {
+    await prisma.pushSubscription.deleteMany({ where: { id: { in: staleWebSubs } } });
+  }
+
+  // 2. 해당 유저의 Native 토큰 조회
+  let nativeSentCount = 0;
+  const devices = await prisma.nativeDevice.findMany({
+    where: { userId: targetUserId },
+  });
+  const tokens = devices.map(d => d.token);
+
+  if (firebaseAdmin && tokens.length > 0) {
+    try {
+      const message = {
+        tokens,
+        notification: {
+          title: dto.title,
+          body: dto.body,
+          image: dto.imageUrl || undefined,
+        },
+        data: {
+          url: dto.url ?? '/',
+        },
+        android: {
+          notification: {
+            sound: 'default',
+            clickAction: 'FCM_PLUGIN_ACTIVITY',
+          },
+        },
+        apns: {
+          payload: {
+            aps: {
+              sound: 'default',
+              badge: 1,
+            },
+          },
+        },
+      };
+
+      const response = await firebaseAdmin.messaging().sendEachForMulticast(message);
+      nativeSentCount = response.successCount;
+
+      if (response.failureCount > 0) {
+        const staleTokens: string[] = [];
+        response.responses.forEach((resp, idx) => {
+          if (!resp.success) {
+            const error = resp.error;
+            if (error && (
+              error.code === 'messaging/invalid-registration-token' ||
+              error.code === 'messaging/registration-token-not-registered'
+            )) {
+              staleTokens.push(tokens[idx]);
+            }
+          }
+        });
+
+        if (staleTokens.length > 0) {
+          await prisma.nativeDevice.deleteMany({ where: { token: { in: staleTokens } } });
+        }
+      }
+    } catch (err) {
+      console.error('❌ [FCM Native Push] sendToUser 중 오류 발생:', err);
+    }
+  }
+
+  const totalCount = subscriptions.length + tokens.length;
+  const successCount = webSentCount + nativeSentCount;
+  const failCount = totalCount - successCount;
+
+  // 발송 후 캠페인 기록 생성
+  await prisma.pushCampaign.create({
+    data: {
+      title: dto.title,
+      body: dto.body,
+      imageUrl: dto.imageUrl ?? null,
+      linkUrl: dto.url ?? null,
+      targetType: 'user',
+      targetUserId,
+      totalCount,
+      successCount,
+      failCount,
+      sentAt: new Date(),
+      createdBy: adminUserId,
+    },
+  });
+
+  return successCount;
+}
+
+export async function getCampaignHistory(page = 1, limit = 20) {
+  const [campaigns, total] = await Promise.all([
+    prisma.pushCampaign.findMany({
+      orderBy: { sentAt: 'desc' },
+      skip: (page - 1) * limit,
+      take: limit,
+    }),
+    prisma.pushCampaign.count(),
+  ]);
+  return { campaigns, total, page, limit };
+}
+
+export async function getCampaignStats() {
+  const result = await prisma.pushCampaign.aggregate({
+    _count: { id: true },
+    _sum: { totalCount: true, successCount: true, failCount: true },
+  });
+  return {
+    totalCampaigns: result._count.id,
+    totalSent: Number(result._sum.totalCount ?? 0),
+    totalSuccess: Number(result._sum.successCount ?? 0),
+    totalFail: Number(result._sum.failCount ?? 0),
+  };
 }

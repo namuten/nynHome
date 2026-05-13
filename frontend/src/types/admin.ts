@@ -97,6 +97,39 @@ export interface PushSendRequest {
   title: string;
   body: string;
   url?: string;
+  imageUrl?: string;
+  targetType: 'all' | 'user';
+  targetUserId?: number;
+}
+
+export interface PushCampaign {
+  id: number;
+  title: string;
+  body: string;
+  imageUrl?: string | null;
+  linkUrl?: string | null;
+  targetType: string;
+  targetUserId?: number | null;
+  totalCount: number;
+  successCount: number;
+  failCount: number;
+  sentAt: string;
+  createdBy: number;
+  createdAt: string;
+}
+
+export interface PushCampaignHistoryResponse {
+  campaigns: PushCampaign[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface PushCampaignStatsResponse {
+  totalCampaigns: number;
+  totalSent: number;
+  totalSuccess: number;
+  totalFail: number;
 }
 
 export interface AuditLog {

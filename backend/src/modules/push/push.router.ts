@@ -21,8 +21,28 @@ router.post('/native-token', optionalAuth, validateBody(NativeTokenSchema), asyn
 });
 
 router.post('/send', requireAuth, requireAdmin, validateBody(SendPushSchema), async (req: Request, res: Response) => {
-  const sent = await pushService.sendToAll(req.body);
+  const adminUserId = req.user!.userId;
+  const dto = req.body;
+
+  let sent: number;
+  if (dto.targetType === 'user' && dto.targetUserId) {
+    sent = await pushService.sendToUser(dto, dto.targetUserId, adminUserId);
+  } else {
+    sent = await pushService.sendToAll(dto, adminUserId);
+  }
   res.json({ sent });
+});
+
+router.get('/history', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 20;
+  const result = await pushService.getCampaignHistory(page, limit);
+  res.json(result);
+});
+
+router.get('/stats', requireAuth, requireAdmin, async (req: Request, res: Response) => {
+  const stats = await pushService.getCampaignStats();
+  res.json(stats);
 });
 
 export default router;

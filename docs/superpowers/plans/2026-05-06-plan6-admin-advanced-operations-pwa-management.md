@@ -854,7 +854,7 @@ git commit -m "feat(admin): add push notification composer"
 - Modify: `frontend/src/components/layout/*` 또는 public layout 파일
 - Modify: `frontend/public/manifest.json` if needed
 
-- [ ] **Step 1: manifest 확인**
+- [x] **Step 1: manifest 확인**
 
 필수 확인:
 - name / short_name
@@ -864,18 +864,18 @@ git commit -m "feat(admin): add push notification composer"
 - display standalone
 - start_url
 
-- [ ] **Step 2: beforeinstallprompt hook 구현**
+- [x] **Step 2: beforeinstallprompt hook 구현**
 
 `beforeinstallprompt` event를 저장하고 사용자 버튼 클릭 시 prompt를 호출한다.
 
-- [ ] **Step 3: install banner UI 구현**
+- [x] **Step 3: install banner UI 구현**
 
 노출 조건:
 - 설치 가능 event 존재
 - standalone 모드가 아님
 - 사용자가 최근 닫지 않음
 
-- [ ] **Step 4: dismiss 정책 구현**
+- [x] **Step 4: dismiss 정책 구현**
 
 localStorage key 예시:
 
@@ -885,18 +885,18 @@ crochub:pwa-install-dismissed-at
 
 닫은 뒤 7일간 다시 표시하지 않는다.
 
-- [ ] **Step 5: iOS 안내 fallback**
+- [x] **Step 5: iOS 안내 fallback**
 
 iOS Safari는 prompt API가 제한적이므로 “공유 → 홈 화면에 추가” 안내를 별도 표시한다.
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/lib/pwa.ts frontend/src/hooks/usePwaInstallPrompt.ts frontend/src/components/pwa/PwaInstallBanner.tsx frontend/src/components/layout frontend/public/manifest.json
@@ -916,7 +916,7 @@ git commit -m "feat(pwa): improve install prompt experience"
 - Optional Modify: `backend/src/modules/push/*`
 - Optional Modify: `backend/tests/push.test.ts`
 
-- [ ] **Step 1: VAPID public key 공급 방식 확인**
+- [x] **Step 1: VAPID public key 공급 방식 확인**
 
 현재 프론트에서 VAPID public key를 받는 방식이 없다면 다음 중 하나를 선택한다.
 
@@ -934,7 +934,7 @@ VITE_VAPID_PUBLIC_KEY
 
 보안상 public key는 노출되어도 되지만 운영 편의상 backend endpoint가 권장된다.
 
-- [ ] **Step 2: permission 상태 hook 작성**
+- [x] **Step 2: permission 상태 hook 작성**
 
 상태:
 - unsupported
@@ -944,7 +944,7 @@ VITE_VAPID_PUBLIC_KEY
 - subscribed
 - error
 
-- [ ] **Step 3: subscription 등록 구현**
+- [x] **Step 3: subscription 등록 구현**
 
 흐름:
 1. service worker ready 대기
@@ -956,13 +956,13 @@ VITE_VAPID_PUBLIC_KEY
 - 기존 정책은 user+이므로 미로그인 사용자는 로그인 유도
 - 브라우저 권한 요청은 사용자 클릭 이벤트에서만 수행
 
-- [ ] **Step 4: UX 컴포넌트 구현**
+- [x] **Step 4: UX 컴포넌트 구현**
 
 - `PushPermissionBanner`: 새 글/답변 알림을 받을 수 있다는 안내
 - `NotificationOptInCard`: profile 또는 post detail 하단에 삽입 가능
 - denied 상태에서는 브라우저 설정에서 권한을 변경해야 한다고 안내
 
-- [ ] **Step 5: backend endpoint 추가 시 테스트**
+- [x] **Step 5: backend endpoint 추가 시 테스트**
 
 `GET /api/push/vapid-public-key`를 추가한 경우:
 
@@ -970,7 +970,7 @@ VITE_VAPID_PUBLIC_KEY
 GET /api/push/vapid-public-key -> 200 { publicKey }
 ```
 
-- [ ] **Step 6: 확인**
+- [x] **Step 6: 확인**
 
 ```bash
 cd frontend
@@ -985,7 +985,7 @@ npm test -- tests/push.test.ts
 npm run build
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add frontend/src/lib/pushApi.ts frontend/src/hooks/usePushPermission.ts frontend/src/components/pwa frontend/src/components/layout backend/src/modules/push backend/tests/push.test.ts

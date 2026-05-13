@@ -6,6 +6,10 @@ import { SubscribeSchema, SendPushSchema } from './push.types';
 
 const router = Router();
 
+router.get('/vapid-public-key', async (_req: Request, res: Response) => {
+  res.json({ publicKey: process.env.VAPID_PUBLIC_KEY || null });
+});
+
 router.post('/subscribe', requireAuth, validateBody(SubscribeSchema), async (req: Request, res: Response) => {
   const sub = await pushService.subscribe(req.body, req.user!.userId);
   res.status(201).json(sub);

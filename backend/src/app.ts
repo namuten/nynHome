@@ -38,11 +38,18 @@ const app = express();
 
 app.set('trust proxy', 1);
 
+// Enable CORS immediately at the top of the middleware stack
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Request-Id'],
+}));
+
 app.use(requestIdMiddleware);
 app.use(securityHeadersMiddleware);
 app.use(globalRateLimiter);
 app.use(auditMiddleware);
-app.use(cors());
 app.use(express.json());
 
 // Cache policy controls

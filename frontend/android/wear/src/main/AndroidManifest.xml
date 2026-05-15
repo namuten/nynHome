@@ -46,5 +46,10 @@
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="300" />
         </service>
+        <receiver android:name=".DebugNotifReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.crochub.DEBUG_NOTIF" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

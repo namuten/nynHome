@@ -1,5 +1,6 @@
 package com.crochub.wear.data
 
+import android.util.Log
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import com.google.gson.Gson
@@ -28,13 +29,16 @@ class WatchMessageService : WearableListenerService() {
     private val gson = Gson()
 
     override fun onMessageReceived(event: MessageEvent) {
+        Log.d("WatchMsgService", "onMessageReceived path=${event.path} size=${event.data.size}")
         if (event.path != "/crochub/notification") return
         try {
             val json = String(event.data)
+            Log.d("WatchMsgService", "Notification JSON: $json")
             val notification = gson.fromJson(json, WatchNotification::class.java)
             NotificationStore.add(notification)
+            Log.d("WatchMsgService", "Added notification, total=${NotificationStore.notifications.value.size}")
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("WatchMsgService", "Parse error", e)
         }
     }
 }

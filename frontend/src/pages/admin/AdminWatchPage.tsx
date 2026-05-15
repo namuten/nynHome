@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Watch, Save, Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { Settings, Save, Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 
 interface QuickReply {
   id?: number;
@@ -28,7 +27,7 @@ export default function AdminWatchPage() {
         setReplies(data);
       }
     } catch (error) {
-      toast.error('문구를 불러오는데 실패했습니다.');
+      alert('문구를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
     }
@@ -36,7 +35,7 @@ export default function AdminWatchPage() {
 
   const handleSave = async () => {
     if (replies.length === 0) {
-      toast.error('최소 하나 이상의 문구가 필요합니다.');
+      alert('최소 하나 이상의 문구가 필요합니다.');
       return;
     }
     
@@ -52,13 +51,13 @@ export default function AdminWatchPage() {
         body: JSON.stringify({ replies }),
       });
       if (res.ok) {
-        toast.success('설정이 저장되었습니다.');
+        alert('설정이 저장되었습니다.');
         fetchReplies();
       } else {
         throw new Error();
       }
     } catch (error) {
-      toast.error('저장에 실패했습니다.');
+      alert('저장에 실패했습니다.');
     } finally {
       setSaving(false);
     }
@@ -66,7 +65,7 @@ export default function AdminWatchPage() {
 
   const addReply = () => {
     if (replies.length >= 5) {
-      toast.error('최대 5개까지만 등록 가능합니다.');
+      alert('최대 5개까지만 등록 가능합니다.');
       return;
     }
     setReplies([...replies, { body: '', sortOrder: replies.length }]);
@@ -101,7 +100,7 @@ export default function AdminWatchPage() {
         <div>
           <h1 className="text-2xl font-display font-black text-on-surface flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-xl">
-              <Watch className="w-6 h-6 text-primary" />
+              <Settings className="w-6 h-6 text-primary" />
             </div>
             스마트워치 설정
           </h1>

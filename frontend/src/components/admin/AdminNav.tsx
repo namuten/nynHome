@@ -21,7 +21,6 @@ import {
   Flag,
   Hash,
   FolderHeart,
-  Watch,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 

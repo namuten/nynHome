@@ -319,3 +319,42 @@ export async function getCampaignStats() {
     totalFail: Number(result._sum.failCount ?? 0),
   };
 }
+
+export async function sendWatchNotification(payload: {
+  type: 'comment' | 'guestbook' | 'reply';
+  refId: number;
+  senderName: string;
+  body: string;
+}): Promise<void> {
+  if (!firebaseAdmin) return;
+
+  const adminDevices = await prisma.nativeDevice.findMany({
+    where: { user: { role: 'admin' } },
+  });
+
+  if (adminDevices.length === 0) return;
+
+  const tokens = adminDevices.map((d) => d.token);
+
+  // data-only 메시지 — 알림 팝업 없이 앱에서만 처리
+  const message = {
+    tokens,
+    data: {
+      watchPriority: 'true',
+      type: payload.type,
+      refId: String(payload.refId),
+      senderName: payload.senderName,
+      body: payload.body.slice(0, 200),
+    },
+    android: {
+      priority: 'high' as const,
+    },
+  };
+
+  try {
+    await firebaseAdmin.messaging().sendEachForMulticast(message);
+    console.log(`⌚ [Watch FCM] ${adminDevices.length}대의 관리자 기기에 워치 알림 전송 완료`);
+  } catch (err) {
+    console.error('❌ [Watch FCM] 전송 실패:', err);
+  }
+}

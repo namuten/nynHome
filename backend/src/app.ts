@@ -27,6 +27,7 @@ import notificationsRouter from './modules/notifications/notifications.router';
 import searchRouter from './modules/search/search.router';
 import tagsRouter from './modules/tags/tags.router';
 import collectionsRouter from './modules/collections/collections.router';
+import watchRouter from './modules/watch/watch.router';
 
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
@@ -95,8 +96,9 @@ app.use('/api', collectionsRouter);
 app.use('/api', analyticsRouter);
 app.use('/api', profileRouter);
 app.use('/api', portfolioRouter);
-app.use('/api', showcaseRouter);
-app.use('/api', seoRouter);
+app.use('/api/showcase', showcaseRouter);
+app.use('/api/seo', seoRouter);
+app.use('/api/watch', watchRouter);
 
 app.use(errorMiddleware);
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Settings, Save, Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
 
 interface QuickReply {
   id?: number;
@@ -11,14 +12,15 @@ export default function AdminWatchPage() {
   const [replies, setReplies] = useState<QuickReply[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const { token } = useAuth();
 
   useEffect(() => {
     fetchReplies();
-  }, []);
+  }, [token]);
 
   const fetchReplies = async () => {
+    if (!token) return;
     try {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/watch/quick-replies', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -34,6 +36,7 @@ export default function AdminWatchPage() {
   };
 
   const handleSave = async () => {
+    if (!token) return;
     if (replies.length === 0) {
       alert('최소 하나 이상의 문구가 필요합니다.');
       return;
@@ -41,7 +44,6 @@ export default function AdminWatchPage() {
     
     setSaving(true);
     try {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/watch/quick-replies', {
         method: 'PUT',
         headers: {

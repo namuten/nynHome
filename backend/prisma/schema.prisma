@@ -482,3 +482,12 @@ model PushCampaign {
   @@map("push_campaigns")
 }
 
+model WatchQuickReply {
+  id        Int      @id @default(autoincrement())
+  body      String   @db.VarChar(100)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("watch_quick_replies")
+}

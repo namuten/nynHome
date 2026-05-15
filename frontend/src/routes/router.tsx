@@ -53,6 +53,7 @@ import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage';
 import TagsListPage from '../pages/admin/tags/TagsListPage';
 import CollectionsListPage from '../pages/admin/collections/CollectionsListPage';
 import CollectionEditPage from '../pages/admin/collections/CollectionEditPage';
+import AdminWatchPage from '../pages/admin/AdminWatchPage';
 
 export const router = createBrowserRouter([
   {
@@ -112,6 +113,7 @@ export const router = createBrowserRouter([
               { path: 'tags', element: <TagsListPage /> },
               { path: 'collections', element: <CollectionsListPage /> },
               { path: 'collections/:id', element: <CollectionEditPage /> },
+              { path: 'watch', element: <AdminWatchPage /> },
             ],
           },
         ],

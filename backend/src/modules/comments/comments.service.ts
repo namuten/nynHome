@@ -1,14 +1,24 @@
 import { prisma } from '../../lib/prisma';
 import { CreateCommentDto, ReplyCommentDto } from './comments.types';
+import { sendWatchNotification } from '../push/push.service';
 
 export async function createComment(postId: number, userId: number, dto: CreateCommentDto) {
   const post = await prisma.post.findUnique({ where: { id: postId } });
   if (!post) throw new Error('NOT_FOUND');
 
-  return prisma.comment.create({
+  const comment = await prisma.comment.create({
     data: { body: dto.body, postId, userId },
     include: { user: { select: { nickname: true, avatarUrl: true } } },
   });
+
+  await sendWatchNotification({
+    type: 'comment',
+    refId: comment.id,
+    senderName: comment.user.nickname,
+    body: dto.body,
+  });
+
+  return comment;
 }
 
 export async function listComments(postId: number, page = 1, limit = 50) {

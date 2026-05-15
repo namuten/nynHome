@@ -1,5 +1,6 @@
 import { prisma } from '../../lib/prisma';
 import type { GuestbookListQueryDto, CreateGuestbookEntryDto, GuestbookReportDto } from './guestbook.types';
+import { sendWatchNotification } from '../push/push.service';
 
 function isSpam(body: string): boolean {
   // URL이 2개 이상 포함된 경우 스팸 의심
@@ -60,7 +61,7 @@ export async function createEntry(userId: number, data: CreateGuestbookEntryDto)
     }
   }
 
-  return await prisma.guestbookEntry.create({
+  const entry = await prisma.guestbookEntry.create({
     data: {
       userId,
       body: data.body,
@@ -69,6 +70,15 @@ export async function createEntry(userId: number, data: CreateGuestbookEntryDto)
       user: { select: { id: true, nickname: true, avatarUrl: true } },
     },
   });
+
+  await sendWatchNotification({
+    type: 'guestbook',
+    refId: entry.id,
+    senderName: entry.user?.nickname ?? '익명',
+    body: data.body,
+  });
+
+  return entry;
 }
 
 export async function reportEntry(id: number, reporterUserId: number, data: GuestbookReportDto) {

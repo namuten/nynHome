@@ -58,7 +58,7 @@ export default function AdminNav() {
     { to: '/admin/analytics', label: '서비스 통계', icon: BarChart3 },
     { to: '/admin/audit-logs', label: '감사 로그', icon: History },
     { to: '/admin/operations', label: '시스템 운영', icon: Server },
-    { to: '/admin/watch', label: '스마트워치 설정', icon: Watch },
+    { to: '/admin/watch', label: '스마트워치 설정', icon: Settings },
   ];
 
   return (
